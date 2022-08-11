@@ -7,9 +7,9 @@ type LoginInfoType = {
   email: string;
   password: string;
 };
+
 export const loginUser = async (dispatch: any, loginPayload: LoginInfoType) => {
   try {
-    // console.log(loginPayload); // data 하드코딩 수정해야함
     const response = await axios({
       method: 'POST',
       url: `${ROOT_URL}login`,
@@ -24,7 +24,6 @@ export const loginUser = async (dispatch: any, loginPayload: LoginInfoType) => {
 
     if (response.status === 200) {
       // 프론트측에서 저장할 user 정보
-
       const userData = {
         id: response.data.idToken,
         userName: response.data.userName,
@@ -45,5 +44,5 @@ export const loginUser = async (dispatch: any, loginPayload: LoginInfoType) => {
 export async function logout(dispatch: any) {
   dispatch({ type: 'LOGOUT' });
   localStorage.removeItem('currentUser');
-  // localStorage.removeItem('token');
+  localStorage.removeItem('userPaperCnt');
 }

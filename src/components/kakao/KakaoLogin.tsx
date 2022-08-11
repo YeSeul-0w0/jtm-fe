@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import qs from 'qs';
 import axios from 'axios'; // URL 쿼리 읽어주는 것
+import EnvConfig from '../../config/EnvConfig';
 
 interface PropsType {
   api: string;
@@ -16,6 +17,7 @@ function KakaoLogin(props: PropsType): null {
     new URL(window.location.href).searchParams.get('code') || '';
   const nv: any = useNavigate();
   const Kakao = (window as any).Kakao;
+  const ROOT_URL = EnvConfig.LANTO_SERVER;
 
   async function getToken() {
     const payload: string = qs.stringify({
@@ -25,6 +27,7 @@ function KakaoLogin(props: PropsType): null {
       code: code,
       client_secret: CLIENT_SECRET,
     });
+
     try {
       const res: any = await axios.post(
         'https://kauth.kakao.com/oauth/token',
@@ -32,7 +35,18 @@ function KakaoLogin(props: PropsType): null {
       ); // res => object
       Kakao.init(KAKAO_API_KEY);
       Kakao.Auth.setAccessToken(res.data.access_token);
-      nv('/inputEmail');
+      try {
+        await axios({
+          method: 'post',
+          url: `${ROOT_URL}login`,
+          data: {
+            idToken: res.data.id_token,
+          },
+        });
+        nv('/createPaper');
+      } catch (err) {
+        nv('/');
+      }
     } catch (err) {
       console.log(err);
     }

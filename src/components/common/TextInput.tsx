@@ -19,7 +19,6 @@ export interface ITextInput {
 공통 텍스트 인풋 (로그인 등)
 */
 const TextInput = (props: ITextInput) => {
-  // console.log(ref);
   const inputProps = {
     id: props.htmlFor,
     type: props?.isPassword ? 'password' : 'text',

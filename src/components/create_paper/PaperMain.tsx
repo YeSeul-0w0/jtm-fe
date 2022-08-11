@@ -7,7 +7,6 @@ import FeedHeader from '../common/FeedHeader';
 import BottomBtn from '../common/BottomBtn';
 import PaperList from '../paper_view/PaperList';
 import FloatingButton from '../common/FloatingButton';
-import { getPaperList } from '@src/api/paper';
 
 const Option = styled.div`
   width: 48px;
@@ -25,21 +24,21 @@ const PaperMain = () => {
   const navigate = useNavigate();
   const { user, token } = useAuthState(); // id 토큰, user 닉네임
   if (!user) navigate('/login');
-  // userPaperList = await getPaperList(user?.email)
-  const userPaperNum = 1;
-  // const userPaperNum = 0;
+  const userPaperNum = parseInt(localStorage.getItem('userPaperCnt') || '0');
   return (
     <>
       <FeedHeader />
-      {user && userPaperNum > 0 && <ViewPapers {...user} />}
-      {user && userPaperNum < 0 && <SuggestCreation {...user} />}
+      {user && userPaperNum > 0 && (
+        <ViewPapers user={user} paperCnt={userPaperNum} />
+      )}
+      {user && userPaperNum <= 0 && <SuggestCreation {...user} />}
     </>
   );
 };
 
 // 유저의 페이퍼가 있는 경우
-const ViewPapers = (user: IUser) => {
-  const userPaperNum = 1;
+const ViewPapers = ({ user, paperCnt }: { user: IUser; paperCnt: number }) => {
+  // const userPaperNum = 1;
   let userEmail = '';
   if (user.email) userEmail = user.email;
   return (
@@ -61,13 +60,12 @@ const ViewPapers = (user: IUser) => {
               따뜻한 진심이 아닐까요?
             </p>
             <span style={{ color: '#BBBBBB' }}>
-              {userPaperNum}개의 롤링페이퍼가 있습니다!
+              {paperCnt}개의 롤링페이퍼가 있습니다!
             </span>
           </>
         )}
       </h1>
       <PaperList userEmail={userEmail} />
-      {/* <SettingButton /> */}
     </main>
   );
 };
@@ -103,6 +101,7 @@ const SuggestCreation = (user: IUser) => {
             text={'새 롤링페이퍼 만들기'}
             onclick={() => navigate('/createPaper/decideName')}
           />
+          <PaperList userEmail={user.email} />
         </>
       )}
     </>

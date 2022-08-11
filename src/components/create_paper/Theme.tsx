@@ -104,7 +104,11 @@ function Theme() {
           ))}
         </ComponentStyle>
       </WholeStyle>
-      <BottomBtn text="다음" onclick={sendInfo} />
+      <BottomBtn
+        text="다음"
+        onclick={sendInfo}
+        disabled={selectTheme > 0 ? false : true}
+      ></BottomBtn>
     </>
   );
 }

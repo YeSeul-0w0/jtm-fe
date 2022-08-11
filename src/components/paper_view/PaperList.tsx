@@ -1,20 +1,18 @@
-import EnvConfig from 'src/config/EnvConfig';
-import { IMessage, IPaper } from '@src/interfaces/IPaper';
+import { IMessage, IPaper } from 'src/interfaces/IPaper';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { MessageItem, NoMessageItem } from './MessageItem';
+import EnvConfig from 'src/config/EnvConfig';
 
 interface IPaperAndMsg {
   paper: IPaper[];
-  // message: {
-  //   count: number;
-  //   paperId: string;
-  // }[];
 }
 
 const PaperList = ({ userEmail }: { userEmail: string }) => {
   const [paperAndMsgs, setPaperAndMsgs] = useState<IPaper[]>();
+  const navigate = useNavigate();
 
   // const papers = await getPaperMsgList(userEmail);
   // const data = await getPaperMsgList('lanto@gmail.com');
@@ -22,20 +20,25 @@ const PaperList = ({ userEmail }: { userEmail: string }) => {
   useEffect(() => {
     async function fetchAndSetPapers() {
       const allData = await getPaperList(userEmail);
-
       setPaperAndMsgs(allData);
+
+      const paperLength = allData?.length || 0;
+      localStorage.setItem('userPaperCnt', paperLength.toString());
     }
     fetchAndSetPapers();
-    // console.log(paperAndMsgs);
   }, [userEmail]);
+
+  const viewPaperDetail = (pId: string) => {
+    if (parseInt(pId) >= 0) navigate(`/message/${pId}`);
+  };
 
   return (
     <StyledPaperList>
       {paperAndMsgs?.map((p: IPaper) => (
         <PaperItem key={p.paperId}>
-          <TitleDiv>
+          <TitleDiv onClick={() => viewPaperDetail(p.paperId)}>
             <StyledPaperTitle>{p.paperTitle}</StyledPaperTitle>
-            <p>․․․</p>
+            <p style={{ cursor: 'pointer' }}>․․․</p>
           </TitleDiv>
           <ul>
             {p.messageCount > 0 ? (
@@ -62,7 +65,7 @@ const TitleDiv = styled.div`
 `;
 
 const StyledPaperList = styled.section`
-  margin: 4rem 0 2rem 2rem;
+  margin: 3rem 0 2rem 2rem;
   overflow: scroll;
   max-height: 65vh;
 `;
@@ -73,6 +76,11 @@ const PaperItem = styled.div`
     display: flex;
     flex-flow: row nowrap;
     overflow-x: scroll;
+    li {
+      &:hover {
+        filter: brightness(90%);
+      }
+    }
   }
 `;
 
@@ -80,6 +88,10 @@ const StyledPaperTitle = styled.p`
   font-weight: bold;
   font-size: 1.25rem;
   margin-bottom: 1rem;
+  cursor: pointer;
+  &:hover {
+    // color:
+  }
 `;
 
 const getPaperList = async (email: string) => {
@@ -88,7 +100,7 @@ const getPaperList = async (email: string) => {
       method: 'get',
       url: `${EnvConfig.LANTO_SERVER}paper`,
       headers: {
-        'User-Email': email,
+        ['User-Email']: email,
       },
     });
     if (response.status == 200) {

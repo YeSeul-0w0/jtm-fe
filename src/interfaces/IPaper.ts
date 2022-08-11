@@ -12,4 +12,5 @@ export interface IMessage {
   messageId: string;
   content: string;
   userName: string;
+  onClick: any;
 }

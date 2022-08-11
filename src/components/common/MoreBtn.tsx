@@ -5,7 +5,7 @@ import MoreBottom from './MoreBottom';
 
 const More = styled.div`
   width: 16px;
-  height: 16px;
+  height: 8px;
   display: flex;
   justify-content: space-between;
   align-self: flex-end;
@@ -19,7 +19,7 @@ const Dot = styled.div`
   background-color: rgba(0, 0, 0, 0.5);
 `;
 
-const MoreBtn = ({ text, messageId, fixText }: More1) => {
+const MoreBtn = ({ text, messageId, prev }: More1) => {
   const [more, setMore] = useState<boolean>(false);
   return (
     <>
@@ -32,8 +32,8 @@ const MoreBtn = ({ text, messageId, fixText }: More1) => {
         <MoreBottom
           setMore={setMore}
           text={text}
+          prev={prev}
           messageId={messageId}
-          fixText={fixText}
         />
       )}
     </>

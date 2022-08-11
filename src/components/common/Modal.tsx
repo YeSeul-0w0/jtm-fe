@@ -8,6 +8,7 @@ interface PropsType {
   onModal: boolean;
   setOnModal: Dispatch<SetStateAction<boolean>>;
   href?: string;
+  onClick?: any;
 }
 
 function Modal(props: PropsType) {
@@ -22,19 +23,24 @@ function Modal(props: PropsType) {
     <Container>
       <ModalBody>
         <Text>
-          {content.split('\\n').map(text => (
-            <>
+          {content.split('\\n').map((text, idx) => (
+            <span key={idx}>
               {text}
               <br />
-            </>
+            </span>
           ))}
         </Text>
         <Btn>
           {props.confirm ? (
             <BtnsItem>
               <Button onClick={closeModal}>취소</Button>
-              <Link to={props.href!}>
-                <Button style={{ fontWeight: 'bold' }}>확인</Button>
+              <Link to={props.href! ? props.href! : ''}>
+                <Button
+                  onClick={props.onClick ? props.onClick : ''}
+                  style={{ fontWeight: 'bold' }}
+                >
+                  확인
+                </Button>
               </Link>
             </BtnsItem>
           ) : (

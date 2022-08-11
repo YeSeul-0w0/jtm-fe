@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import BottomBtn from '../common/BottomBtn';
-import { messagePost } from './messageFunction';
+import { messageFix, messagePost } from './messageFunction';
 import { themeMessageColor } from './messageData';
 import './messageLoading.scss';
 import styled from 'styled-components';
 import { Color } from './messageInterface';
-import { useAuthState } from 'src/context';
 import { useParams } from 'react-router-dom';
+import { useAuthState } from 'src/context';
 
 const ColorBox = styled.div<Color>`
   width: 40px;
@@ -16,12 +16,13 @@ const ColorBox = styled.div<Color>`
 `;
 
 const MessageWrite = () => {
-  const [message, setMessage] = useState<string>();
+  const { messageId } = useParams();
+  const { prev } = useParams();
+  const [message, setMessage] = useState<string>(prev!);
   const [textLength, setTextLength] = useState<number>(0);
   const [color, setColor] = useState<string>();
   const { user, token } = useAuthState();
   const email = user?.email;
-  const { paperId } = useParams();
 
   return (
     <div className="message-loading full">
@@ -38,6 +39,7 @@ const MessageWrite = () => {
               setTextLength(e.target.value.length);
               setMessage(e.target.value);
             }}
+            value={message}
           ></textarea>
           <span>{textLength}/420</span>
         </div>
@@ -56,10 +58,8 @@ const MessageWrite = () => {
         }
       </div>
       <BottomBtn
-        onclick={(e: any) =>
-          messagePost(email!, message, '굴림', color, paperId!)
-        }
-        text="작성 완료"
+        onclick={() => messageFix(email!, message, messageId!, color!)}
+        text="수정 완료"
       />
     </div>
   );

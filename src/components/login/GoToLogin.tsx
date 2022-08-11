@@ -13,6 +13,25 @@ const GoToLogin = (props: PropsType) => {
 
   return (
     <Container>
+      <TextComponent>
+        시작하실 경우,{' '}
+        <a
+          href="https://docs.google.com/document/d/1Pju15M5Cm4m2WPDvxLs5gwo4lOXBZfr20D7rCFRKi0M/edit?usp=sharing"
+          target="_blank"
+          style={{ textDecoration: 'underline' }}
+        >
+          서비스 이용약관{' '}
+        </a>{' '}
+        과 <br />
+        <a
+          href="https://docs.google.com/document/d/11sXimrdfeWhsTN1f6D0oqjpyZmVOuXBDqYUUvkibvag/edit?usp=sharing"
+          target="_blank"
+          style={{ textDecoration: 'underline' }}
+        >
+          개인정보 처리방침
+        </a>
+        에 동의하게 됩니다.
+      </TextComponent>
       <BtnComponent>
         <Btn
           text="카카오톡으로 시작하기"
@@ -22,7 +41,7 @@ const GoToLogin = (props: PropsType) => {
         />
         <Btn
           text="이메일로 시작하기"
-          link="login"
+          link="/login"
           logo="mail.svg"
           background="black"
           color="white"
@@ -38,6 +57,14 @@ const Container = styled.div`
   background-color: #fffdea;
   width: 100%;
   height: 100%;
+`;
+
+const TextComponent = styled.div`
+  line-height: normal;
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  color: #333333;
 `;
 
 const BtnComponent = styled.div`

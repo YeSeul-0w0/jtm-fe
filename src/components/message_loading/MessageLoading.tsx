@@ -1,75 +1,58 @@
-import axios from 'axios';
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useContext, useEffect, useReducer, useState } from 'react';
 import styled from 'styled-components';
-// import { Btn } from '../common/Btn';
 import './messageLoading.scss';
 import Header from '../layout/Header';
 import { Btn } from '../common/Btn';
-import MessageInput from './MessageInput';
-import {
-  message,
-  messageInitialState,
-  messageReducer,
-  x,
-} from './messageStore';
-import StickerPop from './StickerWrite';
+import { messageInitialState, messageReducer } from './messageStore';
 import MoreBtn from '../common/MoreBtn';
-import EnvConfig from '../../config/EnvConfig';
 import { Loading, Message } from './messageInterface';
-import {
-  messageDelete,
-  messageFix,
-  messageGet,
-  paperDetail,
-  stickerPost,
-} from './messageFunction';
+import { paperDetail, stickerPost } from './messageFunction';
 import { useParams } from 'react-router-dom';
 import StickerWrite from './StickerWrite';
 import Sticker from './Sticker';
 import BottomBtn from '../common/BottomBtn';
+import Reaction from './Reaction';
+import { useAuthState } from 'src/context';
+import { MoveBtn } from '../common/MoveBtn';
 
 // 회원가입에서 인증번호 useState 말고 유저단에 안 보여줄 방법 찾아봐야
 // 모바일 버전 스티커 가능하게 따로 만들어야 할 듯
 
-const MessageLoading = ({ messageData }: any) => {
-  const [messagePop, setMessagePop] = useState<boolean>(false);
+const MessageLoading = () => {
+  // const [messagePop, setMessagePop] = useState<boolean>(false);
   const [stickerPop, setStickerPop] = useState<boolean>(false);
   const [fixPop, setFixPop] = useState<boolean>(false);
   const [state, dispatch] = useReducer(messageReducer, messageInitialState);
   const [st, setSt] = useState<number>();
 
   const [x, setX] = useState<number>();
+  const [postX, setPostX] = useState<number>(0);
   const [y, setY] = useState<number>();
+  const [postY, setPostY] = useState<number>(0);
   const [move, setMove] = useState<boolean>(false);
 
-  const { on } = useParams();
+  const { paperId } = useParams();
   const messageList = state.message;
   const stickerList = state.sticker;
+
+  const { user, token } = useAuthState();
+  const email = user?.email;
+
+  const paperName = state.paper.paperTitle;
+  const reactionAll = state.reaction;
+
   useEffect(() => {
-    // messageGet(dispatch, message);
-    paperDetail(dispatch);
+    paperDetail(email!, paperId!, dispatch);
+    console.log(user);
   }, []);
 
-  const reactionAmount = async () => {
-    const a = await axios({
-      url: `${EnvConfig.LANTO_SERVER}reaction/${1}`,
-      method: 'get',
-    });
-    console.log(a);
-  };
-
-  const paperName = '숨니의 생일을 축하해요!';
-  // ${props =>
-  // props.backColor ? props.backColor : '#ffbba6'};
   const Message = styled.div<Loading>`
     width: ${props => (props.width ? props.width : '327px')};
-    /* background-color: #ffbba6; */
     background-color: ${props =>
       props.backColor ? props.backColor : '#ffbba6'};
     font-family: ${props => (props.font ? props.font : 'sans-serif')};
     border-radius: 12px;
     padding: 16px 16px 20px 16px;
-    /* box-sizing: border-box; */
     margin-top: 34px;
     display: flex;
     flex-direction: column;
@@ -90,19 +73,19 @@ const MessageLoading = ({ messageData }: any) => {
 
   return (
     <div
-      className="message-loading"
+      className={stickerPop ? `message-loading full` : 'message-loading'}
       onMouseMove={e => {
         move && setX(e.clientX);
-        move && setY(e.clientY);
+        move && setY(e.clientY + e.currentTarget.scrollTop);
       }}
     >
-      {/* {stickerOn && <Sticker />} */}
-      {/* {messagePop && (
-        <MessageInput send={messagePost} setMessagePop={setMessagePop} />
-      )} */}
+      {user?.email === null && (
+        <>
+          <div className="dis"></div>
+        </>
+      )}
       {stickerPop ? (
         <>
-          {/* <Header to="/message" pageNm={''} /> */}
           <StickerWrite setStickerPop={setStickerPop} setSt={setSt} />
         </>
       ) : (
@@ -113,18 +96,20 @@ const MessageLoading = ({ messageData }: any) => {
               setMove={setMove}
               x={x}
               y={y}
-              setX={setX}
-              setY={setY}
+              setPostX={setPostX}
+              setPostY={setPostY}
             />
           )}
-          <Header to="/" pageNm={paperName} />
+          <Header to="/createPaper" pageNm={paperName} />
           <div className="message-wrap">
             {messageList[0] ? (
               messageList.map((item: Message, idx: number) => {
                 // console.log(item);
+                // const reaction = await reactionAmount(item.messageId);
                 return (
                   <Message
                     key={idx}
+                    // backColor={'#fff'}
                     backColor={item.color}
                     font={item.font}
                     width={item.content.length <= 84 ? '234px' : ''}
@@ -133,12 +118,22 @@ const MessageLoading = ({ messageData }: any) => {
                     {/* <p>{item.createDate}</p> */}
                     <p>{item.userName}</p>
                     <p>{item.content}</p>
-                    <MoreBtn
-                      text={['수정하기', '삭제하기']}
-                      messageId={'18003'}
-                      fixText={'수정했습니당~!'}
-                    />
+                    <div className="more-wrap">
+                      {/* {item.userName === user?.userName && ( */}
+                      <MoreBtn
+                        text={['수정하기', '삭제하기']}
+                        messageId={item.messageId}
+                        prev={item.content}
+                      />
+                      {/* )} */}
+                      <Reaction
+                        messageId={item.messageId}
+                        user={user}
+                        reactionAll={reactionAll}
+                      />
+                    </div>
                   </Message>
+                  // <p>asas</p>
                 );
               })
             ) : (
@@ -155,40 +150,42 @@ const MessageLoading = ({ messageData }: any) => {
                 );
               })}
           </div>
-          <div className="message-btns">
-            <Btn
-              link="/message/write"
-              width="48px"
-              height="48px"
-              text=""
-              padding="0"
-              background="#111"
-              logo="message.svg"
-              imgSize="20px"
-              center="center"
-              onClick={() => setMessagePop(true)}
-            />
-            <Btn
-              href="#"
-              width="48px"
-              height="48px"
-              text=""
-              padding="0"
-              background="#FED700"
-              logo="star.svg"
-              imgSize="20px"
-              center="center"
-              onClick={() => setStickerPop(true)}
-            />
-          </div>
-          {st && (
-            <BottomBtn
-              onclick={() => stickerPost('asd', x! - 25, y! - 25, st)}
-              text="스티커 붙이기"
-            />
-          )}
         </>
       )}
+      <div className="message-btns">
+        <div className="btn">
+          <Btn
+            link={`/message/write/${paperId!}`}
+            width="48px"
+            height="48px"
+            text=""
+            padding="0"
+            background="#111"
+            logo="message.svg"
+            imgSize="20px"
+            center="center"
+          />
+          <Btn
+            href="#"
+            width="48px"
+            height="48px"
+            text=""
+            padding="0"
+            background="#FED700"
+            logo="star.svg"
+            imgSize="20px"
+            center="center"
+            onClick={() => setStickerPop(true)}
+          />
+        </div>
+        {st && (
+          <BottomBtn
+            onclick={() => stickerPost(email!, postX, postY, paperId!, st)}
+            text="스티커 붙이기"
+          />
+        )}
+      </div>
+      {email === null && <button>비회원이신가요?</button>}
     </div>
   );
 };

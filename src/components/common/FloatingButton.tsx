@@ -41,9 +41,9 @@ function FloatingButton() {
         size: 'small',
       }}
       style={{
-        position: 'fixed',
+        position: 'absolute',
         marginBottom: '2rem',
-        right: 0,
+        right: '15px',
         bottom: 0,
       }}
     >

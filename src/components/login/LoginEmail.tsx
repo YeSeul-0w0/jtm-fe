@@ -20,10 +20,8 @@ const LoginEmail = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // TODO: 로그인하러 들어오면 기존에 저장돼있던 로컬스토리지 삭제
-    // localStorage.removeItem('currentUser');
     // 또는 설정으로 리디렉션
-    // if (user) navigate('/setting');
+    if (user?.email) navigate('/createPaper');
   }, []);
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {

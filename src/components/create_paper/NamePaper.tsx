@@ -5,7 +5,7 @@ import { TextInput } from '../common/TextInput';
 import Header from '../layout/Header';
 
 export const NamePaper = () => {
-  const [title, setTitle] = useState();
+  const [title, setTitle] = useState<string>('');
   const navigate = useNavigate();
 
   return (
@@ -16,6 +16,7 @@ export const NamePaper = () => {
           title="롤링페이퍼의 제목을 정해주세요."
           htmlFor="paperNm"
           background="white"
+          placeholder="2글자 이상 입력"
           border="1px solid black"
           onChange={(e: any) => setTitle(e.target.value)}
         />
@@ -23,6 +24,7 @@ export const NamePaper = () => {
       <BottomBtn
         onclick={() => navigate(`/createPaper/selectTheme/${title}`)}
         text="다음"
+        disabled={title.length <= 2 ? true : false}
       />
     </>
   );

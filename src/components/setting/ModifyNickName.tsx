@@ -10,7 +10,7 @@ import { useAuthState } from '../../../src/context';
 import Modal from '../common/Modal';
 
 function ModifyNickName() {
-  const [nickName, setNickName] = useState<string>();
+  const [nickName, setNickName] = useState<string>('');
   const [onModal, setOnModal] = useState<boolean>(false);
   const [onInfo, setOnInfo] = useState<string>('');
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ function ModifyNickName() {
     try {
       await axios({
         method: 'put',
-        url: `${EnvConfig.LANTO_SERVER}/update`,
+        url: `${EnvConfig.LANTO_SERVER}update`,
         data: {
           email: userEmail,
           userName: nickName,
@@ -62,7 +62,11 @@ function ModifyNickName() {
           onChange={(e: any) => setNickName(e.target.value)}
         />
         <Temp />
-        <BottomBtn onclick={sendChangeName} text="다음" />
+        <BottomBtn
+          onclick={sendChangeName}
+          text="다음"
+          disabled={nickName.length <= 0 ? true : false}
+        />
       </Component>
     </>
   );

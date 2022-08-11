@@ -19,8 +19,8 @@ export interface Message {
 
 export interface More1 {
   text: string[];
-  messageId: string;
-  fixText?: string;
+  messageId: number;
+  prev?: string;
 }
 
 export interface More2 extends More1 {

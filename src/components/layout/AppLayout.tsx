@@ -22,7 +22,7 @@ const StyledContainer = styled.div`
   align-items: center;
   align-content: stretch;
   position: relative;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
   @media screen and (min-height: 901px) {
     min-height: unset;
