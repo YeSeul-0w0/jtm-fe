@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuthState } from '../../context';
@@ -7,6 +7,10 @@ import FeedHeader from '../common/FeedHeader';
 import BottomBtn from '../common/BottomBtn';
 import PaperList from '../paper_view/PaperList';
 import FloatingButton from '../common/FloatingButton';
+import { getPaperList } from '../../api/paper';
+import axios from 'axios';
+import EnvConfig from '../../config/EnvConfig';
+import Modal from '../common/Modal';
 
 const Option = styled.div`
   width: 48px;
@@ -21,28 +25,109 @@ const Option = styled.div`
 `;
 
 const PaperMain = () => {
+  const [userPaperNum, setUserPaperNum] = useState<number>(0);
   const navigate = useNavigate();
   const { user, token } = useAuthState(); // id 토큰, user 닉네임
   if (!user) navigate('/login');
-  const userPaperNum = parseInt(localStorage.getItem('userPaperCnt') || '0');
+
+  useEffect(() => {
+    async function fetchPaperCnt(email: string) {
+      const allData = await getPaperList(email);
+      const paperLength = (allData?.length || 0).toString();
+      localStorage.setItem('userPaperCnt', paperLength);
+      return paperLength;
+    }
+    user &&
+      fetchPaperCnt(user.email).then(() => {
+        if (localStorage.getItem('userPaperCnt')) {
+          setUserPaperNum(
+            parseInt(localStorage.getItem('userPaperCnt') || '0')
+          );
+        }
+      });
+  }, []);
+
   return (
     <>
       <FeedHeader />
-      {user && userPaperNum > 0 && (
+      {user && userPaperNum > 0 ? (
         <ViewPapers user={user} paperCnt={userPaperNum} />
+      ) : (
+        user && <SuggestCreation userName={user?.userName} />
       )}
-      {user && userPaperNum <= 0 && <SuggestCreation {...user} />}
     </>
   );
 };
 
 // 유저의 페이퍼가 있는 경우
 const ViewPapers = ({ user, paperCnt }: { user: IUser; paperCnt: number }) => {
-  // const userPaperNum = 1;
   let userEmail = '';
   if (user.email) userEmail = user.email;
+  // 유저 페이퍼가 있는 경우 가로 크기가 AppLayout을 벗어나는 문제가 발생
+  // 해당 문제를 잡기 위해 width 크기를 추가해주었습니다.
+  // 또한 이중스크롤 방지를 위해 overflow : scroll 옵션을 제거했습니다.
+  const [onComponent, setOnComponent] = useState<boolean>(false);
+  const [paperId, setPaperId] = useState<string>('0');
+  const navigate = useNavigate();
+  const modifyPaper = (pId: string) => {
+    console.log('modify', pId);
+    navigate(`/changePaperName/${pId}`);
+  };
+
+  const [onModal, setOnModal] = useState<boolean>(false);
+  const [onInfo, setOnInfo] = useState<string>('');
+
+  const deletePaper = async (pId: string) => {
+    console.log('deleted', pId);
+    try {
+      await axios({
+        method: 'delete',
+        url: `${EnvConfig.LANTO_SERVER}paper/${pId}`,
+        data: {
+          user: {
+            email: userEmail,
+          },
+        },
+      });
+      setOnModal(true);
+      setOnInfo('성공적으로 제거 되었습니다.');
+    } catch (err) {
+      console.log(err);
+      setOnModal(true);
+      setOnInfo('페이퍼 삭제에 실패했습니다.');
+    }
+  };
+
+  const setupPaper = (id: string) => {
+    setPaperId(id);
+  };
+
+  const changeComponent = (x: any) => {
+    setOnComponent(x);
+  };
+
+  const close = useRef<any>(null);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent): void {
+      if (!close?.current?.contains(e.target as Node)) {
+        console.log('click?');
+        setOnComponent(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [close]);
+
+  const onClose = () => {
+    console.log('click?');
+    setOnComponent(!onComponent);
+  };
+
   return (
-    <main style={{ overflow: 'scroll' }}>
+    <main style={{ width: '100%' }}>
       <FloatingButton />
       <h1
         style={{
@@ -52,6 +137,14 @@ const ViewPapers = ({ user, paperCnt }: { user: IUser; paperCnt: number }) => {
           paddingLeft: '2rem',
         }}
       >
+        {onModal ? (
+          <Modal
+            info={onInfo}
+            confirm={false}
+            onModal={onModal}
+            setOnModal={setOnModal}
+          ></Modal>
+        ) : null}
         {user && (
           <>
             <p>
@@ -65,45 +158,60 @@ const ViewPapers = ({ user, paperCnt }: { user: IUser; paperCnt: number }) => {
           </>
         )}
       </h1>
-      <PaperList userEmail={userEmail} />
+      {onComponent ? (
+        <Wrapper>
+          <ButtonWrapper ref={close}>
+            <ModifyDelete onClick={onClose}>
+              <Item onClick={() => modifyPaper(paperId)}>
+                {' '}
+                페이퍼 제목 수정하기{' '}
+              </Item>
+              <Item onClick={() => deletePaper(paperId)}>
+                {' '}
+                페이퍼 삭제하기{' '}
+              </Item>
+            </ModifyDelete>
+          </ButtonWrapper>
+        </Wrapper>
+      ) : null}
+      <PaperList
+        userEmail={userEmail}
+        setPaperId={setupPaper}
+        onSelect={onComponent}
+        setSelect={changeComponent}
+      />
     </main>
   );
 };
 
 // 유저의 페이퍼가 없는 경우
-const SuggestCreation = (user: IUser) => {
+const SuggestCreation = ({ userName }: { userName: string }) => {
   const navigate = useNavigate();
 
   return (
     <>
-      {user && (
-        <>
-          {' '}
-          <FloatingButton />
-          <StyledSuggestCreation>
-            <p style={{ color: '#CCCCCC' }}>
-              {user.userName}님,
-              <br />
-              안녕하세요!
-            </p>
-            <p style={{ color: '#999999' }}>
-              아직 롤링페이퍼가
-              <br />
-              없으시군요,
-            </p>
-            <p style={{ color: 'gray' }}>
-              한 번 새롭게
-              <br />
-              만들어보시겠어요?
-            </p>
-          </StyledSuggestCreation>
-          <BottomBtn
-            text={'새 롤링페이퍼 만들기'}
-            onclick={() => navigate('/createPaper/decideName')}
-          />
-          <PaperList userEmail={user.email} />
-        </>
-      )}
+      <FloatingButton />
+      <StyledSuggestCreation>
+        <p style={{ color: '#CCCCCC' }}>
+          {userName}님,
+          <br />
+          안녕하세요!
+        </p>
+        <p style={{ color: '#999999' }}>
+          아직 롤링페이퍼가
+          <br />
+          없으시군요,
+        </p>
+        <p style={{ color: 'gray' }}>
+          한 번 새롭게
+          <br />
+          만들어보시겠어요?
+        </p>
+      </StyledSuggestCreation>
+      <BottomBtn
+        text={'새 롤링페이퍼 만들기'}
+        onclick={() => navigate('/createPaper/decideName')}
+      />
     </>
   );
 };
@@ -111,7 +219,6 @@ const SuggestCreation = (user: IUser) => {
 const StyledSuggestCreation = styled.main`
   width: 90%;
   margin-left: 2rem; // feed header와 맞춤
-
   text-align: left;
   font-size: 1.75rem;
   font-weight: 900;
@@ -148,5 +255,52 @@ const SettingButton = () => {
     </Link>
   );
 };
+
+const ButtonWrapper = styled.div`
+  bottom: 0;
+  width: 100%;
+  position: absolute;
+  height: 200px;
+  background-color: white;
+  border-top-left-radius: 1.5rem;
+  border-top-right-radius: 1.5rem;
+`;
+
+const ModifyDelete = styled.div`
+  background-color: white;
+  bottom: 0;
+  width: 100%;
+  position: absolute;
+  height: 200px;
+  border-top-left-radius: 1.5rem;
+  border-top-right-radius: 1.5rem;
+`;
+
+const Item = styled.button`
+  border: none;
+  background-color: transparent;
+  width: 100%;
+  height: 20%;
+  font-size: 1rem;
+  margin-top: 1.2rem;
+  padding-left: 1rem;
+  text-align: left;
+  font-weight: bold;
+  :hover {
+    color: #00b860;
+  }
+`;
+
+const Wrapper = styled.div`
+  position: fixed;
+  top: 0;
+  width: 100%;
+  max-width: 375px;
+  height: 100vh;
+  overflow: hidden;
+  background-color: rgba(23, 23, 23, 0.5);
+  z-index: 100;
+  transition: transform 0.5s ease 0s;
+`;
 
 export default PaperMain;

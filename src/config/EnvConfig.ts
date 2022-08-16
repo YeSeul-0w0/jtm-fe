@@ -7,6 +7,8 @@ type EnvType = {
   NICK_CHECK: string;
   CREATE_PAPER: string;
   LANTO_SERVER: string;
+  KAKAO_REDIRECT_URI: string;
+  REDIRECT_URI_LOCAL: string;
 };
 
 const EnvConfig: EnvType = {
@@ -18,6 +20,8 @@ const EnvConfig: EnvType = {
   NICK_CHECK: process.env.REACT_APP_NICKNAME_CHECK || '',
   CREATE_PAPER: process.env.REACT_APP_CREATE_PAPER || '',
   LANTO_SERVER: process.env.REACT_APP_LANTO_SERVER || '',
+  KAKAO_REDIRECT_URI: process.env.REACT_APP_KAKAO_REDIRECT_URI || '',
+  REDIRECT_URI_LOCAL: process.env.REACT_APP_KAKAO_REDIRECT_URI_LOCAL || '',
 };
 
 export default EnvConfig;

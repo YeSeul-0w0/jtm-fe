@@ -5,7 +5,11 @@ import { message, paper, reaction, sticker } from './messageStore';
 export const paperDetail = async (
   email: string,
   paperId: string,
-  dispatch: any
+  dispatch: any,
+  me: any,
+  st: any,
+  pa: any,
+  re: any
 ) => {
   try {
     const a = await axios({
@@ -18,40 +22,31 @@ export const paperDetail = async (
         },
       },
     });
-    dispatch(message(a.data.messages));
-    dispatch(sticker(a.data.stickers));
-    dispatch(paper(a.data.papers));
-    dispatch(reaction(a.data.reactions));
-    console.log(a.data);
+    if (
+      a.data.messages.toString() !== me.toString() ||
+      a.data.stickers.toString() !== st.toString() ||
+      a.data.papers.toString() !== pa.toString() ||
+      a.data.reactions.toString() !== re.toString()
+    ) {
+      dispatch(message(a.data.messages));
+      dispatch(sticker(a.data.stickers));
+      dispatch(paper(a.data.papers));
+      dispatch(reaction(a.data.reactions));
+    }
+    // console.log(a.data.messages);
+    console.log('로딩완료');
   } catch (e) {
-    console.log(e);
+    throw new Error('페이퍼 목록 불러오기에 실패했습니다');
   }
 };
-
-// export const messageGet = async (
-//   dispatch: React.Dispatch<any>,
-//   message: any
-// ) => {
-//   try {
-//     const a = await axios(`${EnvConfig.LANTO_SERVER}message`, {
-//       method: 'get',
-//       headers: {
-//         ['User-Email']: 'jam@gmail.com',
-//       },
-//     });
-//     dispatch(message(a.data.messages));
-//     console.log(a);
-//   } catch (e) {
-//     console.log(e);
-//   }
-// };
 
 export const messagePost = async (
   email: string,
   content: any,
   font: any,
   color: any,
-  paperId: string
+  paperId: string,
+  dispatch: any
 ) => {
   try {
     const a = await axios({
@@ -71,9 +66,10 @@ export const messagePost = async (
         },
       },
     });
-    console.log(a);
+    // paperDetail(email, paperId, dispatch);
   } catch (e) {
-    console.log(e);
+    alert('메세지 작성에 실패했습니다');
+    throw new Error('메세지 작성에 실패했습니다');
   }
 };
 
@@ -88,9 +84,9 @@ export const messageDelete = async (email: string, messageId: any) => {
         },
       },
     });
-    console.log(a);
   } catch (e) {
-    console.log(e);
+    alert('메세지 삭제를 실패했습니다');
+    throw new Error('메세지 삭제를 실패했습니다');
   }
 };
 
@@ -115,26 +111,11 @@ export const messageFix = async (
         },
       },
     });
-    console.log(a);
-    console.log('수정완료요~');
   } catch (e) {
-    console.log(e);
+    alert('메세지 수정에 실패했습니다');
+    throw new Error('메세지 수정에 실패했습니다');
   }
 };
-
-// export const messageFixOrDelete = async (
-//   text: string,
-//   messageId: string,
-//   content?: string
-// ) => {
-//   if (text === '수정하기') {
-//     console.log('수정하기기능');
-//     messageFix(content!, messageId);
-//   } else if (text === '삭제하기') {
-//     console.log('삭제하기 기능');
-//     messageDelete(messageId);
-//   }
-// };
 
 export const stickerPost = async (
   email: string,
@@ -161,9 +142,35 @@ export const stickerPost = async (
         },
       },
     });
-    console.log(q);
+    if (q) alert('스티커 작성이 완료됐습니다');
   } catch (e) {
-    console.log(e);
+    alert('스티커를 이미 작성했거나 오류로 인해 작성에 실패했습니다');
+    throw new Error('스티커 작성에 실패했습니다');
+  }
+};
+
+export const stickerDelete = async (
+  stickerId: any,
+  email: any,
+  paperId: any
+) => {
+  try {
+    const q = await axios({
+      method: 'delete',
+      url: `${EnvConfig.LANTO_SERVER}sticker/${stickerId}`,
+      data: {
+        user: {
+          email: email,
+        },
+        paper: {
+          paperId: paperId,
+        },
+      },
+    });
+    if (q) alert('스티커 삭제가 완료됐습니다');
+  } catch (e) {
+    alert('오류로 인해 스티커 삭제에 실패했습니다');
+    throw new Error('스티커 삭제에 실패했습니다');
   }
 };
 
@@ -175,7 +182,8 @@ export const reactionAmount = async (messageId: number) => {
     });
     return { ...a.data };
   } catch (e) {
-    console.log(e);
+    alert('리액션 목록 불러오기에 실패했습니다');
+    throw new Error('리액션 목록 불러오기에 실패했습니다');
   }
 };
 
@@ -196,9 +204,9 @@ export const reactionAdd = async (email: string, messageId: number) => {
         },
       },
     });
-    console.log(reactionTouch);
   } catch (e) {
-    console.log(e);
+    alert('리액션 추가를 실패했습니다');
+    throw new Error('리액션 추가를 실패했습니다');
   }
 };
 
@@ -209,7 +217,7 @@ export const reactionMinus = async (
 ) => {
   try {
     const reactionTouch = await axios({
-      url: `${EnvConfig.LANTO_SERVER}reaction`,
+      url: `${EnvConfig.LANTO_SERVER}reaction/${reactionId}`,
       method: 'delete',
       data: {
         message: {
@@ -218,13 +226,10 @@ export const reactionMinus = async (
         user: {
           email: email,
         },
-        reaction: {
-          reactionId: reactionId,
-        },
       },
     });
-    console.log(reactionTouch);
   } catch (e) {
-    console.log(e);
+    alert('리액션 제거를 실패했습니다');
+    throw new Error('리액션 제거를 실패했습니다');
   }
 };

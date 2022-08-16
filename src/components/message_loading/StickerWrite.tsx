@@ -11,9 +11,13 @@ import { Btn } from '../common/Btn';
 import { messageInitialState, messageReducer } from './messageStore';
 import Sticker from './Sticker';
 
+import one from '../../static/sticker/1.png';
+
 const StickerWrite = ({ setStickerPop, setSt }: any) => {
+  const [state, dispatch] = useReducer(messageReducer, messageInitialState);
   return (
     <>
+      {/* 스티커 클릭시 각 스티커 값이 setSt에 담기고 팝업을 닫습니다 */}
       <p className="title">
         스티커를 골라주세요! <br />{' '}
         <span>스티커는 딱 하나만 붙일 수 있어요 :)</span>
@@ -25,7 +29,8 @@ const StickerWrite = ({ setStickerPop, setSt }: any) => {
               setStickerPop(false);
               setSt(1);
             }}
-            src={`${process.env.PUBLIC_URL}/img/1.png`}
+            // src={`${process.env.PUBLIC_URL}/img/1.png`}
+            src={one}
           />
           <img
             onClick={() => {

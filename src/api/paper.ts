@@ -9,7 +9,7 @@ export const getPaperList = async (email: string) => {
   try {
     const response = await axios({
       method: 'get',
-      url: `${EnvConfig.LANTO_SERVER}/paper`,
+      url: `${EnvConfig.LANTO_SERVER}paper`,
       headers: {
         'User-Email': email,
       },

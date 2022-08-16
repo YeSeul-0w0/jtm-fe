@@ -14,14 +14,14 @@ const GoToLogin = (props: PropsType) => {
   return (
     <Container>
       <TextComponent>
-        시작하실 경우,{' '}
+        시작하실 경우,&nbsp;
         <a
           href="https://docs.google.com/document/d/1Pju15M5Cm4m2WPDvxLs5gwo4lOXBZfr20D7rCFRKi0M/edit?usp=sharing"
           target="_blank"
           style={{ textDecoration: 'underline' }}
         >
-          서비스 이용약관{' '}
-        </a>{' '}
+          서비스 이용약관
+        </a>
         과 <br />
         <a
           href="https://docs.google.com/document/d/11sXimrdfeWhsTN1f6D0oqjpyZmVOuXBDqYUUvkibvag/edit?usp=sharing"
@@ -34,9 +34,9 @@ const GoToLogin = (props: PropsType) => {
       </TextComponent>
       <BtnComponent>
         <Btn
-          text="카카오톡으로 시작하기"
+          text="카카오로 시작하기"
           href={KAKAO_AUTH_URL}
-          logo="kakao.svg"
+          logo="kakao.png"
           background="#FAE54D"
         />
         <Btn

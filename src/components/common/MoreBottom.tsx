@@ -35,7 +35,14 @@ const Tap = styled.p`
   font-size: 14px !important;
 `;
 
-const MoreBottom = ({ setMore, text, prev, messageId }: More2) => {
+const MoreBottom = ({
+  setMore,
+  text,
+  prev,
+  messageId,
+  paperTheme,
+  paperId,
+}: More2) => {
   const nav = useNavigate();
   const { user, token } = useAuthState();
   const email = user?.email;
@@ -55,7 +62,9 @@ const MoreBottom = ({ setMore, text, prev, messageId }: More2) => {
               // onClick={async () => {
               onClick={() => {
                 if (item === '수정하기')
-                  nav(`/message/fix/${messageId}/${prev}`);
+                  nav(
+                    `/paper/fix/${paperId}/${paperTheme}/${messageId}/${prev}`
+                  );
                 if (item === '삭제하기') {
                   setOpen(true);
                 }

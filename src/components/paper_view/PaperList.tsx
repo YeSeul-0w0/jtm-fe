@@ -1,22 +1,33 @@
 import { IMessage, IPaper } from 'src/interfaces/IPaper';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { MessageItem, NoMessageItem } from './MessageItem';
 import EnvConfig from 'src/config/EnvConfig';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 
 interface IPaperAndMsg {
   paper: IPaper[];
 }
 
-const PaperList = ({ userEmail }: { userEmail: string }) => {
+const PaperList = ({
+  userEmail,
+  setPaperId,
+  onSelect,
+  setSelect,
+}: {
+  userEmail: string;
+  setPaperId: any;
+  onSelect: boolean;
+  setSelect: Dispatch<SetStateAction<boolean>>;
+}) => {
   const [paperAndMsgs, setPaperAndMsgs] = useState<IPaper[]>();
-  const navigate = useNavigate();
 
-  // const papers = await getPaperMsgList(userEmail);
-  // const data = await getPaperMsgList('lanto@gmail.com');
-  // if (data) setPaperAndMsgs(data);
+  const [selectPaper, setSelectPaper] = useState<string>();
+  const [onWindow, setOnWindow] = useState<boolean>(onSelect);
+
   useEffect(() => {
     async function fetchAndSetPapers() {
       const allData = await getPaperList(userEmail);
@@ -28,26 +39,52 @@ const PaperList = ({ userEmail }: { userEmail: string }) => {
     fetchAndSetPapers();
   }, [userEmail]);
 
+  const navigate = useNavigate();
+
   const viewPaperDetail = (pId: string) => {
-    if (parseInt(pId) >= 0) navigate(`/message/${pId}`);
+    if (parseInt(pId) >= 0) navigate(`/paper/${pId}`);
+  };
+
+  const onClick = (paperId: string) => {
+    setSelect(!onSelect);
+    setPaperId(paperId);
+    console.log('value', onSelect, 'id', paperId);
+  };
+
+  const hoverEvent = (e: any) => {
+    e.target.style.color = '#00b860';
+  };
+
+  const leaveEvent = (e: any) => {
+    e.target.style.color = '#333';
   };
 
   return (
     <StyledPaperList>
       {paperAndMsgs?.map((p: IPaper) => (
-        <PaperItem key={p.paperId}>
-          <TitleDiv onClick={() => viewPaperDetail(p.paperId)}>
-            <StyledPaperTitle>{p.paperTitle}</StyledPaperTitle>
-            <p style={{ cursor: 'pointer' }}>․․․</p>
-          </TitleDiv>
-          <ul>
-            {p.messageCount > 0 ? (
-              p.messages.map((msg, idx) => <MessageItem key={idx} {...msg} />)
-            ) : (
-              <NoMessageItem />
-            )}
-          </ul>
-        </PaperItem>
+        <>
+          <PaperItem key={p.paperId}>
+            <TitleDiv>
+              <StyledPaperTitle onClick={() => viewPaperDetail(p.paperId)}>
+                {p.paperTitle}
+              </StyledPaperTitle>
+              <FontAwesomeIcon
+                style={{ paddingRight: '2rem' }}
+                onMouseEnter={hoverEvent}
+                onMouseLeave={leaveEvent}
+                onClick={() => onClick(p.paperId)}
+                icon={faEllipsis}
+              />
+            </TitleDiv>
+            <ul>
+              {p.messageCount > 0 ? (
+                p.messages.map((msg, idx) => <MessageItem key={idx} {...msg} />)
+              ) : (
+                <NoMessageItem />
+              )}
+            </ul>
+          </PaperItem>
+        </>
       ))}
     </StyledPaperList>
   );
@@ -57,11 +94,6 @@ const TitleDiv = styled.div`
   display: flex;
   flex-flow: row;
   justify-content: space-between;
-  p {
-    font-weight: bold;
-    font-size: 20px;
-    padding-right: 2rem;
-  }
 `;
 
 const StyledPaperList = styled.section`

@@ -43,14 +43,14 @@ const HrefBtn = ({ ...props }: IBtn) => {
       center={props.center}
       onClick={props.onClick}
     >
-      {props.text}
       {props.logo && (
         <Img
-          width={props.imgSize}
+          width="18px"
           src={`${process.env.PUBLIC_URL}/icons/${props.logo}`}
-          alt=""
+          alt="login"
         />
       )}
+      {props.text}
     </StyledBtn>
   );
 };
@@ -67,14 +67,14 @@ const LinkBtn = ({ ...props }: IBtn) => {
       padding={props.padding}
       center={props.center}
     >
-      {props.text}
       {props.logo && (
         <Img
-          width={props.imgSize}
+          width="18px"
           src={`${process.env.PUBLIC_URL}/icons/${props.logo}`}
-          alt=""
+          alt="login"
         />
       )}
+      {props.text}
     </StyledLink>
   );
 };
@@ -85,8 +85,9 @@ const StyledLink = styled(Link)<IBtnStyle>`
   height: ${props => props.height || ''};
   margin: 1rem 1rem 0;
   padding: ${props => props.padding || '1rem 1.5rem;'};
-  border-radius: 60px;
-  justify-content: ${props => props.center || 'space-between'};
+  border-radius: 24px;
+  justify-content: center;
+  gap: 0.5rem;
   background: ${props => props.background || 'initial'};
   color: ${props => props.color || 'initial'};
 `;
@@ -97,8 +98,9 @@ const StyledBtn = styled.a<IBtnStyle>`
   height: ${props => props.height || ''};
   margin: 1rem 1rem 0;
   padding: ${props => props.padding || '1rem 1.5rem;'};
-  border-radius: 60px;
-  justify-content: ${props => props.center || 'space-between'};
+  border-radius: 24px;
+  justify-content: center;
+  gap: 0.5rem;
   background: ${props => props.background || 'initial'};
   color: ${props => props.color || 'initial'};
 `;

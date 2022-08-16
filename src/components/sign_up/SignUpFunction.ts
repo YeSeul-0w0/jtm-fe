@@ -75,11 +75,10 @@ export const passVerify = async (
           }
         })
         .catch(function (error) {
-          console.log(error);
           alert('닉네임이 중복됐습니다');
         });
     } catch (e) {
-      console.log(e);
+      throw new Error('회원가입에 실패했습니다');
     }
     // return
   } else {
@@ -103,6 +102,7 @@ export const emailVerify = async (
         email: emailState,
       },
     });
+    // console.log(getDouble);
     if (getDouble) {
       dispatch(double(true));
       const codeSend = await axios({

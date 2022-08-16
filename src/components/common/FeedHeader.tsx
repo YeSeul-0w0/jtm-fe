@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
-import { useAuthState } from '../../context';
+import { logout, useAuthDispatch, useAuthState } from '../../context';
 
 function FeedHeader() {
   const [isSideBarOpen, setSideBarOpen] = useState<boolean>(false);
@@ -14,6 +14,7 @@ function FeedHeader() {
   const Sidebar = () => {
     const navigate = useNavigate();
     const { user } = useAuthState();
+    const dispatch = useAuthDispatch();
     const sideBarRef = useRef<any>(null);
 
     // 사이드바 외부 클릭시 사이드바 닫히도록 함
@@ -28,6 +29,10 @@ function FeedHeader() {
         document.removeEventListener('mousedown', handleClickOutside);
       };
     }, [sideBarRef]);
+
+    const onClickLogout = async () => {
+      await logout(dispatch);
+    };
 
     return (
       <>
@@ -44,7 +49,7 @@ function FeedHeader() {
           <ul>
             <li>FAQ</li>
             <li>문의하기</li>
-            {user && <li>로그아웃</li>}
+            {user && <li onClick={onClickLogout}>로그아웃</li>}
             <li>
               <a
                 href="https://docs.google.com/document/d/1Pju15M5Cm4m2WPDvxLs5gwo4lOXBZfr20D7rCFRKi0M/edit?usp=sharing"
@@ -61,6 +66,7 @@ function FeedHeader() {
                 개인정보 처리방침
               </a>
             </li>
+            <li onClick={() => navigate('/credit')}>만든이 소개</li>
             {user && <li>회원탈퇴</li>}
           </ul>
         </SideBarWrapper>

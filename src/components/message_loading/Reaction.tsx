@@ -1,35 +1,39 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import { reactionAdd, reactionAmount, reactionMinus } from './messageFunction';
+import { messageInitialState, messageReducer, reaction } from './messageStore';
 
-const Reaction = ({ messageId, user, reactionAll }: any) => {
+const Reaction = ({ messageId, user, myReaction }: any) => {
   const [reactionAm, setReactionAm] = useState<any>(0);
   const [click, setClick] = useState<boolean>(false);
-
+  const [state, dispatch] = useReducer(messageReducer, messageInitialState);
+  const yourReaction = myReaction.filter(
+    (item: any) => item.userName === user.userName
+  );
   useEffect(() => {
     (async () => {
       try {
         const result = await reactionAmount(messageId);
         setReactionAm(result.reactionCnt);
       } catch (e) {
-        console.log(e);
+        throw new Error('리액션 목록 불러오기를 실패했습니다');
       }
     })();
-    if (
-      reactionAll[0].userName === user.userName &&
-      reactionAll[0].messageId === messageId
-    )
-      setClick(true);
+    if (yourReaction.length > 0) setClick(true);
     else setClick(false);
   }, []);
-  //   const reactionAm = reactionAmount(messageId);
   return (
     <div
       className="reaction-wrap"
       onClick={() => {
-        if (click)
-          reactionMinus(user.email, messageId, reactionAll[0].reactionId);
-        else reactionAdd(user.email, messageId);
-        setClick(prev => !prev);
+        if (click) {
+          reactionMinus(user.email, messageId, yourReaction[0].reactionId);
+          setReactionAm((prev: number) => prev - 1);
+          setClick(false);
+        } else {
+          reactionAdd(user.email, messageId);
+          setClick(true);
+          setReactionAm((prev: number) => prev + 1);
+        }
       }}
     >
       <svg
