@@ -1,6 +1,6 @@
 import React, { useReducer, useState } from 'react';
 import BottomBtn from '../common/BottomBtn';
-import { messagePost } from './messageFunction';
+import { messagePost, messageRe } from './messageFunction';
 import { themeColor, themeInput, themeMessageColor } from './messageData';
 import './messageLoading.scss';
 import styled from 'styled-components';
@@ -62,9 +62,10 @@ const MessageWrite = () => {
         <BottomFix>
           <BottomBtn
             link={`/paper/${paperId}`}
-            onclick={() =>
-              messagePost(email!, message, '굴림', color, paperId!, dispatch)
-            }
+            onclick={() => {
+              messagePost(email!, message, '굴림', color, paperId!, dispatch);
+              // messageRe(email!, paperId, dispatch);
+            }}
             text="작성 완료"
           />
         </BottomFix>

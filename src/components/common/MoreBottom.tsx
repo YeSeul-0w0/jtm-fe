@@ -42,12 +42,15 @@ const MoreBottom = ({
   messageId,
   paperTheme,
   paperId,
+  prevColor,
 }: More2) => {
   const nav = useNavigate();
   const { user, token } = useAuthState();
   const email = user?.email;
 
   const [open, setOpen] = useState<boolean>(false);
+
+  const color = prevColor?.slice(1);
 
   return (
     <BottomWrap
@@ -63,7 +66,7 @@ const MoreBottom = ({
               onClick={() => {
                 if (item === '수정하기')
                   nav(
-                    `/paper/fix/${paperId}/${paperTheme}/${messageId}/${prev}`
+                    `/paper/fix/${paperId}/${paperTheme}/${messageId}/${prev}/${color}`
                   );
                 if (item === '삭제하기') {
                   setOpen(true);
@@ -81,7 +84,11 @@ const MoreBottom = ({
           confirm={true}
           onModal={open}
           setOnModal={setOpen}
-          onClick={() => messageDelete(email!, messageId)}
+          onClick={() => {
+            messageDelete(email!, messageId);
+            setOpen(false);
+            setMore(false);
+          }}
         />
       )}
     </BottomWrap>

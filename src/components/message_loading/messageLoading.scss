@@ -4,12 +4,12 @@
         flex-direction: column;
     }
     .message-btns{
-       position: sticky;
-        left: 335px;
+       position: fixed;
+        // left: 335px;
         bottom: 35px;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
+        right: 30px;
+        width: 85px;
+        height: 112px;
         .btn{
           text-align: -webkit-right;
         }
@@ -63,6 +63,7 @@
     .more-wrap{
         align-self: flex-end;
         display: flex;
+        cursor: pointer;
         .reaction-wrap{
             width: 25px;
             margin-left: 12px;
@@ -108,8 +109,8 @@ header {
     width: 98px;
     height: 98px;
     .x-box{
-        width: 28px;
-        height: 28px;
+        width: 35px;
+        height: 35px;
         border-radius: 28px;
         background-color: #333;
         position: absolute;
@@ -124,8 +125,8 @@ header {
         }
     }
     .check-box{
-        width: 28px;
-        height: 28px;
+        width: 35px;
+        height: 35px;
         border-radius: 28px;
         background-color: #333;
         position: absolute;

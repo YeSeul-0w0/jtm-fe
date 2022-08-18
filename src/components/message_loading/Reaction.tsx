@@ -3,23 +3,30 @@ import { reactionAdd, reactionAmount, reactionMinus } from './messageFunction';
 import { messageInitialState, messageReducer, reaction } from './messageStore';
 
 const Reaction = ({ messageId, user, myReaction }: any) => {
-  const [reactionAm, setReactionAm] = useState<any>(0);
+  const [reactionAm, setReactionAm] = useState<any>(myReaction.length);
   const [click, setClick] = useState<boolean>(false);
   const [state, dispatch] = useReducer(messageReducer, messageInitialState);
   const yourReaction = myReaction.filter(
     (item: any) => item.userName === user.userName
   );
+  // const [re, setRe] = useState<any>(yourReaction);
+
+  // myReaction 해당 메세지의 리액션들
+  // yourReaction 해당 메세지의 리액션 중 내가 한 리액션
+  // result 리액션의 해당 메세지의 리액션 총 갯수
+
   useEffect(() => {
-    (async () => {
-      try {
-        const result = await reactionAmount(messageId);
-        setReactionAm(result.reactionCnt);
-      } catch (e) {
-        throw new Error('리액션 목록 불러오기를 실패했습니다');
-      }
-    })();
+    // (async () => {
+    //   try {
+    //     const result = await reactionAmount(messageId);
+    //     setReactionAm(result.reactionCnt);
+    //   } catch (e) {
+    //     throw new Error('리액션 목록 불러오기를 실패했습니다');
+    //   }
+    // })();
     if (yourReaction.length > 0) setClick(true);
     else setClick(false);
+    // console.log(myReaction.length);
   }, []);
   return (
     <div

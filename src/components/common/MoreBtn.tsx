@@ -19,7 +19,14 @@ const Dot = styled.div`
   background-color: rgba(0, 0, 0, 0.5);
 `;
 
-const MoreBtn = ({ text, messageId, prev, paperTheme, paperId }: More1) => {
+const MoreBtn = ({
+  text,
+  messageId,
+  prev,
+  paperTheme,
+  paperId,
+  prevColor,
+}: More1) => {
   const [more, setMore] = useState<boolean>(false);
   return (
     <>
@@ -36,6 +43,7 @@ const MoreBtn = ({ text, messageId, prev, paperTheme, paperId }: More1) => {
           messageId={messageId}
           paperTheme={paperTheme}
           paperId={paperId}
+          prevColor={prevColor}
         />
       )}
     </>

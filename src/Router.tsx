@@ -74,7 +74,7 @@ const Router = () => {
               element={<MessageWrite />}
             />
             <Route
-              path="/paper/fix/:paperId/:paperSkin/:messageId/:prev"
+              path="/paper/fix/:paperId/:paperSkin/:messageId/:prev/:prevColor"
               element={<MessageFixed />}
             />
             {/* <Route path="/message/sticker" element={<StickerWrite />} /> */}
