@@ -252,7 +252,6 @@ export const MessageLoadingComponent = styled.div<MessageLoadingInt>`
   min-height: 100%;
   overflow-y: ${props => (props.full ? 'unset' : 'scroll')};
   overflow-x: hidden;
-  overscroll-behavior-y: none;
   height: ${props => (props.full ? '100vh' : 'unset')};
 `;
 

@@ -23,7 +23,6 @@ const StyledContainer = styled.div`
   position: relative;
   overflow-y: auto;
   overflow-x: hidden;
-  overscroll-behavior-y: none;
   @media screen and (min-height: 901px) {
     min-height: unset;
     max-height: 900px;
