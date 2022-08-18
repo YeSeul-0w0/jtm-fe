@@ -68,7 +68,7 @@ const MessageLoading = () => {
 
   return (
     <MessageLoadingComponent
-      theme={themeColor[paperTheme]}
+      theme={themeColor[paperTheme - 1]}
       full={stickerPop ? true : false}
       onMouseMove={e => {
         move && setX(e.clientX);

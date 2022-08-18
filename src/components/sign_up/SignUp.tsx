@@ -56,7 +56,7 @@ const SignUp = () => {
           <div className="nickNameWrap">
             <TextInput
               title={'닉네임'}
-              placeholder="2~8글자"
+              placeholder="2~8글자, 특수 문자 불가"
               htmlFor={'nickName'}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 dispatch(nickname(e.target.value))
