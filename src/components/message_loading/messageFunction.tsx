@@ -16,7 +16,6 @@ export const paperDetail = async (
       const a = await axios({
         method: 'post',
         url: `${EnvConfig.LANTO_SERVER}paper/${paperId}`,
-        // url: `${EnvConfig.LANTO_SERVER}paper/${paperId}`,
         data: {
           user: {
             email: email,
@@ -33,10 +32,6 @@ export const paperDetail = async (
         dispatch(sticker(a.data.stickers));
         dispatch(paper(a.data.papers));
         dispatch(reaction(a.data.reactions));
-        // console.log('메세지', a.data.messages.toString() !== me.toString());
-        // console.log('스티커', a.data.stickers.toString() !== st.toString());
-        // console.log('페이퍼', a.data.papers.toString() !== pa.toString());
-        // console.log('리액션', a.data.reactions.toString() !== re.toString());
       }
     } else {
       const a = await axios({
@@ -55,40 +50,10 @@ export const paperDetail = async (
         dispatch(reaction(a.data.reactions));
       }
     }
-    // console.log('로딩완료');
   } catch (e) {
     throw new Error('페이퍼 목록 불러오기에 실패했습니다');
   }
 };
-
-// export const solorRe = async () => {
-//   try{
-//     if (email) {
-//       const a = await axios({
-//         method: 'post',
-//         url: `${EnvConfig.LANTO_SERVER}paper/${paperId}`,
-//         // url: `${EnvConfig.LANTO_SERVER}paper/${paperId}`,
-//         data: {
-//           user: {
-//             email: email,
-//           },
-//         },
-//       });
-//       if (a.data.messages.toString() !== me.toString()) {
-//         dispatch(message(a.data.messages));
-//         console.log('메세지 리롤');
-//       } else if (a.data.stickers.toString() !== st.toString()) {
-//         dispatch(sticker(a.data.stickers));
-//         console.log('스티커 리롤');
-//       } else if (a.data.papers.toString() !== pa.toString()) {
-//         dispatch(paper(a.data.papers));
-//         console.log('페이퍼 리롤');
-//       } else if (a.data.reactions.toString() !== re.toString()) {
-//         dispatch(reaction(a.data.reactions));
-//         console.log('리액션 리롤');
-//       }
-//   }
-// }
 
 export const messageRe = async (email: string, paperId: any, dispatch: any) => {
   try {
@@ -134,12 +99,14 @@ export const messagePost = async (
           },
         },
       });
-      alert('메세지가 작성됐습니다');
+      if (a) {
+        alert('메세지가 작성됐습니다');
+        location.reload();
+      }
     } else {
       alert('색을 골라주세요');
     }
   } catch (e) {
-    // paperDetail(email, paperId, dispatch);
     alert('메세지 작성에 실패했습니다');
     throw new Error('메세지 작성에 실패했습니다');
   }
@@ -193,13 +160,6 @@ export const messageFix = async (
     throw new Error('메세지 수정에 실패했습니다');
   }
 };
-
-// export const stickerRe = async () => {
-//   try {
-//   } catch (e) {
-//     throw new Error('스티커 목록 로딩에 실패했습니다');
-//   }
-// };
 
 export const stickerPost = async (
   email: string,

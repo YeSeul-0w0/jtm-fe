@@ -56,6 +56,7 @@ const SignUp = () => {
           <div className="nickNameWrap">
             <TextInput
               title={'닉네임'}
+              placeholder="2~8글자"
               htmlFor={'nickName'}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 dispatch(nickname(e.target.value))
@@ -67,6 +68,7 @@ const SignUp = () => {
               autocomplete="off"
               isPassword={true}
               title={'비밀번호'}
+              placeholder="8~15글자, 특수문자 포함"
               htmlFor={'password'}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 dispatch(password(e.target.value))
@@ -84,25 +86,6 @@ const SignUp = () => {
               }
             />
           </div>
-          <BottomBtn
-            // text={'다음'}
-            text={doubleState ? '다음' : '인증메일 받기'}
-            onclick={(e: any) =>
-              passVerify(e, {
-                emailTest,
-                emailState,
-                enterVerifyState,
-                verifyState,
-                doubleState,
-                nickNameTest,
-                nicknameState,
-                passwordTest,
-                passwordState,
-                rePassword,
-                nav,
-              })
-            }
-          />
           <BottomBtn
             text={doubleState ? '다음' : '인증메일 받기'}
             onclick={(e: any) =>

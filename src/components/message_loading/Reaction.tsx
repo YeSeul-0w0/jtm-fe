@@ -2,7 +2,7 @@ import React, { useEffect, useReducer, useState } from 'react';
 import { reactionAdd, reactionAmount, reactionMinus } from './messageFunction';
 import { messageInitialState, messageReducer, reaction } from './messageStore';
 
-const Reaction = ({ messageId, user, myReaction }: any) => {
+const Reaction = ({ messageId, user, myReaction, setChange }: any) => {
   const [reactionAm, setReactionAm] = useState<any>(myReaction.length);
   const [click, setClick] = useState<boolean>(false);
   const [state, dispatch] = useReducer(messageReducer, messageInitialState);
@@ -28,16 +28,25 @@ const Reaction = ({ messageId, user, myReaction }: any) => {
     else setClick(false);
     // console.log(myReaction.length);
   }, []);
+
+  useEffect(() => {
+    setChange(true);
+  }, [click]);
+
   return (
     <div
       className="reaction-wrap"
-      onClick={() => {
+      onClick={async () => {
         if (click) {
-          reactionMinus(user.email, messageId, yourReaction[0].reactionId);
+          await reactionMinus(
+            user.email,
+            messageId,
+            yourReaction[0].reactionId
+          );
           setReactionAm((prev: number) => prev - 1);
           setClick(false);
         } else {
-          reactionAdd(user.email, messageId);
+          await reactionAdd(user.email, messageId);
           setClick(true);
           setReactionAm((prev: number) => prev + 1);
         }

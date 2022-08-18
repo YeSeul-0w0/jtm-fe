@@ -22,40 +22,22 @@ import { MoveBtn } from '../common/MoveBtn';
 import { themeColor, themeTextColor } from './messageData';
 
 // 회원가입에서 인증번호 useState 말고 유저단에 안 보여줄 방법 찾아봐야
-// 모바일 버전 스티커 가능하게 따로 만들어야 할 듯
-
-// 1. GET 방식으로  ~/paper/{paperId}  요청시 (body x) 기존의 페이퍼 상세보기 와 동일한 형식의 데이터 리턴할 수 있도록 하였습니다.
-
-// @Jam/백앤드 잼님 확인 하신 후 반영 부탁드립니다.
-
-// 2. postman과 시트에 내용 추가해두었습니다.
-// postman :
-// https://documenter.getpostman.com/view/15855367/UVkvJXf8#f56370e6-1e8e-4f95-b0d3-14cd9df15368
 
 const MessageLoading = () => {
-  // const [messagePop, setMessagePop] = useState<boolean>(false);
+  const [change, setChange] = useState<boolean>(true);
   const [fixPop, setFixPop] = useState<boolean>(false);
   const [state, dispatch] = useReducer(messageReducer, messageInitialState);
 
-  // sticker state ===
   const [stickerPop, setStickerPop] = useState<boolean>(false);
-  // 스티커 작성 페이지 띄우기 여부
   const [st, setSt] = useState<number>();
-  // 현재 선택한 스티커의 이름
-  // const [x, setX] = useState<number>();
   const [x, setX] = useState<number>();
-  // 스티커의 x 좌표
   const [postX, setPostX] = useState<number>(0);
-  // api에 전송할 스티커의 x 좌표 (마우스의 커서를 스티커의 정중앙에 맞추기 위해 좌표 값을 두 개로 나눴습니다)
   const [y, setY] = useState<number>();
-  // 스티커의 y 좌표
   const [postY, setPostY] = useState<number>(0);
-  // api에 전송할 스티커의 y 좌표
+
   const [move, setMove] = useState<boolean>(false);
-  // 스티커를 움직이고 있는가에 대한 여부
+
   const stickerList = state.sticker;
-  // api를 통해 불러온 페이퍼에 붙어있는 스티커 목록들
-  // ==================
 
   const { paperId } = useParams();
   const messageList = state.message;
@@ -70,19 +52,19 @@ const MessageLoading = () => {
   const reactionAll = state.reaction;
 
   useEffect(() => {
-    paperDetail(
-      email!,
-      paperId!,
-      dispatch,
-      messageList!,
-      stickerList!,
-      paperData!,
-      reactionAll!
-    );
-    // console.log(user?.email !== null && st === 0);
-    // console.log('바뀌고있나?');
-    // dispatch(message(123));
-  }, []);
+    if (change) {
+      paperDetail(
+        email!,
+        paperId!,
+        dispatch,
+        messageList!,
+        stickerList!,
+        paperData!,
+        reactionAll!
+      );
+      setChange(false);
+    }
+  }, [change]);
 
   return (
     <MessageLoadingComponent
@@ -93,12 +75,9 @@ const MessageLoading = () => {
         move && setY(e.clientY + e.currentTarget.scrollTop);
       }}
       onTouchMove={e => {
-        // console.log();
-        // console.log();
         move && setX(e.touches[0].clientX);
         move && setY(e.touches[0].clientY + e.currentTarget.scrollTop);
       }}
-      // 페이퍼 페이지에서 마우스 위치에 따라 스티커의 위치를 잡아줌
     >
       {user?.email === null && (
         <>
@@ -108,7 +87,6 @@ const MessageLoading = () => {
       {stickerPop ? (
         <>
           <StickerWrite setStickerPop={setStickerPop} setSt={setSt} />
-          {/* 스티커 팝의 boolean 값에 따라 스티커 작성 페이지가 나타날지 메세지 페이지가 나타날지 나뉩니다 */}
         </>
       ) : (
         <>
@@ -126,7 +104,6 @@ const MessageLoading = () => {
               setPostY={setPostY}
               setSt={setSt}
             />
-            // 스티커를 선택한 겂이 있을 때 그 스티커가 메세지 페이지에 나타납니다
           )}
           <Header to={email ? '/createPaper' : '/'} pageNm={paperName} />
           <div className="message-wrap">
@@ -138,7 +115,7 @@ const MessageLoading = () => {
                 );
                 return (
                   <MessageComponent
-                    key={idx}
+                    key={item.messageId}
                     // backColor={'#fff'}
                     backColor={item.color}
                     color={
@@ -170,6 +147,7 @@ const MessageLoading = () => {
                         messageId={item.messageId}
                         user={user}
                         myReaction={myReaction}
+                        setChange={setChange}
                       />
                     </div>
                   </MessageComponent>
@@ -182,6 +160,7 @@ const MessageLoading = () => {
               stickerList.map((item: any) => {
                 return (
                   <Sticker
+                    key={item.stickerId}
                     email={email!}
                     url={item.stickerType}
                     x={item.positionX}
