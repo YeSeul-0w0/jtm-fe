@@ -72,7 +72,9 @@ const MessageFixed = () => {
         <BottomBtn
           link={`/paper/${paperId}`}
           onclick={() => {
-            messageFix(email!, message, messageId!, color!);
+            if (message!.length > 0) {
+              messageFix(email!, message, messageId!, color!);
+            } else alert('메세지 내용을 입력해주세요');
             // messageRe(email!, paperId, dispatch);
           }}
           text="수정 완료"

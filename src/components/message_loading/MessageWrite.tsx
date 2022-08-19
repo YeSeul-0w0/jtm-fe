@@ -13,7 +13,7 @@ import { messageInitialState, messageReducer } from './messageStore';
 
 const MessageWrite = () => {
   const { paperId, paperSkin } = useParams();
-  const [message, setMessage] = useState<string>();
+  const [message, setMessage] = useState<string>('');
   const [textLength, setTextLength] = useState<number>(0);
   const [color, setColor] = useState<string>(themeInput[Number(paperSkin) - 1]);
   const { user, token } = useAuthState();
@@ -37,6 +37,7 @@ const MessageWrite = () => {
         <div className="message-wrap">
           <div className="write-box">
             <InputBox
+              value={message}
               maxLength={420}
               color={color}
               textColor={
@@ -70,9 +71,13 @@ const MessageWrite = () => {
         </div>
         <BottomFix>
           <BottomBtn
-            link={`/paper/${paperId}`}
+            link={message.length > 0 ? `/paper/${paperId}` : undefined}
             onclick={() => {
-              messagePost(email!, message, '굴림', color, paperId!, dispatch);
+              if (message.length > 0) {
+                messagePost(email!, message, '굴림', color, paperId!, dispatch);
+              } else {
+                alert('메세지 내용을 입력해주세요');
+              }
               // messageRe(email!, paperId, dispatch);
             }}
             text="작성 완료"

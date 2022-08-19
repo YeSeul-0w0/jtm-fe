@@ -13,7 +13,7 @@ const BottomWrap = styled.div`
   top: 0;
   left: 0;
   background-color: rgba(17, 17, 17, 0.6);
-  z-index: 9;
+  z-index: 61;
 `;
 
 const BottomTap = styled.div`
@@ -33,6 +33,7 @@ const Tap = styled.p`
   margin-bottom: 32px;
   font-weight: bold;
   font-size: 14px !important;
+  color: #000;
 `;
 
 const MoreBottom = ({
