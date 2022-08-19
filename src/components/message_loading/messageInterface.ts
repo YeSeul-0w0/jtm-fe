@@ -25,6 +25,7 @@ export interface More1 {
   paperTheme?: string;
   paperId?: string;
   prevColor?: string;
+  color?: any;
 }
 
 export interface More2 extends More1 {

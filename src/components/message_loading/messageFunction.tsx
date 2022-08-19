@@ -123,7 +123,10 @@ export const messageDelete = async (email: string, messageId: any) => {
         },
       },
     });
-    alert('메세지가 삭제됐습니다');
+    if (a) {
+      alert('메세지가 삭제됐습니다');
+      location.reload();
+    }
   } catch (e) {
     alert('메세지 삭제를 실패했습니다');
     throw new Error('메세지 삭제를 실패했습니다');

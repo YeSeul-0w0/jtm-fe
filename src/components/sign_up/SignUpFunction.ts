@@ -102,7 +102,6 @@ export const emailVerify = async (
         email: emailState,
       },
     });
-    // console.log(getDouble);
     if (getDouble) {
       dispatch(double(true));
       const codeSend = await axios({

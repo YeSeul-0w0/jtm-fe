@@ -12,15 +12,16 @@ const StyledMain = styled.main`
     font-size: 20px;
   }
   > div {
-    padding: 0.5rem 0;
-    border-bottom: 1px solid rgba(238, 238, 238, 1);
+    padding: 0.2rem 0;
+    // border-bottom: 1px solid rgba(238, 238, 238, 1);
+    font-size: 16px;
+    font-weight: 600;
     span {
       margin-right: 1rem;
     }
+
     a {
       display: block;
-      font-size: 18px;
-      font-weight: 600;
     }
   }
 `;
@@ -55,21 +56,17 @@ export const Credit = () => {
         </div>
         <h1>디자인</h1>
         <div>
-          <a>
+          <a href="https://www.instagram.com/321lovelovelove/" target="_blank">
             <span>🍲</span>Mara
           </a>
         </div>
         <h1>기획</h1>
         <div>
-          <a>
-            <span>👖</span>Pants
-          </a>
+          <span className="a">👖</span>Pants
         </div>
         <h1>서비스 작명</h1>
         <div>
-          <a>
-            <span>🐦</span>익명의 까마귀
-          </a>
+          <span className="a">🐦</span>익명의 까마귀
         </div>
       </StyledMain>
     </>

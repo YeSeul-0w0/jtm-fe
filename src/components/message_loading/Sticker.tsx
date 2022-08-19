@@ -65,7 +65,10 @@ const Sticker = ({
                     stickerDelete(stickerId, email, paperId);
                     setOpen(false);
                   }
-                : setSt(0)
+                : () => {
+                    setSt(false);
+                    setOpen(false);
+                  }
               : () => {
                   stickerPost(email, postX, postY, paperId!, url);
                   setOpen(false);

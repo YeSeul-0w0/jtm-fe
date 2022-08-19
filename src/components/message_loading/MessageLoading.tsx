@@ -30,9 +30,9 @@ const MessageLoading = () => {
 
   const [stickerPop, setStickerPop] = useState<boolean>(false);
   const [st, setSt] = useState<number>();
-  const [x, setX] = useState<number>();
+  const [x, setX] = useState<number>(window.innerWidth / 2);
   const [postX, setPostX] = useState<number>(0);
-  const [y, setY] = useState<number>();
+  const [y, setY] = useState<number>(window.innerHeight / 2);
   const [postY, setPostY] = useState<number>(0);
 
   const [move, setMove] = useState<boolean>(false);
@@ -121,8 +121,8 @@ const MessageLoading = () => {
                     color={
                       isNaN(Number(item.color[1]))
                         ? 'unset'
-                        : Number(item.color[1]) < 7
-                        ? themeTextColor[paperTheme]
+                        : Number(item.color[1]) <= 7
+                        ? '#fff'
                         : 'unset'
                     }
                     font={item.font}
@@ -141,6 +141,13 @@ const MessageLoading = () => {
                           paperTheme={paperTheme}
                           prev={item.content}
                           prevColor={item.color}
+                          color={
+                            isNaN(Number(item.color[1]))
+                              ? false
+                              : Number(item.color[1]) < 7
+                              ? '#fff'
+                              : false
+                          }
                         />
                       )}
                       <Reaction
@@ -148,6 +155,13 @@ const MessageLoading = () => {
                         user={user}
                         myReaction={myReaction}
                         setChange={setChange}
+                        white={
+                          isNaN(Number(item.color[1]))
+                            ? false
+                            : Number(item.color[1]) < 7
+                            ? true
+                            : false
+                        }
                       />
                     </div>
                   </MessageComponent>

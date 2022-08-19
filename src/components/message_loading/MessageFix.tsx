@@ -21,20 +21,32 @@ const MessageFixed = () => {
   const email = user?.email;
   const [state, dispatch] = useReducer(messageReducer, messageInitialState);
 
-  const writeData = Object.values(themeMessageColor[Number(paperSkin)]);
+  const writeData = Object.values(themeMessageColor[Number(paperSkin) - 1]);
+
+  const textC = color.slice(1);
 
   return (
-    <MessageLoadingComponent full={true} theme={themeColor[Number(paperSkin)]}>
+    <MessageLoadingComponent
+      full={true}
+      theme={themeColor[Number(paperSkin) - 1]}
+    >
       <Header to={`/paper/${paperId}`} pageNm="메시지 수정하기" />
       <div className="message-wrap">
         <div className="write-box">
           <InputBox
             maxLength={420}
-            color={themeInput[Number(paperSkin)]}
+            color={color}
             onChange={(e: any) => {
               setTextLength(e.target.value.length);
               setMessage(e.target.value);
             }}
+            textColor={
+              isNaN(Number(textC))
+                ? 'black'
+                : Number(textC) <= 7
+                ? '#fff'
+                : 'black'
+            }
             value={message}
           ></InputBox>
           <span>{textLength}/420</span>

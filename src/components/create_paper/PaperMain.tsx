@@ -108,6 +108,10 @@ const ViewPapers = ({ user, paperCnt }: { user: IUser; paperCnt: number }) => {
 
   const close = useRef<any>(null);
 
+  const closeModal = () => {
+    setOnModal(!onModal);
+  };
+
   useEffect(() => {
     function handleClickOutside(e: MouseEvent): void {
       if (!close?.current?.contains(e.target as Node)) {
@@ -143,6 +147,7 @@ const ViewPapers = ({ user, paperCnt }: { user: IUser; paperCnt: number }) => {
             confirm={false}
             onModal={onModal}
             setOnModal={setOnModal}
+            onClick={closeModal}
           ></Modal>
         ) : null}
         {user && (
@@ -268,6 +273,7 @@ const ButtonWrapper = styled.div`
 
 const ModifyDelete = styled.div`
   background-color: white;
+  z-index: 30;
   bottom: 0;
   width: 100%;
   position: absolute;

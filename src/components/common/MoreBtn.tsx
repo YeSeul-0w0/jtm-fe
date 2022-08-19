@@ -16,7 +16,8 @@ const Dot = styled.div`
   width: 3px;
   height: 3px;
   border-radius: 3px;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${props =>
+    props.color ? props.color : 'rgba(0, 0, 0, 0.5)'};
 `;
 
 const MoreBtn = ({
@@ -26,14 +27,15 @@ const MoreBtn = ({
   paperTheme,
   paperId,
   prevColor,
+  color,
 }: More1) => {
   const [more, setMore] = useState<boolean>(false);
   return (
     <>
       <More onClick={() => setMore(prev => !prev)}>
-        <Dot />
-        <Dot />
-        <Dot />
+        <Dot color={color} />
+        <Dot color={color} />
+        <Dot color={color} />
       </More>
       {more && (
         <MoreBottom

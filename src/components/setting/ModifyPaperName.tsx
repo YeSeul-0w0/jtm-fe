@@ -55,6 +55,10 @@ function ModifyNickName() {
     setSelectPaperId(e.target.value);
   };
 
+  const closeModal = () => {
+    setOnModal(!onModal);
+  };
+
   return (
     <>
       <Header pageNm="페이퍼 변경" to="/createPaper" />
@@ -64,6 +68,7 @@ function ModifyNickName() {
           confirm={false}
           onModal={onModal}
           setOnModal={setOnModal}
+          onButtonHref={'/createPaper'}
         />
       ) : null}
       <Component>

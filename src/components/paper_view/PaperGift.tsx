@@ -83,6 +83,7 @@ function PaperGift() {
           confirm={false}
           onModal={onModal}
           setOnModal={setOnModal}
+          onButtonHref={'/createPaper'}
         />
       ) : null}
       <main>

@@ -12,16 +12,18 @@ import Header from '../layout/Header';
 import { messageInitialState, messageReducer } from './messageStore';
 
 const MessageWrite = () => {
+  const { paperId, paperSkin } = useParams();
   const [message, setMessage] = useState<string>();
   const [textLength, setTextLength] = useState<number>(0);
-  const [color, setColor] = useState<string>();
+  const [color, setColor] = useState<string>(themeInput[Number(paperSkin) - 1]);
   const { user, token } = useAuthState();
   const email = user?.email;
-  const { paperId, paperSkin } = useParams();
   const [state, dispatch] = useReducer(messageReducer, messageInitialState);
   // const [select, setSelect] = useState<boolean>(false);
 
-  const writeData = Object.values(themeMessageColor[Number(paperSkin)]);
+  const writeData = Object.values(themeMessageColor[Number(paperSkin) - 1]);
+
+  const textC = color.slice(1);
 
   // console.log();
 
@@ -29,14 +31,21 @@ const MessageWrite = () => {
     <>
       <MessageLoadingComponent
         full={true}
-        theme={themeColor[Number(paperSkin)]}
+        theme={themeColor[Number(paperSkin) - 1]}
       >
         <Header to={`/paper/${paperId}`} pageNm="메시지 남기기" />
         <div className="message-wrap">
           <div className="write-box">
             <InputBox
               maxLength={420}
-              color={themeInput[Number(paperSkin)]}
+              color={color}
+              textColor={
+                isNaN(Number(textC))
+                  ? 'black'
+                  : Number(textC) <= 7
+                  ? '#fff'
+                  : 'black'
+              }
               onChange={(e: any) => {
                 setTextLength(e.target.value.length);
                 setMessage(e.target.value);
@@ -74,7 +83,12 @@ const MessageWrite = () => {
   );
 };
 
-export const InputBox = styled.textarea`
+interface Box {
+  color: string;
+  textColor: string;
+}
+
+export const InputBox = styled.textarea<Box>`
   width: 327px;
   height: 300px;
   border-radius: 12px;
@@ -86,6 +100,7 @@ export const InputBox = styled.textarea`
   font-size: 16px;
   font-weight: 500;
   font-family: inherit;
+  color: ${props => (props.textColor ? props.textColor : '#000')};
 `;
 
 export const BottomFix = styled.div`
