@@ -23,6 +23,11 @@ const StyledContainer = styled.div`
   position: relative;
   overflow-y: auto;
   overflow-x: hidden;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  ::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+  }
   @media screen and (min-height: 901px) {
     min-height: unset;
     max-height: 900px;

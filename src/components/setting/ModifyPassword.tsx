@@ -9,11 +9,10 @@ import EnvConfig from '../../config/EnvConfig';
 import { useAuthState } from '../../../src/context';
 import Modal from '../common/Modal';
 
-function ModifyNickName() {
-  const [nickName, setNickName] = useState<string>('');
+function ModifyPassword() {
+  const [password, setPassword] = useState<string>('');
   const [onModal, setOnModal] = useState<boolean>(false);
   const [onInfo, setOnInfo] = useState<string>('');
-  const [url, setUrl] = useState<string>('');
   const navigate = useNavigate();
   const { user, token } = useAuthState();
   const userEmail = user?.email;
@@ -22,22 +21,17 @@ function ModifyNickName() {
     try {
       await axios({
         method: 'put',
-        url: `${EnvConfig.LANTO_SERVER}user/name`,
+        url: `${EnvConfig.LANTO_SERVER}update`,
         data: {
           email: userEmail,
-          userName: nickName,
+          password: password,
         },
       });
-      const userData = JSON.parse(
-        localStorage.getItem('currentUser') as string
-      );
-      userData.userName = nickName;
-      localStorage.setItem('currentUser', JSON.stringify(userData));
       setOnInfo('성공적으로 변경되었습니다.');
       setOnModal(true);
     } catch (err) {
       console.log(err);
-      setOnInfo('닉네임 변경에 실패했습니다.');
+      setOnInfo('비밀번호 변경에 실패했습니다.');
       setOnModal(true);
     }
   };
@@ -48,7 +42,7 @@ function ModifyNickName() {
 
   return (
     <>
-      <Header pageNm="닉네임 변경" to="/createPaper" />
+      <Header pageNm="비밀번호 변경" to="/createPaper" />
       {onModal ? (
         <Modal
           info={onInfo}
@@ -61,21 +55,22 @@ function ModifyNickName() {
       <Component>
         <MainText>
           {' '}
-          변경할 닉네임을 <br /> 입력해주세요.{' '}
+          변경할 비밀번호를 <br /> 입력해주세요.{' '}
         </MainText>
-        <SubText> 10자 이하만 가능해요. </SubText>
+        <SubText />
         <TextInput
           title=""
+          isPassword={true}
           htmlFor="paperNm"
           background="white"
           border="1px solid black"
-          onChange={(e: any) => setNickName(e.target.value)}
+          // onChange={(e: any) => setNickName(e.target.value)}
         />
         <Temp />
         <BottomBtn
           onclick={sendChangeName}
           text="다음"
-          disabled={nickName.length <= 0 ? true : false}
+          disabled={password.length > 0 ? true : false}
         />
       </Component>
     </>
@@ -107,4 +102,4 @@ const SubText = styled.div`
   color: #bbbbbb;
 `;
 
-export default ModifyNickName;
+export default ModifyPassword;

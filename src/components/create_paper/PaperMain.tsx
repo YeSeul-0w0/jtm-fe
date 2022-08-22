@@ -78,7 +78,6 @@ const ViewPapers = ({ user, paperCnt }: { user: IUser; paperCnt: number }) => {
   const [onInfo, setOnInfo] = useState<string>('');
 
   const deletePaper = async (pId: string) => {
-    console.log('deleted', pId);
     try {
       await axios({
         method: 'delete',
@@ -126,8 +125,13 @@ const ViewPapers = ({ user, paperCnt }: { user: IUser; paperCnt: number }) => {
   }, [close]);
 
   const onClose = () => {
-    console.log('click?');
     setOnComponent(!onComponent);
+  };
+
+  const copy = (e: string) => {
+    navigator.clipboard.writeText(`https://www.byeolmal.today/paper/${e}`);
+    setOnModal(true);
+    setOnInfo('성공적으로 페이퍼 링크가 \n 복사 되었습니다.');
   };
 
   return (
@@ -175,6 +179,7 @@ const ViewPapers = ({ user, paperCnt }: { user: IUser; paperCnt: number }) => {
                 {' '}
                 페이퍼 삭제하기{' '}
               </Item>
+              <Item onClick={() => copy(paperId)}> 페이퍼 공유하기 </Item>
             </ModifyDelete>
           </ButtonWrapper>
         </Wrapper>
@@ -262,10 +267,11 @@ const SettingButton = () => {
 };
 
 const ButtonWrapper = styled.div`
-  bottom: 0;
   width: 100%;
-  position: absolute;
-  height: 200px;
+  position: fixed;
+  overflow: hidden;
+  bottom: 0;
+  height: 20%;
   background-color: white;
   border-top-left-radius: 1.5rem;
   border-top-right-radius: 1.5rem;
@@ -273,11 +279,9 @@ const ButtonWrapper = styled.div`
 
 const ModifyDelete = styled.div`
   background-color: white;
-  z-index: 30;
-  bottom: 0;
   width: 100%;
-  position: absolute;
-  height: 200px;
+  position: fixed;
+  height: 20%;
   border-top-left-radius: 1.5rem;
   border-top-right-radius: 1.5rem;
 `;
@@ -302,7 +306,7 @@ const Wrapper = styled.div`
   top: 0;
   width: 100%;
   max-width: 375px;
-  height: 100vh;
+  height: 100%;
   overflow: hidden;
   background-color: rgba(23, 23, 23, 0.5);
   z-index: 100;

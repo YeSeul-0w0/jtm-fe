@@ -12,7 +12,7 @@ interface PropsType {
 function KakaoLogin(props: PropsType): null {
   const KAKAO_API_KEY: string = props.api;
   // local 사용시
-  // EnvConfig.KAKAO_REDIRECT_URI_LOCAL
+  // EnvConfig.REDIRECT_URI_LOCAL
   const REDIRECT_URI = EnvConfig.KAKAO_REDIRECT_URI;
   const CLIENT_SECRET: string = props.client;
   const code: string =
@@ -45,6 +45,10 @@ function KakaoLogin(props: PropsType): null {
             idToken: res.data.id_token,
           },
         });
+        const userData = {
+          email: res.data.id_token,
+        };
+        localStorage.setItem('currentUser', JSON.stringify(userData));
         nv('/createPaper');
       } catch (err) {
         nv('/');

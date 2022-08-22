@@ -50,6 +50,7 @@ const MessageLoading = () => {
   const paperTheme = state.paper.skin;
   const paperName = state.paper.paperTitle;
   const reactionAll = state.reaction;
+  const stickerAll = state.sticker;
 
   useEffect(() => {
     if (change) {
@@ -64,6 +65,9 @@ const MessageLoading = () => {
       );
       setChange(false);
     }
+    // console.log();
+    console.log(stickerAll[0]);
+    // console.log(userName);
   }, [change]);
 
   return (
@@ -213,7 +217,14 @@ const MessageLoading = () => {
             logo="star.svg"
             imgSize="20px"
             center="center"
-            onClick={() => setStickerPop(true)}
+            onClick={() => {
+              if (
+                stickerAll[0] === undefined ||
+                stickerAll[0].userName !== userName
+              )
+                setStickerPop(true);
+              else alert('이미 이 페이퍼에 스티커를 작성했습니다');
+            }}
           />
           {/* </div> */}
           {/* 임시로 만들어놓은 스티커 붙이기 버튼 */}

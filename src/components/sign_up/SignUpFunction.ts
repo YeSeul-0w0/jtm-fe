@@ -120,9 +120,18 @@ export const emailVerify = async (
   }
 };
 
-export const gauge = (scrollRef: any) => {
-  // 이거 길이 계산
-  window.addEventListener('scroll', () => {
-    scrollRef.style.width = '150px';
-  });
-};
+// export const gauge = (scrollRef: any) => {
+//   // 이거 길이 계산
+//   const wrap = scrollRef.parentElement.parentElement;
+//   const scrollTop = wrap.scrollTop;
+//   const fullH = wrap.children[0].getBoundingClientRect().height;
+//   wrap.addEventListener('scroll', () => {
+//     // scrollRef.style.width = '150px';
+//     // console.log(fullH - scrollTop);
+//     const bodyHeight = wrap.offsetHeight;
+//     const scrollable = bodyHeight - window.innerHeight;
+//     // var progressEl = document.querySelector('.progress');
+//     const per = Math.floor((window.scrollY / scrollable) * 100) + '%';
+//     scrollRef.style.width = per;
+//   });
+// };

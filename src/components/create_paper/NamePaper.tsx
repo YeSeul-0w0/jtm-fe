@@ -7,6 +7,7 @@ import Header from '../layout/Header';
 export const NamePaper = () => {
   const [title, setTitle] = useState<string>('');
   const navigate = useNavigate();
+  console.log(title, title.length);
 
   return (
     <>
@@ -24,7 +25,7 @@ export const NamePaper = () => {
       <BottomBtn
         onclick={() => navigate(`/createPaper/selectTheme/${title}`)}
         text="다음"
-        disabled={title.length <= 2 ? true : false}
+        disabled={title.length < 2 ? true : false}
       />
     </>
   );

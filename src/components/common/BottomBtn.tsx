@@ -39,7 +39,8 @@ const StyledBtn = styled.button<IBtnStyle>`
   border: none;
   cursor: pointer;
   /* min-width: 90%; */
-  width: 100%;
+  width: 343px;
+  /* width: 100%; */
   background: ${props => (props.disabled ? `gray` : 'black')};
   padding: 1rem 0;
   margin: 0.5rem;

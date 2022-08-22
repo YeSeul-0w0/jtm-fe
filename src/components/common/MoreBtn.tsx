@@ -2,24 +2,17 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { More1 } from '../message_loading/messageInterface';
 import MoreBottom from './MoreBottom';
+import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const More = styled.div`
-  width: 16px;
-  height: 8px;
+  //width: 16px;
+  //height: 8px;
   display: flex;
   justify-content: space-between;
   align-self: flex-end;
   cursor: pointer;
 `;
-
-const Dot = styled.div`
-  width: 3px;
-  height: 3px;
-  border-radius: 3px;
-  background-color: ${props =>
-    props.color ? props.color : 'rgba(0, 0, 0, 0.5)'};
-`;
-
 const MoreBtn = ({
   text,
   messageId,
@@ -27,15 +20,12 @@ const MoreBtn = ({
   paperTheme,
   paperId,
   prevColor,
-  color,
 }: More1) => {
   const [more, setMore] = useState<boolean>(false);
   return (
     <>
       <More onClick={() => setMore(prev => !prev)}>
-        <Dot color={color} />
-        <Dot color={color} />
-        <Dot color={color} />
+        <FontAwesomeIcon icon={faEllipsis} />
       </More>
       {more && (
         <MoreBottom

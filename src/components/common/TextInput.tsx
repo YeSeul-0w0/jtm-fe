@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 export interface ITextInput {
   title: string;
@@ -13,6 +13,7 @@ export interface ITextInput {
   ref?: any;
   autocomplete?: string;
   name?: string;
+  des?: string;
 }
 
 /*
@@ -25,10 +26,16 @@ const TextInput = (props: ITextInput) => {
     placeholder: props?.placeholder,
     ...props,
   };
+  const [change, setChange] = useState<string>('rgba(0, 0, 0, 0.5)');
   return (
     <Wrapper>
-      <StyledLabel htmlFor={props.htmlFor}>{props.title}</StyledLabel>
+      <StyledLabel color={change} htmlFor={props.htmlFor}>
+        {props.title}
+      </StyledLabel>
+      {props.des && <DescriptionLabel>{props.des}</DescriptionLabel>}
       <StyledTextInput
+        onFocus={() => setChange('#000')}
+        onBlur={() => setChange('rgba(0, 0, 0, 0.5)')}
         // id={props.htmlFor}
         // type={props?.isPassword ? 'password' : 'text'}
         // placeholder={props.placeholder ? props.placeholder : ''}
@@ -44,6 +51,7 @@ const StyledLabel = styled.label`
   font-weight: bold;
   display: inline-block;
   margin: 15px 0;
+  color: ${props => props.color && props.color};
 `;
 
 const StyledTextInput = styled.input<ITextInput>`
@@ -66,6 +74,13 @@ const Wrapper = styled.section`
   display: flex;
   flex-flow: column nowrap;
   padding: 0 5%;
+`;
+
+const DescriptionLabel = styled.label`
+  font-size: 1rem;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.3);
+  margin-bottom: 16px;
 `;
 
 export { TextInput };
