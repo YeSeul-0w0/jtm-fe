@@ -11,9 +11,9 @@ interface PropsType {
 
 function KakaoLogin(props: PropsType): null {
   const KAKAO_API_KEY: string = props.api;
-  // local 사용시
-  // EnvConfig.REDIRECT_URI_LOCAL
-  const REDIRECT_URI = EnvConfig.KAKAO_REDIRECT_URI;
+  // local 이용 : REDIRECT_URI_LOCAL
+  // 도메인 이용 : KAKAO_REDIRECT_URI
+  const REDIRECT_URI = EnvConfig.REDIRECT_URI_LOCAL;
   const CLIENT_SECRET: string = props.client;
   const code: string =
     new URL(window.location.href).searchParams.get('code') || '';
@@ -34,21 +34,21 @@ function KakaoLogin(props: PropsType): null {
       const res: any = await axios.post(
         'https://kauth.kakao.com/oauth/token',
         payload
-      ); // res => object
+      );
+      // res > 카카오가 제공하는 서버에서 카카오 로그인 시 유저의 교유값 불러옴
       Kakao.init(KAKAO_API_KEY);
       Kakao.Auth.setAccessToken(res.data.access_token);
       try {
-        await axios({
+        const sendRequest: any = await axios({
           method: 'post',
           url: `${ROOT_URL}login`,
           data: {
             idToken: res.data.id_token,
           },
         });
-        const userData = {
-          email: res.data.id_token,
-        };
-        localStorage.setItem('currentUser', JSON.stringify(userData));
+        // sendRequest 성공하면 return 값으로 userIdd와 UserName을 backend 에서 받아옴
+        localStorage.setItem('currentUser', JSON.stringify(sendRequest.data));
+        // 성공 시 create paper로 이동
         nv('/createPaper');
       } catch (err) {
         nv('/');
