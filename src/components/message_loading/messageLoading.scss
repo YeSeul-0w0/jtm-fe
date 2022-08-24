@@ -1,6 +1,8 @@
     @media screen and (max-width: 1000px) {
         body{
-            overscroll-behavior-y: none;
+            // overscroll-behavior-y: none;
+            overscroll-behavior: contain;
+            overflow-x: hidden;
         }
     }
     
