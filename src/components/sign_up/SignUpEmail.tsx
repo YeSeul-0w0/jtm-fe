@@ -15,6 +15,7 @@ const SignUpEmail = ({ dispatch, emailState }: SignUpEmailInter) => {
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             dispatch(email(e.target.value));
             dispatch(veriftNum('새 메일을 받아주세요'));
+            dispatch(double(false));
           }}
         />
       </div>

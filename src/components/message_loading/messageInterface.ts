@@ -3,6 +3,7 @@ export interface Loading {
   font: string;
   width: string;
   left: string;
+  color: string;
 }
 
 export interface Message {
@@ -21,6 +22,10 @@ export interface More1 {
   text: string[];
   messageId: number;
   prev?: string;
+  paperTheme?: string;
+  paperId?: string;
+  prevColor?: string;
+  color?: any;
 }
 
 export interface More2 extends More1 {
@@ -29,4 +34,10 @@ export interface More2 extends More1 {
 
 export interface Color {
   color: string;
+  on: boolean;
+}
+
+export interface MessageLoadingInt {
+  full: boolean;
+  theme: string;
 }

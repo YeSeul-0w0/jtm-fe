@@ -14,7 +14,11 @@ import { nickNameTest, passwordTest, emailTest } from '../../config/RegExp';
 import './signUp.scss';
 import SignUpEmail from './SignUpEmail';
 
-import { emailVerify, gauge, passVerify } from './SignUpFunction';
+import {
+  emailVerify,
+  // gauge,
+  passVerify,
+} from './SignUpFunction';
 import {
   double,
   initialState,
@@ -40,7 +44,8 @@ const SignUp = () => {
   const verifyState = state.verifyState;
 
   useEffect(() => {
-    gauge(scrollRef.current);
+    // gauge(scrollRef.current);
+    // console.log(scrollRef.current);
   }, []);
 
   return (
@@ -57,6 +62,7 @@ const SignUp = () => {
             <TextInput
               title={'닉네임'}
               htmlFor={'nickName'}
+              des="2~8글자, 특수문자 제외"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 dispatch(nickname(e.target.value))
               }
@@ -68,6 +74,7 @@ const SignUp = () => {
               isPassword={true}
               title={'비밀번호'}
               htmlFor={'password'}
+              des="8~15글자, 특수문자 포함"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 dispatch(password(e.target.value))
               }
@@ -84,46 +91,27 @@ const SignUp = () => {
               }
             />
           </div>
-          <BottomBtn
-            text={'다음'}
-            // text={doubleState ? '다음' : '인증메일 받기'}
-            onclick={(e: any) =>
-              passVerify(e, {
-                emailTest,
-                emailState,
-                enterVerifyState,
-                verifyState,
-                doubleState,
-                nickNameTest,
-                nicknameState,
-                passwordTest,
-                passwordState,
-                rePassword,
-                nav,
-              })
-            }
-          />
-          {/* <BottomBtn
-            text={doubleState ? '다음' : '인증메일 받기'}
-            onclick={(e: any) =>
-              doubleState
-                ? passVerify(e, {
-                    emailTest,
-                    emailState,
-                    enterVerifyState,
-                    verifyState,
-                    doubleState,
-                    nickNameTest,
-                    nicknameState,
-                    passwordTest,
-                    passwordState,
-                    rePassword,
-                    nav,
-                  })
-                : emailVerify(e, emailState, dispatch, double, veriftNum)
-            }
-          /> */}
         </form>
+        <BottomBtn
+          text={doubleState ? '다음' : '인증메일 받기'}
+          onclick={(e: any) =>
+            doubleState
+              ? passVerify(e, {
+                  emailTest,
+                  emailState,
+                  enterVerifyState,
+                  verifyState,
+                  doubleState,
+                  nickNameTest,
+                  nicknameState,
+                  passwordTest,
+                  passwordState,
+                  rePassword,
+                  nav,
+                })
+              : emailVerify(e, emailState, dispatch, double, veriftNum)
+          }
+        />
       </div>
     </>
   );

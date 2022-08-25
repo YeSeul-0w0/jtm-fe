@@ -15,7 +15,7 @@ import MessageLoading from './components/message_loading/MessageLoading';
 import PaperGift from './components/paper_view/PaperGift';
 import MessageWrite from './components/message_loading/MessageWrite';
 import ModifyNickName from './components/setting/ModifyNickName';
-import MessageFix from './components/message_loading/MessageFix';
+import MessageFixed from './components/message_loading/MessageFix';
 import { Credit } from './components/Credit';
 import ModifyPaperName from './components/setting/ModifyPaperName';
 import ModifyPassword from './components/setting/ModifyPassword';
@@ -69,10 +69,13 @@ const Router = () => {
             {/* <Route path="/setting" element={<Setting />} /> */}
             <Route path="/paper/:paperId" element={<MessageLoading />} />
             <Route path="/paperGift" element={<PaperGift />} />
-            <Route path="/paper/write/:paperId" element={<MessageWrite />} />
             <Route
-              path="/paper/fix/:messageId/:prev"
-              element={<MessageFix />}
+              path="/paper/write/:paperSkin/:paperId"
+              element={<MessageWrite />}
+            />
+            <Route
+              path="/paper/fix/:paperId/:paperSkin/:messageId/:prev/:prevColor"
+              element={<MessageFixed />}
             />
             {/* <Route path="/message/sticker" element={<StickerWrite />} /> */}
             <Route path="/user/nickname" element={<ModifyNickName />} />

@@ -13,8 +13,14 @@ const More = styled.div`
   align-self: flex-end;
   cursor: pointer;
 `;
-
-const MoreBtn = ({ text, messageId, prev }: More1) => {
+const MoreBtn = ({
+  text,
+  messageId,
+  prev,
+  paperTheme,
+  paperId,
+  prevColor,
+}: More1) => {
   const [more, setMore] = useState<boolean>(false);
   return (
     <>
@@ -27,6 +33,9 @@ const MoreBtn = ({ text, messageId, prev }: More1) => {
           text={text}
           prev={prev}
           messageId={messageId}
+          paperTheme={paperTheme}
+          paperId={paperId}
+          prevColor={prevColor}
         />
       )}
     </>

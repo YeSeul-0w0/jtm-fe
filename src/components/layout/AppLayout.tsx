@@ -21,8 +21,14 @@ const StyledContainer = styled.div`
   align-items: center;
   align-content: stretch;
   position: relative;
-  overflow-y: hidden;
+  transform: translateX(-0%);
+  /* overflow-y: hidden; */
   overflow-x: hidden;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  ::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+  }
   @media screen and (min-height: 901px) {
     min-height: unset;
     max-height: 900px;

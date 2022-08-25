@@ -2,7 +2,7 @@ import { useAuthState } from 'src/context';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { messageDelete, messageFix } from '../message_loading/messageFunction';
+import { messageDelete } from '../message_loading/messageFunction';
 import { More2 } from '../message_loading/messageInterface';
 import Modal from './Modal';
 
@@ -13,7 +13,7 @@ const BottomWrap = styled.div`
   top: 0;
   left: 0;
   background-color: rgba(17, 17, 17, 0.6);
-  z-index: 9;
+  z-index: 61;
 `;
 
 const BottomTap = styled.div`
@@ -33,14 +33,25 @@ const Tap = styled.p`
   margin-bottom: 32px;
   font-weight: bold;
   font-size: 14px !important;
+  color: #000;
 `;
 
-const MoreBottom = ({ setMore, text, prev, messageId }: More2) => {
+const MoreBottom = ({
+  setMore,
+  text,
+  prev,
+  messageId,
+  paperTheme,
+  paperId,
+  prevColor,
+}: More2) => {
   const nav = useNavigate();
   const { user, token } = useAuthState();
   const userId = user?.userId;
 
   const [open, setOpen] = useState<boolean>(false);
+
+  const color = prevColor?.slice(1);
 
   return (
     <BottomWrap
@@ -55,7 +66,9 @@ const MoreBottom = ({ setMore, text, prev, messageId }: More2) => {
               // onClick={async () => {
               onClick={() => {
                 if (item === '수정하기')
-                  nav(`/message/fix/${messageId}/${prev}`);
+                  nav(
+                    `/paper/fix/${paperId}/${paperTheme}/${messageId}/${prev}/${color}`
+                  );
                 if (item === '삭제하기') {
                   setOpen(true);
                 }
@@ -72,7 +85,11 @@ const MoreBottom = ({ setMore, text, prev, messageId }: More2) => {
           confirm={true}
           onModal={open}
           setOnModal={setOpen}
-          onClick={() => messageDelete(userId!, messageId.toString())}
+          onClick={() => {
+            messageDelete(userId!, messageId.toString());
+            setOpen(false);
+            setMore(false);
+          }}
         />
       )}
     </BottomWrap>
