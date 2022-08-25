@@ -31,14 +31,14 @@ const Reaction = ({ messageId, user, myReaction, setChange, white }: any) => {
       onClick={async () => {
         if (click) {
           await reactionMinus(
-            user.email,
+            user.userId,
             messageId,
             yourReaction[0].reactionId
           );
           setReactionAm((prev: number) => prev - 1);
           setClick(false);
         } else {
-          await reactionAdd(user.email, messageId);
+          await reactionAdd(user.userId, messageId);
           setClick(true);
           setReactionAm((prev: number) => prev + 1);
         }

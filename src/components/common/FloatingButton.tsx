@@ -16,7 +16,7 @@ function FloatingButton() {
     },
   ];
 
-  const nv: any = useNavigate();
+  const nv = useNavigate();
 
   const [click, setClick] = useState<boolean>(false);
 

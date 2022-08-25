@@ -1,6 +1,6 @@
 export interface IUser {
   userName: string;
-  email: string;
+  userId: string;
 }
 
 // 로그인 상태 인터페이스

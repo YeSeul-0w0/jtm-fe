@@ -44,16 +44,13 @@ const Router = () => {
       });
   }, []);
 
-  // 제발 되게 해주세요 하나님맙소사울라라
-  // ㅁㄴ아머나멍ㅁ
-
   return (
     <AuthProvider>
       <BrowserRouter basename={process.env.PUBLIC_URL}>
         <Routes>
           <Route element={<AppLayout />}>
             <Route path="/" element={<GoToLogin api={KAKAO_API} />} />
-            <Route path="/Ask" element={<Ask />} />
+            <Route path="/ask" element={<Ask />} />
             <Route path="/credit" element={<Credit />} />
             <Route path="/login" element={<LoginEmail />} />
             <Route path="/login/signUp" element={<SignUp />} />
@@ -81,7 +78,7 @@ const Router = () => {
               element={<MessageFixed />}
             />
             {/* <Route path="/message/sticker" element={<StickerWrite />} /> */}
-            <Route path="/user/nickname" element={<ModifyNickName />}></Route>
+            <Route path="/user/nickname" element={<ModifyNickName />} />
             <Route
               path="/changePaperName/:paperId"
               element={<ModifyPaperName />}

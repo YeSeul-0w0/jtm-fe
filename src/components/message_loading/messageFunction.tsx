@@ -22,7 +22,7 @@ export const paperDetail = async (
           },
         },
       });
-      // console.log(a.data);
+      console.log(a.data);
       if (
         a.data.messages.toString() !== me.toString() ||
         a.data.stickers.toString() !== st.toString() ||
@@ -78,8 +78,7 @@ export const messagePost = async (
   content: any,
   font: any,
   color: any,
-  paperId: string,
-  dispatch: any
+  paperId: string
 ) => {
   try {
     if (color) {
@@ -113,7 +112,7 @@ export const messagePost = async (
   }
 };
 
-export const messageDelete = async (userId: string, messageId: any) => {
+export const messageDelete = async (userId: string, messageId: string) => {
   try {
     const a = await axios({
       url: `${EnvConfig.LANTO_SERVER}message/${messageId}`,

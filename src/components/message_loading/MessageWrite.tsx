@@ -17,7 +17,7 @@ const MessageWrite = () => {
   const [textLength, setTextLength] = useState<number>(0);
   const [color, setColor] = useState<string>(themeInput[Number(paperSkin) - 1]);
   const { user, token } = useAuthState();
-  const email = user?.email;
+  const userId = user?.userId;
   const [state, dispatch] = useReducer(messageReducer, messageInitialState);
   // const [select, setSelect] = useState<boolean>(false);
 
@@ -74,7 +74,7 @@ const MessageWrite = () => {
             link={message.length > 0 ? `/paper/${paperId}` : undefined}
             onclick={() => {
               if (message.length > 0) {
-                messagePost(email!, message, '굴림', color, paperId!, dispatch);
+                messagePost(userId!, message, '굴림', color, paperId!);
               } else {
                 alert('메세지 내용을 입력해주세요');
               }
@@ -109,10 +109,13 @@ export const InputBox = styled.textarea<Box>`
 `;
 
 export const BottomFix = styled.div`
-  width: 300px;
+  width: 315px;
   height: 60px;
   position: absolute;
   bottom: 34px;
+  button {
+    width: 100%;
+  }
 `;
 
 export const ColorBox = styled.div<Color>`

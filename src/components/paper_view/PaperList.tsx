@@ -1,4 +1,4 @@
-import { IMessage, IPaper } from 'src/interfaces/IPaper';
+import { IPaper } from 'src/interfaces/IPaper';
 import axios from 'axios';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -13,31 +13,31 @@ interface IPaperAndMsg {
 }
 
 const PaperList = ({
-  userEmail,
+  userId,
   setPaperId,
   onSelect,
   setSelect,
 }: {
-  userEmail: string;
+  userId: string;
   setPaperId: any;
   onSelect: boolean;
   setSelect: Dispatch<SetStateAction<boolean>>;
 }) => {
   const [paperAndMsgs, setPaperAndMsgs] = useState<IPaper[]>();
 
-  const [selectPaper, setSelectPaper] = useState<string>();
-  const [onWindow, setOnWindow] = useState<boolean>(onSelect);
+  // const [selectPaper, setSelectPaper] = useState<string>();
+  // const [onWindow, setOnWindow] = useState<boolean>(onSelect);
 
   useEffect(() => {
     async function fetchAndSetPapers() {
-      const allData = await getPaperList(userEmail);
+      const allData = await getPaperList(userId);
       setPaperAndMsgs(allData);
 
       const paperLength = allData?.length || 0;
       localStorage.setItem('userPaperCnt', paperLength.toString());
     }
     fetchAndSetPapers();
-  }, [userEmail]);
+  }, [userId]);
 
   const navigate = useNavigate();
 
@@ -61,30 +61,28 @@ const PaperList = ({
 
   return (
     <StyledPaperList>
-      {paperAndMsgs?.map((p: IPaper) => (
-        <>
-          <PaperItem key={p.paperId}>
-            <TitleDiv>
-              <StyledPaperTitle onClick={() => viewPaperDetail(p.paperId)}>
-                {p.paperTitle}
-              </StyledPaperTitle>
-              <FontAwesomeIcon
-                style={{ paddingRight: '2rem' }}
-                onMouseEnter={hoverEvent}
-                onMouseLeave={leaveEvent}
-                onClick={() => onClick(p.paperId)}
-                icon={faEllipsis}
-              />
-            </TitleDiv>
-            <ul>
-              {p.messageCount > 0 ? (
-                p.messages.map((msg, idx) => <MessageItem key={idx} {...msg} />)
-              ) : (
-                <NoMessageItem />
-              )}
-            </ul>
-          </PaperItem>
-        </>
+      {paperAndMsgs?.map((p: IPaper, idx: number) => (
+        <PaperItem key={idx}>
+          <TitleDiv>
+            <StyledPaperTitle onClick={() => viewPaperDetail(p.paperId)}>
+              {p.paperTitle}
+            </StyledPaperTitle>
+            <FontAwesomeIcon
+              style={{ paddingRight: '2rem', cursor: 'pointer' }}
+              onMouseEnter={hoverEvent}
+              onMouseLeave={leaveEvent}
+              onClick={() => onClick(p.paperId)}
+              icon={faEllipsis}
+            />
+          </TitleDiv>
+          <ul>
+            {p.messageCount > 0 ? (
+              p.messages.map((msg, idx) => <MessageItem key={idx} {...msg} />)
+            ) : (
+              <NoMessageItem />
+            )}
+          </ul>
+        </PaperItem>
       ))}
     </StyledPaperList>
   );
@@ -97,7 +95,7 @@ const TitleDiv = styled.div`
 `;
 
 const StyledPaperList = styled.section`
-  margin: 3rem 0 2rem 2rem;
+  margin: 2rem 0 2rem 2rem;
   overflow: scroll;
   max-height: 65vh;
 `;
@@ -126,13 +124,13 @@ const StyledPaperTitle = styled.p`
   }
 `;
 
-const getPaperList = async (email: string) => {
+const getPaperList = async (userId: string) => {
   try {
     const response = await axios({
       method: 'get',
       url: `${EnvConfig.LANTO_SERVER}paper`,
       headers: {
-        ['User-Email']: email,
+        ['User-Id']: userId,
       },
     });
     if (response.status == 200) {

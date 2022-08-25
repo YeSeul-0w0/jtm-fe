@@ -1,7 +1,3 @@
-import {
-  messageInitialState,
-  messageReducer,
-} from 'src/components/message_loading/messageStore';
 import { IState } from 'src/interfaces/ILogin';
 import React, { ReactNode } from 'react';
 import { createContext, useReducer } from 'react';
@@ -11,12 +7,12 @@ import { AuthReducer, LoginDispatch } from './reducer';
 const currentUser = localStorage.getItem('currentUser');
 const id = currentUser ? JSON.parse(currentUser).id : null;
 const userName = currentUser ? JSON.parse(currentUser).userName : null;
-const email = currentUser ? JSON.parse(currentUser).email : null;
+const userId = currentUser ? JSON.parse(currentUser).userId : null;
 
 const initialState: IState = {
   user: {
     userName: userName,
-    email: email,
+    userId: userId,
   },
   token: id,
   loading: false,

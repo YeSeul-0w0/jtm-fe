@@ -15,7 +15,7 @@ function ModifyPassword() {
   const [onInfo, setOnInfo] = useState<string>('');
   const navigate = useNavigate();
   const { user, token } = useAuthState();
-  const userEmail = user?.email;
+  const userId = user?.userId;
 
   const sendChangeName = async () => {
     try {
@@ -23,7 +23,7 @@ function ModifyPassword() {
         method: 'put',
         url: `${EnvConfig.LANTO_SERVER}update`,
         data: {
-          email: userEmail,
+          userId: userId,
           password: password,
         },
       });
@@ -52,7 +52,7 @@ function ModifyPassword() {
           setOnModal={setOnModal}
         />
       ) : null}
-      <Component>
+      <main>
         <MainText>
           {' '}
           변경할 비밀번호를 <br /> 입력해주세요.{' '}
@@ -64,15 +64,14 @@ function ModifyPassword() {
           htmlFor="paperNm"
           background="white"
           border="1px solid black"
-          // onChange={(e: any) => setNickName(e.target.value)}
         />
-        <Temp />
-        <BottomBtn
-          onclick={sendChangeName}
-          text="다음"
-          disabled={password.length > 0 ? true : false}
-        />
-      </Component>
+        {/* <Temp /> */}
+      </main>
+      <BottomBtn
+        onclick={sendChangeName}
+        text="다음"
+        disabled={password.length > 0 ? true : false}
+      />
     </>
   );
 }

@@ -31,14 +31,14 @@ const PaperMain = () => {
   if (!user) navigate('/login');
 
   useEffect(() => {
-    async function fetchPaperCnt(email: string) {
-      const allData = await getPaperList(email);
+    async function fetchPaperCnt(userId: string) {
+      const allData = await getPaperList(userId);
       const paperLength = (allData?.length || 0).toString();
       localStorage.setItem('userPaperCnt', paperLength);
       return paperLength;
     }
     user &&
-      fetchPaperCnt(user.email).then(() => {
+      fetchPaperCnt(user.userId).then(() => {
         if (localStorage.getItem('userPaperCnt')) {
           setUserPaperNum(
             parseInt(localStorage.getItem('userPaperCnt') || '0')
@@ -46,7 +46,8 @@ const PaperMain = () => {
         }
       });
   }, []);
-
+  console.log(user);
+  // user의 userName 없으면 페이지 login으로 리디렉트
   return (
     <>
       <FeedHeader />
@@ -61,8 +62,8 @@ const PaperMain = () => {
 
 // 유저의 페이퍼가 있는 경우
 const ViewPapers = ({ user, paperCnt }: { user: IUser; paperCnt: number }) => {
-  let userEmail = '';
-  if (user.email) userEmail = user.email;
+  let userId = '';
+  if (user.userId) userId = user.userId;
   // 유저 페이퍼가 있는 경우 가로 크기가 AppLayout을 벗어나는 문제가 발생
   // 해당 문제를 잡기 위해 width 크기를 추가해주었습니다.
   // 또한 이중스크롤 방지를 위해 overflow : scroll 옵션을 제거했습니다.
@@ -84,7 +85,7 @@ const ViewPapers = ({ user, paperCnt }: { user: IUser; paperCnt: number }) => {
         url: `${EnvConfig.LANTO_SERVER}paper/${pId}`,
         data: {
           user: {
-            email: userEmail,
+            userId: userId,
           },
         },
       });
@@ -185,7 +186,7 @@ const ViewPapers = ({ user, paperCnt }: { user: IUser; paperCnt: number }) => {
         </Wrapper>
       ) : null}
       <PaperList
-        userEmail={userEmail}
+        userId={userId}
         setPaperId={setupPaper}
         onSelect={onComponent}
         setSelect={changeComponent}
@@ -282,6 +283,7 @@ const ModifyDelete = styled.div`
   width: 100%;
   position: fixed;
   height: 20%;
+  bottom: 20px;
   border-top-left-radius: 1.5rem;
   border-top-right-radius: 1.5rem;
 `;

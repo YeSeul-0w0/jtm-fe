@@ -4,7 +4,7 @@ import { stickerDelete, stickerPost } from './messageFunction';
 import { messageInitialState, messageReducer, move } from './messageStore';
 
 const Sticker = ({
-  email,
+  userId,
   setMove,
   x,
   y,
@@ -62,7 +62,7 @@ const Sticker = ({
             cancel
               ? stickerId
                 ? () => {
-                    stickerDelete(stickerId, email, paperId);
+                    stickerDelete(stickerId, userId, paperId);
                     setOpen(false);
                   }
                 : () => {
@@ -70,7 +70,7 @@ const Sticker = ({
                     setOpen(false);
                   }
               : () => {
-                  stickerPost(email, postX, postY, paperId!, url);
+                  stickerPost(userId, postX, postY, paperId!, url);
                   setOpen(false);
                   setCurrentFix(false);
                 }

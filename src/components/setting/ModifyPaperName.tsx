@@ -15,7 +15,7 @@ function ModifyNickName() {
   const [onInfo, setOnInfo] = useState<string>('');
   const navigate = useNavigate();
   const { user, token } = useAuthState();
-  const userEmail = user?.email;
+  const userId = user?.userId;
 
   const [selectPaperId, setSelectPaperId] = useState<number>(0);
   const { paperId } = useParams();
@@ -32,7 +32,7 @@ function ModifyNickName() {
             skin: selectPaperId,
           },
           user: {
-            email: userEmail,
+            userId: userId,
           },
         },
       });
@@ -71,7 +71,7 @@ function ModifyNickName() {
           onButtonHref={'/createPaper'}
         />
       ) : null}
-      <Component>
+      <main>
         <MainText>
           {' '}
           변경할 제목을 <br /> 입력해주세요.{' '}
@@ -108,7 +108,7 @@ function ModifyNickName() {
           text="변경하기"
           disabled={paperName.length <= 0 && selectPaperId > 0 ? true : false}
         />
-      </Component>
+      </main>
     </>
   );
 }

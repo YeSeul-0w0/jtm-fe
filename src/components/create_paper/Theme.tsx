@@ -20,7 +20,7 @@ function Theme() {
   const [onUrl, setOnUrl] = useState<string>('/');
   const { paperTitle } = useParams();
   const { user, token } = useAuthState();
-  const userEmail = user?.email;
+  const userId = user?.userId;
 
   const inputSelectTheme = (x: number) => {
     setSelectTheme(x);
@@ -37,7 +37,7 @@ function Theme() {
             skin: selectTheme,
           },
           user: {
-            email: userEmail,
+            userId: userId,
           },
         },
       });

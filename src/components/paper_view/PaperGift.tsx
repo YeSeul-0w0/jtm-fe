@@ -10,7 +10,7 @@ import Modal from '../common/Modal';
 
 function PaperGift() {
   const { user, token } = useAuthState();
-  const userEmail = user?.email;
+  const userId = user?.userId;
 
   const [selectPaperId, setSelectPaperId] = useState<number>(0);
   const [paperList, setPaperList] = useState<any>([]);
@@ -24,7 +24,7 @@ function PaperGift() {
       const getResponse = await axios({
         method: 'get',
         headers: {
-          'User-Email': `${userEmail}`,
+          'User-Id': `${userId}`,
         },
         url: `${EnvConfig.CREATE_PAPER}`,
       });
@@ -47,7 +47,7 @@ function PaperGift() {
             url: `${EnvConfig.CREATE_PAPER}/gift/${selectPaperId}`,
             data: {
               user: {
-                email: `${userEmail}`,
+                userId: `${userId}`,
               },
               recipient: {
                 email: `${giftEmail}`,

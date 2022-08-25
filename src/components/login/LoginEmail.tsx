@@ -21,7 +21,7 @@ const LoginEmail = () => {
 
   useEffect(() => {
     // 또는 설정으로 리디렉션
-    if (user?.email) navigate('/createPaper');
+    if (user?.userId) navigate('/createPaper');
   }, []);
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -30,8 +30,8 @@ const LoginEmail = () => {
     if (isValidated) {
       try {
         const responseData = await loginUser(dispatch, inputs);
-        // 이거 userName 나중에 token으로 바꿔야함
-        if (!responseData?.userName) {
+        console.log(responseData);
+        if (!responseData?.userId) {
           alert('아이디 또는 비밀번호를 다시 확인해주세요.');
           return;
         }
