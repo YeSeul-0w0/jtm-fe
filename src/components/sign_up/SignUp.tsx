@@ -70,7 +70,7 @@ const SignUp = () => {
           </div>
           <div className="passwordWrap">
             <TextInput
-              autocomplete="off"
+              autocomplete="current-password"
               isPassword={true}
               title={'비밀번호'}
               htmlFor={'password'}
@@ -82,7 +82,7 @@ const SignUp = () => {
           </div>
           <div className="rePasswordWrap">
             <TextInput
-              autocomplete="off"
+              autocomplete="current-password"
               isPassword={true}
               title={'비밀번호 확인'}
               htmlFor={'rePassword'}

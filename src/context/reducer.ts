@@ -8,7 +8,7 @@ export type LoginAction =
       payload: any;
     }
   | { type: 'LOGOUT'; user: string }
-  | { type: 'LOGIN_ERROR'; loading: boolean; error: any };
+  | { type: 'LOGIN_ERROR'; loading: boolean; error: string };
 
 // 위 타입 전용 디스패치
 export type LoginDispatch = Dispatch<LoginAction>;
