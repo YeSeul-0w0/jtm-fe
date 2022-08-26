@@ -37,7 +37,7 @@ function ModifyPassword() {
   };
 
   const onClick = () => {
-    window.location.href = "/main";
+    window.location.href = '/main';
   };
 
   return (

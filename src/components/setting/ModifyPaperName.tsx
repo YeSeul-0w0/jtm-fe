@@ -68,7 +68,7 @@ function ModifyNickName() {
           confirm={false}
           onModal={onModal}
           setOnModal={setOnModal}
-          onButtonHref={"/main"}
+          onButtonHref={'/main'}
         />
       ) : null}
       <main>
