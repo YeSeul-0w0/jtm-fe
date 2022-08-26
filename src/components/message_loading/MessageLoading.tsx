@@ -42,7 +42,7 @@ const MessageLoading = () => {
   const { paperId } = useParams();
   const messageList = state.message;
 
-  const { user, token } = useAuthState();
+  const { user, kakaoToken } = useAuthState();
   const userId = user?.userId;
   const userName = user?.userName;
 

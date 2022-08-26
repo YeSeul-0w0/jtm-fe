@@ -19,7 +19,7 @@ function Theme() {
   const [onInfo, setOnInfo] = useState<string>('확인 중...');
   const [onUrl, setOnUrl] = useState<string>('/');
   const { paperTitle } = useParams();
-  const { user, token } = useAuthState();
+  const { user, kakaoToken } = useAuthState();
   const userId = user?.userId;
 
   const inputSelectTheme = (x: number) => {

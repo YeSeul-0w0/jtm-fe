@@ -17,7 +17,7 @@ const MessageFixed = () => {
   const [message, setMessage] = useState<string>(prev!);
   const [textLength, setTextLength] = useState<number>(0);
   const [color, setColor] = useState<string>('#' + prevColor!);
-  const { user, token } = useAuthState();
+  const { user, kakaoToken } = useAuthState();
   const userId = user?.userId;
 
   const writeData = Object.values(themeMessageColor[Number(paperSkin) - 1]);

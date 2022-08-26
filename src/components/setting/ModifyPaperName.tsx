@@ -14,7 +14,7 @@ function ModifyNickName() {
   const [onModal, setOnModal] = useState<boolean>(false);
   const [onInfo, setOnInfo] = useState<string>('');
   const navigate = useNavigate();
-  const { user, token } = useAuthState();
+  const { user, kakaoToken } = useAuthState();
   const userId = user?.userId;
 
   const [selectPaperId, setSelectPaperId] = useState<number>(0);

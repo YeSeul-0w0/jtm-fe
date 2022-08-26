@@ -46,7 +46,7 @@ const MoreBottom = ({
   prevColor,
 }: More2) => {
   const nav = useNavigate();
-  const { user, token } = useAuthState();
+  const { user, kakaoToken } = useAuthState();
   const userId = user?.userId;
 
   const [open, setOpen] = useState<boolean>(false);

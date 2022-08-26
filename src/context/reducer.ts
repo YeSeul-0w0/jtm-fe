@@ -28,14 +28,14 @@ export const AuthReducer = (initialState: IState, action: LoginAction) => {
           userName: action.payload.userName,
           userId: action.payload.userId,
         },
-        token: action.payload.id,
+        // token: action.payload.id,
         loading: false,
       };
     case 'LOGOUT':
       return {
         ...initialState,
         user: null,
-        token: null,
+        kakaoToken: null,
       };
     case 'LOGIN_ERROR':
       return {

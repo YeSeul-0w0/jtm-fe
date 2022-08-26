@@ -16,7 +16,7 @@ const MessageWrite = () => {
   const [message, setMessage] = useState<string>('');
   const [textLength, setTextLength] = useState<number>(0);
   const [color, setColor] = useState<string>(themeInput[Number(paperSkin) - 1]);
-  const { user, token } = useAuthState();
+  const { user, kakaoToken } = useAuthState();
   const userId = user?.userId;
   const [state, dispatch] = useReducer(messageReducer, messageInitialState);
   // const [select, setSelect] = useState<boolean>(false);

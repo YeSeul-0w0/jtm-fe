@@ -5,7 +5,7 @@ import { AuthReducer, LoginDispatch } from './reducer';
 
 // localStorage에는 id(token)과 유저 닉네임, 이메일만 저장함
 const currentUser = localStorage.getItem('currentUser');
-const id = currentUser ? JSON.parse(currentUser).id : null;
+// const id = currentUser ? JSON.parse(currentUser).id : null;
 const userName = currentUser ? JSON.parse(currentUser).userName : null;
 const userId = currentUser ? JSON.parse(currentUser).userId : null;
 
@@ -14,7 +14,7 @@ const initialState: IState = {
     userName: userName,
     userId: userId,
   },
-  token: id,
+  // token: id,
   loading: false,
   errorMsg: null,
 };

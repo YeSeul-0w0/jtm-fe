@@ -25,10 +25,10 @@ const Option = styled.div`
 `;
 
 const PaperMain = () => {
-  const [userPaperNum, setUserPaperNum] = useState<number>(0);
+  const { user, kakaoToken } = useAuthState(); // id 토큰, user 닉네임
   const navigate = useNavigate();
-  const { user, token } = useAuthState(); // id 토큰, user 닉네임
-  if (!user) navigate('/login');
+  if (!user?.userId) navigate('/login');
+  const [userPaperNum, setUserPaperNum] = useState<number>(0);
 
   useEffect(() => {
     async function fetchPaperCnt(userId: string) {
@@ -45,8 +45,8 @@ const PaperMain = () => {
           );
         }
       });
+    console.log(user);
   }, []);
-  console.log(user);
   // user의 userName 없으면 페이지 login으로 리디렉트
   return (
     <>

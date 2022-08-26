@@ -9,7 +9,7 @@ import { useAuthState } from '../../../src/context';
 import Modal from '../common/Modal';
 
 function PaperGift() {
-  const { user, token } = useAuthState();
+  const { user, kakaoToken } = useAuthState();
   const userId = user?.userId;
 
   const [selectPaperId, setSelectPaperId] = useState<number>(0);

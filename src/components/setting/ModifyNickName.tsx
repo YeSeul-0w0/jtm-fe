@@ -15,7 +15,7 @@ function ModifyNickName() {
   const [onInfo, setOnInfo] = useState<string>('');
   const [url, setUrl] = useState<string>('');
   const navigate = useNavigate();
-  const { user, token } = useAuthState();
+  const { user, kakaoToken } = useAuthState();
   const userId = user?.userId;
 
   const sendChangeName = async () => {
