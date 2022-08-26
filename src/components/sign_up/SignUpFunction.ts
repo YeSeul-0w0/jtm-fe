@@ -75,7 +75,7 @@ export const passVerify = async (
           }
         })
         .catch(function (error) {
-          alert('닉네임이 중복됐습니다');
+          alert('닉네임이 중복되었습니다');
         });
     } catch (e) {
       throw new Error('회원가입에 실패했습니다');
@@ -112,7 +112,7 @@ export const emailVerify = async (
         },
       });
       dispatch(veriftNum(codeSend.data));
-      alert('인증번호가 발송됐습니다');
+      alert('인증번호가 발송되었습니다');
     }
   } catch (e) {
     dispatch(double(false));
