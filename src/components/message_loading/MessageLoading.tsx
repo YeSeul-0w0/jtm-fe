@@ -64,8 +64,6 @@ const MessageLoading = () => {
       );
       setChange(false);
     }
-    // console.log();
-    // console.log(stickerList[0]);
     // console.log(userName);
   }, [change]);
 
@@ -195,7 +193,7 @@ const MessageLoading = () => {
                 );
               })
             ) : (
-              <p>앗 아직 메세지가 없어요!</p>
+              <p>앗 아직 메시지가 없어요!</p>
             )}
             {stickerList[0] &&
               stickerList.map((item: any) => {

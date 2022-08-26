@@ -62,7 +62,7 @@ const SignUp = () => {
             <TextInput
               title={'닉네임'}
               htmlFor={'nickName'}
-              des="2~8글자, 특수문자 제외"
+              des="총 2~8글자"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 dispatch(nickname(e.target.value))
               }
@@ -74,7 +74,7 @@ const SignUp = () => {
               isPassword={true}
               title={'비밀번호'}
               htmlFor={'password'}
-              des="8~15글자, 특수문자 포함"
+              des="총 8~15글자, 특수문자 포함"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 dispatch(password(e.target.value))
               }

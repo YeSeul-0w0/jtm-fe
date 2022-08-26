@@ -24,7 +24,18 @@ const verify = ({
     rePassword === passwordState
   )
     return true;
-  else return false;
+  else if (emailTest.test(emailState) === false)
+    alert('이메일 양식이 틀렸습니다');
+  else if ((enterVerifyState === verifyState) === false)
+    alert('인증번호가 틀렸습니다');
+  else if (doubleState === false)
+    alert('이미 가입되어 있거나 양식이 틀린 메일입니다');
+  else if (nickNameTest.test(nicknameState) === false)
+    alert('닉네임 양식이 틀렸습니다');
+  else if (passwordTest.test(passwordState) === false)
+    alert('비밀번호 양식이 틀렸습니다');
+  else if ((rePassword === passwordState) === false)
+    alert('비밀번호가 일치하지 않습니다');
 };
 
 export const passVerify = async (
@@ -75,15 +86,18 @@ export const passVerify = async (
           }
         })
         .catch(function (error) {
-          alert('닉네임이 중복됐습니다');
+          // alert('닉네임이 중복됐습니다');
+          console.log(error);
         });
     } catch (e) {
+      console.log(e);
       throw new Error('회원가입에 실패했습니다');
     }
     // return
-  } else {
-    alert('입력 정보를 확인해주세요');
   }
+  // else {
+  //   alert('입력 정보를 확인해주세요');
+  // }
 };
 
 export const emailVerify = async (
