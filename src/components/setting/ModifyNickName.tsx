@@ -75,7 +75,7 @@ function ModifyNickName() {
       </main>
       <BottomBtn
         onclick={sendChangeName}
-        text="다음"
+        text="완료"
         disabled={nickName.length <= 0 ? true : false}
       />
     </>

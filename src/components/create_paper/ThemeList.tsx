@@ -41,13 +41,13 @@ function ThemeList(props: PropsType) {
             left: '50%',
             transform: 'translate(-50%, -50%)',
           }}
+          onClick={choice}
           src={props.path}
           alt={props.name}
         />
         <FontAwesomeStyle>
           <FontAwesomeIcon
             className={choose ? `select-img` : `not-select-img`}
-            onClick={choice}
             icon={faCircleDot}
           />
         </FontAwesomeStyle>
