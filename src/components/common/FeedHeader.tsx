@@ -78,7 +78,9 @@ function FeedHeader() {
   return (
     <>
       <HeaderComponent>
-        <Feed>Feed</Feed>
+        <Feed>
+          <img src={`${process.env.PUBLIC_URL}/icons/logo.svg`} alt="login" />
+        </Feed>
         <Hamburger>
           <FontAwesomeIcon onClick={onClick} icon={faBars} />
         </Hamburger>
@@ -158,14 +160,14 @@ const HeaderComponent = styled.header`
 
 const Feed = styled.span`
   margin: 0.5rem 0 0 2rem;
-  font-size: 1.5rem;
-  font-weight: 900;
+  width: 4.5rem;
 `;
 
 const Hamburger = styled.div`
   margin: 0.9rem 2rem 0 0;
+  cursor: pointer;
   &:hover {
-    background-color: skyblue;
+    color: #808080;
   }
 `;
 
