@@ -49,7 +49,7 @@ function KakaoLogin(props: PropsType): null {
         // sendRequest 성공하면 return 값으로 userIdd와 UserName을 backend 에서 받아옴
         localStorage.setItem('currentUser', JSON.stringify(sendRequest.data));
         // 성공 시 create paper로 이동
-        nv("/main");
+        nv('/main');
       } catch (err) {
         nv('/');
       }

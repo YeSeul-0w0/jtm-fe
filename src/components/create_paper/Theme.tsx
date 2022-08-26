@@ -42,12 +42,12 @@ function Theme() {
         },
       });
       setOnInfo('성공적으로 페이퍼가 \n 개설 되었습니다.');
-      setOnUrl("/main");
+      setOnUrl('/main');
       setOnButton(true);
       setOnModal(true);
     } catch (err) {
       setOnInfo('페이퍼 개설에 \n 실패했습니다.');
-      setOnUrl("/main");
+      setOnUrl('/main');
       setOnButton(false);
       setOnModal(true);
       console.log(err);
