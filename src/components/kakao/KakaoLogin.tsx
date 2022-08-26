@@ -5,6 +5,7 @@ import axios from 'axios'; // URL 쿼리 읽어주는 것
 import EnvConfig from '../../config/EnvConfig';
 import { kakaoLoginUser } from '../../context/action';
 import { useAuthDispatch } from '../../context';
+import { Base64 } from 'js-base64';
 
 interface PropsType {
   api: string;
@@ -41,12 +42,11 @@ function KakaoLogin(props: PropsType): null {
     // res > 카카오가 제공하는 서버에서 카카오 로그인 시 유저의 고유값 불러옴
     Kakao.init(KAKAO_API_KEY);
     Kakao.Auth.setAccessToken(kakaoTokenResp.data.access_token);
-
+    const decode = Base64.decode(kakaoTokenResp.data.id_token);
+    const splitId = decode.split(',')[0].split(':')[1];
+    const id = splitId.substring(1, splitId.length - 1);
     try {
-      const responseData = await kakaoLoginUser(
-        dispatch,
-        kakaoTokenResp.data.id_token
-      );
+      const responseData = await kakaoLoginUser(dispatch, id);
       if (!responseData?.userId) {
         alert('아이디 또는 비밀번호가 존재하지 않거나 맞지 않습니다.');
         return;
