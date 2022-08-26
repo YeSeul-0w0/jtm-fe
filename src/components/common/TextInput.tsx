@@ -26,7 +26,7 @@ const TextInput = (props: ITextInput) => {
     placeholder: props?.placeholder,
     ...props,
   };
-  const [change, setChange] = useState<string>('rgba(0, 0, 0, 0.5)');
+  const [change, setChange] = useState<string>('rgba(0, 0, 0, 0.9)');
   return (
     <Wrapper>
       <StyledLabel color={change} htmlFor={props.htmlFor}>
