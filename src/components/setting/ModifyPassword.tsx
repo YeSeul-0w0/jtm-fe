@@ -37,12 +37,12 @@ function ModifyPassword() {
   };
 
   const onClick = () => {
-    window.location.href = '/createPaper';
+    window.location.href = "/main";
   };
 
   return (
     <>
-      <Header pageNm="비밀번호 변경" to="/createPaper" />
+      <Header pageNm="비밀번호 변경" to="/main" />
       {onModal ? (
         <Modal
           info={onInfo}

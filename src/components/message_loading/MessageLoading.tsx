@@ -132,7 +132,7 @@ const MessageLoading = () => {
               setSt={setSt}
             />
           )}
-          <Header to="/createPaper" pageNm={paperName} />
+          <Header to="/main" pageNm={paperName} />
           <div className="message-wrap">
             {messageList[0] ? (
               messageList.map((item: Message, idx: number) => {

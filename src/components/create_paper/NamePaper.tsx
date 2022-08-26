@@ -11,7 +11,7 @@ export const NamePaper = () => {
 
   return (
     <>
-      <Header pageNm="롤링페이퍼 만들기" to="/createPaper" />
+      <Header pageNm="롤링페이퍼 만들기" to="/main" />
       <main>
         <TextInput
           title="롤링페이퍼의 제목을 정해주세요."

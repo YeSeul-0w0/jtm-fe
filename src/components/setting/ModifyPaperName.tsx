@@ -61,14 +61,14 @@ function ModifyNickName() {
 
   return (
     <>
-      <Header pageNm="페이퍼 변경" to="/createPaper" />
+      <Header pageNm="페이퍼 변경" to="/main" />
       {onModal ? (
         <Modal
           info={onInfo}
           confirm={false}
           onModal={onModal}
           setOnModal={setOnModal}
-          onButtonHref={'/createPaper'}
+          onButtonHref={"/main"}
         />
       ) : null}
       <main>

@@ -43,12 +43,12 @@ function ModifyNickName() {
   };
 
   const onClick = () => {
-    window.location.href = '/createPaper';
+    window.location.href = "/main";
   };
 
   return (
     <>
-      <Header pageNm="닉네임 변경" to="/createPaper" />
+      <Header pageNm="닉네임 변경" to="/main" />
       {onModal ? (
         <Modal
           info={onInfo}

@@ -21,7 +21,7 @@ const LoginEmail = () => {
 
   useEffect(() => {
     // 또는 설정으로 리디렉션
-    if (user?.userId) navigate('/createPaper');
+    if (user?.userId) navigate("/main");
   }, []);
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
