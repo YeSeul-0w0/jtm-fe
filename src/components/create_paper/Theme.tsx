@@ -18,6 +18,7 @@ function Theme() {
   const [onButton, setOnButton] = useState<boolean>(false);
   const [onInfo, setOnInfo] = useState<string>('확인 중...');
   const [onUrl, setOnUrl] = useState<string>('/');
+  const [flag, setFlag] = useState<boolean>(false);
   const { paperTitle } = useParams();
   const { user, kakaoToken } = useAuthState();
   const userId = user?.userId;
@@ -42,15 +43,24 @@ function Theme() {
         },
       });
       setOnInfo('성공적으로 페이퍼가 \n 개설 되었습니다.');
-      setOnUrl('/main');
-      setOnButton(true);
       setOnModal(true);
-    } catch (err) {
-      setOnInfo('페이퍼 개설에 \n 실패했습니다.');
-      setOnUrl('/main');
-      setOnButton(false);
-      setOnModal(true);
-      console.log(err);
+      setFlag(true);
+    } catch (err: any) {
+      if (err.response.status === 400) {
+        setOnInfo(
+          '페이퍼 제목은 \n 50자 미만으로 가능하며 \n 페이퍼는 하루에 \n 1회만 개설 가능합니다.'
+        );
+        setOnModal(true);
+        setFlag(true);
+      } else if (err.response.status === 409) {
+        setOnInfo('페이퍼 제목이 중복되었습니다.');
+        setOnModal(true);
+        setFlag(false);
+      } else if (err.response.status === 500) {
+        setOnInfo('관리자에게 문의해주십시오.');
+        setOnModal(true);
+        setFlag(true);
+      }
     }
   };
 
@@ -78,17 +88,24 @@ function Theme() {
     },
   ];
 
+  const onClick = () => {
+    if (flag) {
+      window.location.href = '/main';
+    } else {
+      setOnModal(false);
+    }
+  };
+
   return (
     <>
       <Header pageNm="롤링페이퍼 만들기" to="/createPaper/decideName" />
       {onModal ? (
         <Modal
           info={onInfo}
-          confirm={onButton}
+          confirm={false}
           onModal={onModal}
           setOnModal={setOnModal}
-          onButtonHref={onUrl}
-          href={onUrl}
+          onClick={onClick}
         />
       ) : null}
       <WholeStyle>

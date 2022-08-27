@@ -35,10 +35,12 @@ function ModifyNickName() {
       localStorage.setItem('currentUser', JSON.stringify(userData));
       setOnInfo('성공적으로 변경되었습니다.');
       setOnModal(true);
-    } catch (err) {
-      console.log(err);
-      setOnInfo('닉네임 변경에 실패했습니다.');
-      setOnModal(true);
+    } catch (err: any) {
+      console.log(err.response.status);
+      if (err.response.status === 500) {
+        setOnInfo('중복된 닉네임입니다.');
+        setOnModal(true);
+      }
     }
   };
 
