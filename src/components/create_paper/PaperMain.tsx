@@ -174,7 +174,7 @@ const ViewPapers = ({ user, paperCnt }: { user: IUser; paperCnt: number }) => {
             <ModifyDelete onClick={onClose}>
               <Item onClick={() => modifyPaper(paperId)}>
                 {' '}
-                페이퍼 제목 수정하기{' '}
+                페이퍼 설정 수정하기{' '}
               </Item>
               <Item onClick={() => deletePaper(paperId)}>
                 {' '}

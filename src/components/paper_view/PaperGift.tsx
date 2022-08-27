@@ -18,6 +18,7 @@ function PaperGift() {
   const [giftEmail, setGiftEmail] = useState<string>();
   const [onModal, setOnModal] = useState<boolean>(false);
   const [info, setInfo] = useState<string>('');
+  const [flag, setFlag] = useState<boolean>(false);
 
   const loadPaperList = async () => {
     try {
@@ -38,7 +39,7 @@ function PaperGift() {
     setSelectPaperId(e.target.value);
   };
 
-  const checkEmail = async () => {
+  const checkValues = async () => {
     if (selectPaperId !== 0) {
       if (giftEmail === emailVerify) {
         try {
@@ -55,24 +56,30 @@ function PaperGift() {
             },
           });
           setOnModal(true);
+          setFlag(true);
           setInfo('페이퍼가 선물 되었습니다!');
         } catch (e) {
           setOnModal(true);
-          setInfo('이메일이 동일하지 않습니다.');
+          setInfo(
+            '페이퍼 선물에 실패했습니다. \n 이메일 혹은 페이퍼를 확인하세요.'
+          );
         }
-      } else {
-        setOnModal(true);
-        setInfo('존재하지 않는 이메일 입니다.');
       }
-    } else {
-      setOnModal(true);
-      setInfo('페이퍼를 선택해주십시오.');
     }
   };
 
   useEffect(() => {
     loadPaperList();
+    // setSelectPaperId(paperList[0].paperId);
   }, []);
+
+  const onClick = () => {
+    if (flag) {
+      window.location.href = '/main';
+    } else {
+      setOnModal(false);
+    }
+  };
 
   return (
     <>
@@ -83,7 +90,7 @@ function PaperGift() {
           confirm={false}
           onModal={onModal}
           setOnModal={setOnModal}
-          onButtonHref={'/main'}
+          onClick={onClick}
         />
       ) : null}
       <main>
@@ -119,7 +126,7 @@ function PaperGift() {
           onChange={(e: any) => setEmailVerify(e.target.value)}
         />
       </main>
-      <BottomBtn text="다음" onclick={checkEmail} />
+      <BottomBtn text="다음" onclick={checkValues} />
     </>
   );
 }

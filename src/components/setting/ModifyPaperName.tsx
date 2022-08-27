@@ -61,7 +61,7 @@ function ModifyNickName() {
 
   return (
     <>
-      <Header pageNm="페이퍼 변경" to="/main" />
+      <Header pageNm="페이퍼 설정 변경" to="/main" />
       {onModal ? (
         <Modal
           info={onInfo}
