@@ -201,7 +201,6 @@ const SuggestCreation = ({ userName }: { userName: string }) => {
 
   return (
     <>
-      <FloatingButton />
       <StyledSuggestCreation>
         <p style={{ color: '#CCCCCC' }}>
           {userName}님,
