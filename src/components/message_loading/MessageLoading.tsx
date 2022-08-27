@@ -42,7 +42,7 @@ const MessageLoading = () => {
   const { paperId } = useParams();
   const messageList = state.message;
 
-  const { user, token } = useAuthState();
+  const { user, kakaoToken } = useAuthState();
   const userId = user?.userId;
   const userName = user?.userName;
 
@@ -130,7 +130,7 @@ const MessageLoading = () => {
               setSt={setSt}
             />
           )}
-          <Header to="/createPaper" pageNm={paperName} />
+          <Header to="/main" pageNm={paperName} />
           <div className="message-wrap">
             {messageList[0] ? (
               messageList.map((item: Message, idx: number) => {

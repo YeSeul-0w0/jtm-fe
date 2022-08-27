@@ -5,7 +5,7 @@ import Header from './layout/Header';
 export const Ask = () => {
   return (
     <>
-      <Header pageNm="문의하기" to="/createPaper" />
+      <Header pageNm="문의하기" to="/main" />
       <StyledMain>
         <h1>
           궁금한 점이

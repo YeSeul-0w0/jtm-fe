@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import qs from 'qs';
 import axios from 'axios'; // URL 쿼리 읽어주는 것
 import EnvConfig from '../../config/EnvConfig';
+import { kakaoLoginUser } from '../../context/action';
+import { useAuthDispatch } from '../../context';
+import { Base64 } from 'js-base64';
 
 interface PropsType {
   api: string;
@@ -10,6 +13,7 @@ interface PropsType {
 }
 
 function KakaoLogin(props: PropsType): null {
+  const dispatch = useAuthDispatch();
   const KAKAO_API_KEY: string = props.api;
   // local 이용 : REDIRECT_URI_LOCAL
   // 도메인 이용 : KAKAO_REDIRECT_URI
@@ -29,33 +33,26 @@ function KakaoLogin(props: PropsType): null {
       code: code,
       client_secret: CLIENT_SECRET,
     });
-
+    const kakaoTokenResp = await axios.post(
+      'https://kauth.kakao.com/oauth/token',
+      payload
+    );
+    Kakao.init(KAKAO_API_KEY);
+    Kakao.Auth.setAccessToken(kakaoTokenResp.data.access_token);
+    const decode = Base64.decode(kakaoTokenResp.data.id_token);
+    const splitId = decode.split(',')[0].split(':')[1];
+    const id = splitId.substring(1, splitId.length - 1);
     try {
-      const res: any = await axios.post(
-        'https://kauth.kakao.com/oauth/token',
-        payload
-      );
-      // res > 카카오가 제공하는 서버에서 카카오 로그인 시 유저의 교유값 불러옴
-      Kakao.init(KAKAO_API_KEY);
-      Kakao.Auth.setAccessToken(res.data.access_token);
-      try {
-        const sendRequest: any = await axios({
-          method: 'post',
-          url: `${ROOT_URL}login`,
-          data: {
-            idToken: res.data.id_token,
-          },
-        });
-        // sendRequest 성공하면 return 값으로 userIdd와 UserName을 backend 에서 받아옴
-        localStorage.setItem('currentUser', JSON.stringify(sendRequest.data));
-        // 성공 시 create paper로 이동
-        nv('/createPaper');
-      } catch (err) {
-        nv('/');
+      const responseData = await kakaoLoginUser(dispatch, id);
+      if (!responseData?.userId) {
+        alert('아이디 또는 비밀번호가 존재하지 않거나 맞지 않습니다.');
+        return;
       }
     } catch (err) {
-      console.log(err);
+      alert('카카오 로그인이 불가능합니다. 관리자에게 문의하십시오.');
     }
+    // 로그인 완료 시 메인으로 이동
+    nv('../main', { replace: true });
   }
   useEffect(() => {
     getToken();

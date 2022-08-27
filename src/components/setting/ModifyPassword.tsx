@@ -14,7 +14,7 @@ function ModifyPassword() {
   const [onModal, setOnModal] = useState<boolean>(false);
   const [onInfo, setOnInfo] = useState<string>('');
   const navigate = useNavigate();
-  const { user, token } = useAuthState();
+  const { user, kakaoToken } = useAuthState();
   const userId = user?.userId;
 
   const sendChangeName = async () => {
@@ -37,12 +37,12 @@ function ModifyPassword() {
   };
 
   const onClick = () => {
-    window.location.href = '/createPaper';
+    window.location.href = '/main';
   };
 
   return (
     <>
-      <Header pageNm="비밀번호 변경" to="/createPaper" />
+      <Header pageNm="비밀번호 변경" to="/main" />
       {onModal ? (
         <Modal
           info={onInfo}

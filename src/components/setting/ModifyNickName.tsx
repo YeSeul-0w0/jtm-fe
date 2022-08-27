@@ -15,7 +15,7 @@ function ModifyNickName() {
   const [onInfo, setOnInfo] = useState<string>('');
   const [url, setUrl] = useState<string>('');
   const navigate = useNavigate();
-  const { user, token } = useAuthState();
+  const { user, kakaoToken } = useAuthState();
   const userId = user?.userId;
 
   const sendChangeName = async () => {
@@ -43,12 +43,12 @@ function ModifyNickName() {
   };
 
   const onClick = () => {
-    window.location.href = '/createPaper';
+    window.location.href = '/main';
   };
 
   return (
     <>
-      <Header pageNm="닉네임 변경" to="/createPaper" />
+      <Header pageNm="닉네임 변경" to="/main" />
       {onModal ? (
         <Modal
           info={onInfo}

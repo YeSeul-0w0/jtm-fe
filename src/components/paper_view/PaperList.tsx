@@ -95,7 +95,7 @@ const TitleDiv = styled.div`
 `;
 
 const StyledPaperList = styled.section`
-  margin: 2rem 0 2rem 2rem;
+  margin: 2rem 0 0 2rem;
   overflow: scroll;
   max-height: 65vh;
 `;
@@ -116,12 +116,9 @@ const PaperItem = styled.div`
 
 const StyledPaperTitle = styled.p`
   font-weight: bold;
-  font-size: 1.25rem;
+  font-size: 1rem;
   margin-bottom: 1rem;
   cursor: pointer;
-  &:hover {
-    // color:
-  }
 `;
 
 const getPaperList = async (userId: string) => {

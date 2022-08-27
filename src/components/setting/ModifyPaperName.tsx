@@ -14,7 +14,7 @@ function ModifyNickName() {
   const [onModal, setOnModal] = useState<boolean>(false);
   const [onInfo, setOnInfo] = useState<string>('');
   const navigate = useNavigate();
-  const { user, token } = useAuthState();
+  const { user, kakaoToken } = useAuthState();
   const userId = user?.userId;
 
   const [selectPaperId, setSelectPaperId] = useState<number>(0);
@@ -61,14 +61,14 @@ function ModifyNickName() {
 
   return (
     <>
-      <Header pageNm="페이퍼 변경" to="/createPaper" />
+      <Header pageNm="페이퍼 변경" to="/main" />
       {onModal ? (
         <Modal
           info={onInfo}
           confirm={false}
           onModal={onModal}
           setOnModal={setOnModal}
-          onButtonHref={'/createPaper'}
+          onButtonHref={'/main'}
         />
       ) : null}
       <main>

@@ -1,21 +1,32 @@
 import { SignUpEmailInter } from '@src/interfaces/ISignUp';
-import React from 'react';
+import React, { useState } from 'react';
 import BottomBtn from '../common/BottomBtn';
 import { MoveBtn } from '../common/MoveBtn';
 import { TextInput } from '../common/TextInput';
-import { emailVerify } from './SignUpFunction';
-import { double, email, enterVerifyNum, veriftNum } from './signUpStore';
+import { emailVerify, whoWrong } from './SignUpFunction';
+import {
+  // double,
+  email,
+  enterVerifyNum,
+  veriftNum,
+} from './signUpStore';
 import SignUpTextInput from './SignUpTextInput';
 
 const SignUpEmail = ({
   dispatch,
   emailState,
   emailCheck,
+  emailSave,
   setEmailSave,
+  verifyState,
+  enterVerifyState,
 }: SignUpEmailInter) => {
+  const [re, setRe] = useState<boolean>(false);
+  const [verifySave, setVerifySave] = useState<string>();
+  const [pass, setPass] = useState<boolean>(false);
   const addF = () => {
     dispatch(veriftNum('새 메일을 받아주세요'));
-    dispatch(double(false));
+    dispatch(enterVerifyNum(false));
   };
   return (
     <>
@@ -28,27 +39,39 @@ const SignUpEmail = ({
           saveData={setEmailSave}
         />
         <BottomBtn
-          text={
-            // doubleState ? '다음' :
-            '인증번호 받기'
-          }
-          // onclick={(e: any) =>
-          // emailVerify(e, emailState, dispatch, double, veriftNum)
-          // }
+          text={re ? '다시 전송하기' : '인증번호 받기'}
+          onclick={(e: any) => {
+            if (!re) setRe(true);
+            e.preventDefault();
+            emailVerify(emailSave, dispatch, veriftNum);
+          }}
         />
       </div>
-      <div>
-        <SignUpTextInput
+      <div className={enterVerifyState ? `emailWrap verify` : `emailWrap`}>
+        <TextInput
           title={'인증번호'}
           htmlFor={'email'}
+          onChange={(e: any) => setVerifySave(e.target.value)}
           // addFunction={(e: React.ChangeEvent<HTMLInputElement>) =>
           //   dispatch(enterVerifyNum(e.target.value))
           // }
         />
-        <MoveBtn
+        <BottomBtn
+          text={enterVerifyState ? '인증되었습니다' : '확인'}
+          disabled={enterVerifyState ? true : false}
+          onclick={async (e: any) => {
+            e.preventDefault();
+            dispatch(
+              enterVerifyNum(
+                await whoWrong('인증번호', verifyState, verifySave)
+              )
+            );
+          }}
+        />
+        {/* <MoveBtn
           // onClick={e => emailVerify(e, emailState, dispatch, double, veriftNum)}
           text="인증메일 재발송하기"
-        />
+        /> */}
       </div>
     </>
   );

@@ -21,7 +21,7 @@ const LoginEmail = () => {
 
   useEffect(() => {
     // 또는 설정으로 리디렉션
-    if (user?.userId) navigate('/createPaper');
+    if (user?.userId) navigate('');
   }, []);
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -32,14 +32,14 @@ const LoginEmail = () => {
         const responseData = await loginUser(dispatch, inputs);
         console.log(responseData);
         if (!responseData?.userId) {
-          alert('아이디 또는 비밀번호를 다시 확인해주세요.');
+          alert('아이디 또는 비밀번호가 존재하지 않거나 맞지 않습니다.');
           return;
         }
       } catch (e) {
-        console.error(e);
+        alert('아이디 또는 비밀번호를 다시 확인해주세요.');
       }
       // 로그인 완료 시 메인으로 이동
-      navigate('../createPaper', { replace: true });
+      navigate('../main', { replace: true });
     }
   };
 

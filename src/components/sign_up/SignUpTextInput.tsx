@@ -12,9 +12,10 @@ const SignUpTextInput = ({
   addFunction,
   suc,
   saveData,
+  compare,
 }: SignUpTextInputInter) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const verifyState = state.verifyState;
+  // const [state, dispatch] = useReducer(reducer, initialState);
+  // const verifyState = state.verifyState;
   const [on, setOn] = useState<boolean>(false);
   const [show, setShow] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
@@ -23,7 +24,7 @@ const SignUpTextInput = ({
 
   const test = async () => {
     setShow(true);
-    setSuccess(await whoWrong(title, data!, verifyState));
+    setSuccess(await whoWrong(title, data!, compare));
   };
 
   useEffect(() => {
@@ -33,13 +34,17 @@ const SignUpTextInput = ({
   }, [success]);
 
   useEffect(() => {
-    if (data) saveData(data);
+    if (data) saveData?.(data);
   }, [data]);
 
   return (
     <>
       <Contain onClick={() => setOn(true)} ref={current}>
         <TextInput
+          autocomplete={
+            title.indexOf('비밀번호') === 0 ? 'current-password' : ''
+          }
+          isPassword={title.indexOf('비밀번호') === 0 ? true : false}
           title={title}
           htmlFor={htmlFor}
           des={des}

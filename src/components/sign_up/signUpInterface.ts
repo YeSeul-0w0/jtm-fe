@@ -5,4 +5,5 @@ export interface SignUpTextInputInter {
   addFunction?: any;
   suc?: any;
   saveData?: any;
+  compare?: string;
 }

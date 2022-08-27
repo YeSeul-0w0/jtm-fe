@@ -100,7 +100,7 @@ export const messagePost = async (
         },
       });
       if (a) {
-        alert('메세지가 작성됐습니다');
+        alert('메세지가 작성되었습니다');
         location.reload();
       }
     } else {
@@ -124,7 +124,7 @@ export const messageDelete = async (userId: string, messageId: string) => {
       },
     });
     if (a) {
-      alert('메세지가 삭제됐습니다');
+      alert('메세지가 삭제되었습니다');
       location.reload();
     }
   } catch (e) {
@@ -155,7 +155,7 @@ export const messageFix = async (
       },
     });
     if (a) {
-      alert('메세지가 수정됐습니다');
+      alert('메세지가 수정되었습니다');
       location.reload();
     }
   } catch (e) {
@@ -190,7 +190,7 @@ export const stickerPost = async (
       },
     });
     if (q) {
-      alert('스티커 작성이 완료됐습니다');
+      alert('스티커 작성이 완료되었습니다');
       location.reload();
     }
   } catch (e) {
@@ -218,7 +218,7 @@ export const stickerDelete = async (
       },
     });
     if (q) {
-      alert('스티커 삭제가 완료됐습니다');
+      alert('스티커 삭제가 완료되었습니다');
       location.reload();
     }
   } catch (e) {

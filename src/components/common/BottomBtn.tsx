@@ -16,7 +16,6 @@ interface IBtnStyle {
 }
 
 const BottomBtn = ({ text, onclick, disabled, fixed, link }: IBottomBtn) => {
-  //
   return (
     <>
       {link ? (
@@ -37,8 +36,8 @@ const BottomBtn = ({ text, onclick, disabled, fixed, link }: IBottomBtn) => {
 const StyledBtn = styled.button<IBtnStyle>`
   border-radius: 12px;
   border: none;
-  cursor: pointer;
-  /* min-width: 90%; */
+  cursor: ${props => (props.disabled ? 'initial' : 'pointer')};
+
   width: 343px;
   background: ${props => (props.disabled ? `gray` : 'black')};
   padding: 1rem 0;

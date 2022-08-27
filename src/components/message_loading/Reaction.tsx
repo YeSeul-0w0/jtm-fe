@@ -9,7 +9,6 @@ const Reaction = ({ messageId, user, myReaction, setChange, white }: any) => {
   const yourReaction = myReaction.filter(
     (item: any) => item.userName === user.userName
   );
-  // const [re, setRe] = useState<any>(yourReaction);
 
   // myReaction 해당 메세지의 리액션들
   // yourReaction 해당 메세지의 리액션 중 내가 한 리액션

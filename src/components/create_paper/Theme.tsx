@@ -19,7 +19,7 @@ function Theme() {
   const [onInfo, setOnInfo] = useState<string>('확인 중...');
   const [onUrl, setOnUrl] = useState<string>('/');
   const { paperTitle } = useParams();
-  const { user, token } = useAuthState();
+  const { user, kakaoToken } = useAuthState();
   const userId = user?.userId;
 
   const inputSelectTheme = (x: number) => {
@@ -42,12 +42,12 @@ function Theme() {
         },
       });
       setOnInfo('성공적으로 페이퍼가 \n 개설 되었습니다.');
-      setOnUrl('/createPaper');
+      setOnUrl('/main');
       setOnButton(true);
       setOnModal(true);
     } catch (err) {
       setOnInfo('페이퍼 개설에 \n 실패했습니다.');
-      setOnUrl('/createPaper');
+      setOnUrl('/main');
       setOnButton(false);
       setOnModal(true);
       console.log(err);

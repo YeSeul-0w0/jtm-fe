@@ -9,7 +9,7 @@ import { useAuthState } from '../../../src/context';
 import Modal from '../common/Modal';
 
 function PaperGift() {
-  const { user, token } = useAuthState();
+  const { user, kakaoToken } = useAuthState();
   const userId = user?.userId;
 
   const [selectPaperId, setSelectPaperId] = useState<number>(0);
@@ -76,14 +76,14 @@ function PaperGift() {
 
   return (
     <>
-      <Header pageNm="롤링페이퍼 만들기" to="/createPaper" />
+      <Header pageNm="롤링페이퍼 만들기" to="/main" />
       {onModal ? (
         <Modal
           info={info}
           confirm={false}
           onModal={onModal}
           setOnModal={setOnModal}
-          onButtonHref={'/createPaper'}
+          onButtonHref={'/main'}
         />
       ) : null}
       <main>
