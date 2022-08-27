@@ -24,24 +24,11 @@ const Sticker = ({
   const [currentFix, setCurrentFix] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
   const [cancel, setCancel] = useState<boolean>(false);
-  // const [change, setChange] = useState<boolean>(false);
-  // const [rightLimit, setRightLimit] = useState<number>(0);
-  // const [bottomLimit, setBottomLimit] = useState<number>(0);
-  // const [x, setX] = useState<number>(0);
-  // const [move, setMove] = useState<boolean>(false);
   const wrapRef = useRef<any>();
 
   useEffect(() => {
-    // 창 크기가 바뀔 때마다 현재 메인 컴포넌트의 왼쪽 위치 값과 위 위치 값을 가져옵니다
     setLeftLimit(wrapRef.current.parentElement.getBoundingClientRect().left);
     setTopLimit(wrapRef.current.parentElement.getBoundingClientRect().y);
-    // setRightLimit(
-    // wrapRef.current.parentElement.getBoundingClientRect().left +
-    // wrapRef.current.offsetWidth
-    // );
-    // setBottomLimit(
-    // wrapRef.current.parentElement.getBoundingClientRect().bottom
-    // );
   }, [window.innerWidth, window.innerHeight]);
 
   return (
