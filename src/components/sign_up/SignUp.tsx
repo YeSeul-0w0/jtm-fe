@@ -40,7 +40,7 @@ const SignUp = () => {
   };
   return (
     <>
-      <div className="signWrap">
+      <main className="signWrap">
         <Header pageNm="회원가입" to="/login" />
         <div className="bar" ref={scrollRef}></div>
         <form id="signUp">
@@ -88,7 +88,7 @@ const SignUp = () => {
             }}
           />
         )}
-      </div>
+      </main>
     </>
   );
 };

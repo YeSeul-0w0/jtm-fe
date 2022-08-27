@@ -267,7 +267,7 @@ const MessageLoading = () => {
   );
 };
 
-export const MessageLoadingComponent = styled.div<MessageLoadingInt>`
+export const MessageLoadingComponent = styled.main<MessageLoadingInt>`
   width: 100%;
   position: relative;
   background-color: ${props => (props.theme ? props.theme : '#fff')};
