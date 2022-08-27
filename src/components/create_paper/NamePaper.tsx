@@ -7,8 +7,6 @@ import Header from '../layout/Header';
 export const NamePaper = () => {
   const [title, setTitle] = useState<string>('');
   const navigate = useNavigate();
-  console.log(title, title.length);
-
   return (
     <>
       <Header pageNm="롤링페이퍼 만들기" to="/main" />
