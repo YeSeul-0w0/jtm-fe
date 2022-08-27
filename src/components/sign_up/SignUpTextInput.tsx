@@ -1,9 +1,8 @@
-import React, { useEffect, useReducer, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { TextInput } from '../common/TextInput';
 import { whoWrong } from './SignUpFunction';
 import { SignUpTextInputInter } from './signUpInterface';
-import { initialState, nickname, reducer } from './signUpStore';
 
 const SignUpTextInput = ({
   title,
@@ -14,8 +13,6 @@ const SignUpTextInput = ({
   saveData,
   compare,
 }: SignUpTextInputInter) => {
-  // const [state, dispatch] = useReducer(reducer, initialState);
-  // const verifyState = state.verifyState;
   const [on, setOn] = useState<boolean>(false);
   const [show, setShow] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
@@ -54,9 +51,6 @@ const SignUpTextInput = ({
             addFunction && addFunction();
           }}
           click={on}
-          // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          //   dispatch(nickname(e.target.value))
-          // }
         />
         {on && show && (
           <Icon src={success ? '/icons/success.svg' : '/icons/fail.svg'} />

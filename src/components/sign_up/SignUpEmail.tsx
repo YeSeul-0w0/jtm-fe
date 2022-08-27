@@ -1,20 +1,13 @@
 import { SignUpEmailInter } from '@src/interfaces/ISignUp';
 import React, { useState } from 'react';
 import BottomBtn from '../common/BottomBtn';
-import { MoveBtn } from '../common/MoveBtn';
 import { TextInput } from '../common/TextInput';
 import { emailVerify, whoWrong } from './SignUpFunction';
-import {
-  // double,
-  email,
-  enterVerifyNum,
-  veriftNum,
-} from './signUpStore';
+import { enterVerifyNum, veriftNum } from './signUpStore';
 import SignUpTextInput from './SignUpTextInput';
 
 const SignUpEmail = ({
   dispatch,
-  emailState,
   emailCheck,
   emailSave,
   setEmailSave,
@@ -23,7 +16,6 @@ const SignUpEmail = ({
 }: SignUpEmailInter) => {
   const [re, setRe] = useState<boolean>(false);
   const [verifySave, setVerifySave] = useState<string>();
-  const [pass, setPass] = useState<boolean>(false);
   const addF = () => {
     dispatch(veriftNum('새 메일을 받아주세요'));
     dispatch(enterVerifyNum(false));
@@ -52,9 +44,6 @@ const SignUpEmail = ({
           title={'인증번호'}
           htmlFor={'email'}
           onChange={(e: any) => setVerifySave(e.target.value)}
-          // addFunction={(e: React.ChangeEvent<HTMLInputElement>) =>
-          //   dispatch(enterVerifyNum(e.target.value))
-          // }
         />
         <BottomBtn
           text={enterVerifyState ? '인증되었습니다' : '확인'}
@@ -68,10 +57,6 @@ const SignUpEmail = ({
             );
           }}
         />
-        {/* <MoveBtn
-          // onClick={e => emailVerify(e, emailState, dispatch, double, veriftNum)}
-          text="인증메일 재발송하기"
-        /> */}
       </div>
     </>
   );
