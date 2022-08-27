@@ -8,7 +8,7 @@ const PASSWORD = 'signUpStore/PASSWORD';
 const DOUBLE = 'signUpStore/DOUBLE';
 const NICKNAMEPASS = 'signUpStore/NICKNAMEPASS';
 
-export const email = (email: string) => ({ type: EMAIL, email });
+export const email = (email: boolean) => ({ type: EMAIL, email });
 export const veriftNum = (veriftState: string) => ({
   type: VERIFYSTATE,
   veriftState,
@@ -17,7 +17,7 @@ export const enterVerifyNum = (enterVerifyState: string) => ({
   type: ENTERVERIFYSTATE,
   enterVerifyState,
 });
-export const nickname = (nicknameState: string) => ({
+export const nickname = (nicknameState: boolean) => ({
   type: NICKNAME,
   nicknameState,
 });
@@ -29,10 +29,10 @@ export const double = (doubleState: boolean) => ({ type: DOUBLE, doubleState });
 export const nicknamePass = (pass: boolean) => ({ type: NICKNAMEPASS, pass });
 
 export const initialState = {
-  emailState: '',
+  emailState: false,
   verifyState: '',
   enterVerifyState: '',
-  nicknameState: '',
+  nicknameState: false,
   passwordState: '',
   doubleState: false,
   nicknamePass: false,

@@ -1,7 +1,51 @@
-import { FirstVerify, SecondVerify } from '@src/interfaces/ISignUp';
+import { emailTest, nickNameTest } from 'src/config/RegExp';
+import { FirstVerify, SecondVerify } from 'src/interfaces/ISignUp';
 import axios, { AxiosResponse } from 'axios';
 import EnvConfig from '../../config/EnvConfig';
 import { nicknamePass } from './signUpStore';
+
+const nickCheck = async (data: string) => {
+  try {
+    const a = await axios({
+      method: 'get',
+      url: EnvConfig.NICK_CHECK,
+      params: {
+        userName: data,
+      },
+    });
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
+const emailCheck = async (data: string) => {
+  try {
+    const a = await axios({
+      method: 'get',
+      url: EnvConfig.DOUBLE_CHECK,
+      params: {
+        email: data,
+      },
+    });
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
+export const whoWrong = async (title: string, data: string, data2?: string) => {
+  switch (title) {
+    case '이메일':
+      return emailTest.test(data) && (await emailCheck(data));
+    case '닉네임':
+      return nickNameTest.test(data) && (await nickCheck(data));
+    case '인증번호':
+      return data === data2;
+    default:
+      return false;
+  }
+};
 
 const verify = ({
   emailTest,
@@ -24,18 +68,25 @@ const verify = ({
     rePassword === passwordState
   )
     return true;
-  else if (emailTest.test(emailState) === false)
+  else if (emailTest.test(emailState) === false) {
     alert('이메일 양식이 틀렸습니다');
-  else if ((enterVerifyState === verifyState) === false)
+    return false;
+  } else if ((enterVerifyState === verifyState) === false) {
     alert('인증번호가 틀렸습니다');
-  else if (doubleState === false)
+    return false;
+  } else if (doubleState === false) {
     alert('이미 가입되어 있거나 양식이 틀린 메일입니다');
-  else if (nickNameTest.test(nicknameState) === false)
+    return false;
+  } else if (nickNameTest.test(nicknameState) === false) {
     alert('닉네임 양식이 틀렸습니다');
-  else if (passwordTest.test(passwordState) === false)
+    return false;
+  } else if (passwordTest.test(passwordState) === false) {
     alert('비밀번호 양식이 틀렸습니다');
-  else if ((rePassword === passwordState) === false)
+    return false;
+  } else if ((rePassword === passwordState) === false) {
     alert('비밀번호가 일치하지 않습니다');
+    return false;
+  }
 };
 
 export const passVerify = async (
@@ -104,32 +155,20 @@ export const emailVerify = async (
   event: any,
   emailState: string,
   dispatch: React.Dispatch<any>,
-  double: any,
   veriftNum: any
 ): Promise<void> => {
   event.preventDefault();
   try {
-    const getDouble: AxiosResponse<object[]> = await axios({
-      url: EnvConfig.DOUBLE_CHECK,
+    const codeSend = await axios({
       method: 'get',
+      url: EnvConfig.VERIFY_MAIL,
       params: {
         email: emailState,
       },
     });
-    if (getDouble) {
-      dispatch(double(true));
-      const codeSend = await axios({
-        method: 'get',
-        url: EnvConfig.VERIFY_MAIL,
-        params: {
-          email: emailState,
-        },
-      });
-      dispatch(veriftNum(codeSend.data));
-      alert('인증번호가 발송됐습니다');
-    }
+    dispatch(veriftNum(codeSend.data));
+    alert('인증번호가 발송됐습니다');
   } catch (e) {
-    dispatch(double(false));
     alert('이미 가입되어 있거나 양식이 틀린 메일입니다.');
   }
 };

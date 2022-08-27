@@ -102,9 +102,10 @@ span {
     box-sizing: border-box;
 }
 
-#signUp div {
+#signUp>div {
     width: 100%;
-    margin-bottom: 81px;
+    margin-bottom: 55px;
+    // margin-bottom: 81px;
 }
 
 #signUp input {
@@ -137,4 +138,10 @@ span {
 #signUp .emailWrap .verify.active, #signUp .emailVerifyWrap .verify.active{
     color: #000;
     cursor: pointer;
+}
+
+#signUp .emailWrap button {
+    width: 90%;
+    font-size: 14px;
+    font-weight: 600;
 }
