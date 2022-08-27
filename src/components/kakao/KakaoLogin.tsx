@@ -33,13 +33,10 @@ function KakaoLogin(props: PropsType): null {
       code: code,
       client_secret: CLIENT_SECRET,
     });
-
-    // try {
     const kakaoTokenResp = await axios.post(
       'https://kauth.kakao.com/oauth/token',
       payload
     );
-    // res > 카카오가 제공하는 서버에서 카카오 로그인 시 유저의 고유값 불러옴
     Kakao.init(KAKAO_API_KEY);
     Kakao.Auth.setAccessToken(kakaoTokenResp.data.access_token);
     const decode = Base64.decode(kakaoTokenResp.data.id_token);
@@ -51,20 +48,11 @@ function KakaoLogin(props: PropsType): null {
         alert('아이디 또는 비밀번호가 존재하지 않거나 맞지 않습니다.');
         return;
       }
-      // console.log('sendreq');
-      // console.log(kakaoLoginResp);
-      // // sendRequest 성공하면 return 값으로 userIdd와 UserName을 backend 에서 받아옴
-      // localStorage.setItem('currentUser', JSON.stringify(kakaoLoginResp.data));
-      // // 성공 시 create paper로 이동
-      // nv('/main');
     } catch (err) {
-      alert('카카오 로그인이 불가능합니다.');
+      alert('카카오 로그인이 불가능합니다. 관리자에게 문의하십시오.');
     }
     // 로그인 완료 시 메인으로 이동
     nv('../main', { replace: true });
-    // } catch (err) {
-    //   console.log(err);
-    // }
   }
   useEffect(() => {
     getToken();
