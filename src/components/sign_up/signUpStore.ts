@@ -5,37 +5,37 @@ const VERIFYSTATE = 'signUpStore/VERIFYSTATE';
 const ENTERVERIFYSTATE = 'signUpStore/ENTERVERIFYSTATE';
 const NICKNAME = 'signUpStore/NICKNAME';
 const PASSWORD = 'signUpStore/PASSWORD';
-const DOUBLE = 'signUpStore/DOUBLE';
-const NICKNAMEPASS = 'signUpStore/NICKNAMEPASS';
+// const DOUBLE = 'signUpStore/DOUBLE';
+// const NICKNAMEPASS = 'signUpStore/NICKNAMEPASS';
 
-export const email = (email: string) => ({ type: EMAIL, email });
+export const email = (email: boolean) => ({ type: EMAIL, email });
 export const veriftNum = (veriftState: string) => ({
   type: VERIFYSTATE,
   veriftState,
 });
-export const enterVerifyNum = (enterVerifyState: string) => ({
+export const enterVerifyNum = (enterVerifyState: boolean) => ({
   type: ENTERVERIFYSTATE,
   enterVerifyState,
 });
-export const nickname = (nicknameState: string) => ({
+export const nickname = (nicknameState: boolean) => ({
   type: NICKNAME,
   nicknameState,
 });
-export const password = (passwordState: string) => ({
+export const password = (passwordState: boolean) => ({
   type: PASSWORD,
   passwordState,
 });
-export const double = (doubleState: boolean) => ({ type: DOUBLE, doubleState });
-export const nicknamePass = (pass: boolean) => ({ type: NICKNAMEPASS, pass });
+// export const double = (doubleState: boolean) => ({ type: DOUBLE, doubleState });
+// export const nicknamePass = (pass: boolean) => ({ type: NICKNAMEPASS, pass });
 
 export const initialState = {
-  emailState: '',
-  verifyState: '',
-  enterVerifyState: '',
-  nicknameState: '',
-  passwordState: '',
-  doubleState: false,
-  nicknamePass: false,
+  emailState: false,
+  verifyState: '새 메일을 받아주세요',
+  enterVerifyState: false,
+  nicknameState: false,
+  passwordState: false,
+  // doubleState: false,
+  // nicknamePass: false,
 };
 
 export const reducer = (state: ISignUpState = initialState, action: any) => {
@@ -65,16 +65,16 @@ export const reducer = (state: ISignUpState = initialState, action: any) => {
         ...state,
         passwordState: action.passwordState,
       };
-    case DOUBLE:
-      return {
-        ...state,
-        doubleState: action.doubleState,
-      };
-    case NICKNAMEPASS:
-      return {
-        ...state,
-        nicknamePass: true,
-      };
+    // case DOUBLE:
+    //   return {
+    //     ...state,
+    //     doubleState: action.doubleState,
+    //   };
+    // case NICKNAMEPASS:
+    //   return {
+    //     ...state,
+    //     nicknamePass: true,
+    //   };
     default:
       return state;
   }

@@ -15,13 +15,11 @@ export interface User extends Base {
 }
 
 export interface ISignUpState {
-  doubleState: boolean;
-  emailState: string;
-  nicknameState: string;
-  passwordState: string;
-  enterVerifyState: string;
+  emailState: boolean;
+  nicknameState: boolean;
+  passwordState: boolean;
+  enterVerifyState: boolean;
   verifyState: string;
-  nicknamePass: boolean;
 }
 
 export interface FirstVerify {
@@ -36,10 +34,18 @@ export interface FirstVerify {
   verifyState: string;
   doubleState: boolean;
 }
-export interface SecondVerify extends FirstVerify {
+export interface SecondVerify {
+  emailSave: string;
+  nicknameSave: string;
+  PasswordSave: string;
   nav: NavigateFunction;
 }
 
 export type SignUpEmailInter = Pick<ISignUpState, 'emailState'> & {
   dispatch: React.Dispatch<any>;
+  emailCheck: any;
+  setEmailSave: any;
+  emailSave: string;
+  verifyState: string;
+  enterVerifyState: string;
 };

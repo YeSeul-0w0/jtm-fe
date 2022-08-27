@@ -113,7 +113,10 @@ header {
     position: fixed;
     bottom: 0;
     z-index: 52;
-    width: 300px;
+    width: 305px;
+    button{
+        width: 100%;
+    }
 }
 
 .solo-sticker-wrap{
