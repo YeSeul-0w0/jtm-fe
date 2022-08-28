@@ -34,7 +34,8 @@ function ModifyPassword() {
         setOnModal(true);
       } catch (err) {
         console.log(err);
-        setOnInfo('비밀번호 변경에 실패했습니다.');
+        setOnInfo('비밀번호 변경에 실패' +
+          '했습니다.');
         setOnModal(true);
       }
     }
