@@ -46,10 +46,12 @@ function KakaoLogin(props: PropsType): null {
       const responseData = await kakaoLoginUser(dispatch, id);
       if (!responseData?.userId) {
         alert('아이디 또는 비밀번호가 존재하지 않거나 맞지 않습니다.');
+        window.location.href = '/';
         return;
       }
     } catch (err) {
       alert('카카오 로그인이 불가능합니다. 관리자에게 문의하십시오.');
+      window.location.href = '/';
     }
     // 로그인 완료 시 메인으로 이동
     nv('../main', { replace: true });
