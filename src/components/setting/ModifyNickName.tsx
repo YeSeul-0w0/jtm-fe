@@ -13,7 +13,7 @@ function ModifyNickName() {
   const [nickName, setNickName] = useState<string>('');
   const [onModal, setOnModal] = useState<boolean>(false);
   const [onInfo, setOnInfo] = useState<string>('');
-  const [url, setUrl] = useState<string>('');
+  const [flag, setFlag] = useState<boolean>(false);
   const navigate = useNavigate();
   const { user, kakaoToken } = useAuthState();
   const userId = user?.userId;
@@ -35,17 +35,25 @@ function ModifyNickName() {
       localStorage.setItem('currentUser', JSON.stringify(userData));
       setOnInfo('성공적으로 변경되었습니다.');
       setOnModal(true);
+      setFlag(true);
     } catch (err: any) {
       console.log(err.response.status);
-      if (err.response.status === 500) {
+      if (err.response.status === 409) {
         setOnInfo('중복된 닉네임입니다.');
+        setOnModal(true);
+      } else if (err.response.status === 500) {
+        setOnInfo('관리자에게 문의하십시오.');
         setOnModal(true);
       }
     }
   };
 
   const onClick = () => {
-    window.location.href = '/main';
+    if (flag) {
+      window.location.href = '/main';
+    } else {
+      setOnModal(false);
+    }
   };
 
   return (
