@@ -8,6 +8,7 @@ import axios from 'axios';
 import EnvConfig from '../../config/EnvConfig';
 import { useAuthState } from '../../../src/context';
 import Modal from '../common/Modal';
+import { nickNameTest } from 'src/config/RegExp';
 
 function ModifyNickName() {
   const [nickName, setNickName] = useState<string>('');
@@ -19,31 +20,33 @@ function ModifyNickName() {
   const userId = user?.userId;
 
   const sendChangeName = async () => {
-    try {
-      await axios({
-        method: 'put',
-        url: `${EnvConfig.LANTO_SERVER}user/name`,
-        data: {
-          userId: userId,
-          userName: nickName,
-        },
-      });
-      const userData = JSON.parse(
-        localStorage.getItem('currentUser') as string
-      );
-      userData.userName = nickName;
-      localStorage.setItem('currentUser', JSON.stringify(userData));
-      setOnInfo('성공적으로 변경되었습니다.');
-      setOnModal(true);
-      setFlag(true);
-    } catch (err: any) {
-      console.log(err.response.status);
-      if (err.response.status === 409) {
-        setOnInfo('중복된 닉네임입니다.');
+    if (nickNameTest.test(nickName)) {
+      try {
+        await axios({
+          method: 'put',
+          url: `${EnvConfig.LANTO_SERVER}user/name`,
+          data: {
+            userId: userId,
+            userName: nickName,
+          },
+        });
+        const userData = JSON.parse(
+          localStorage.getItem('currentUser') as string
+        );
+        userData.userName = nickName;
+        localStorage.setItem('currentUser', JSON.stringify(userData));
+        setOnInfo('성공적으로 변경되었습니다.');
         setOnModal(true);
-      } else if (err.response.status === 500) {
-        setOnInfo('관리자에게 문의하십시오.');
-        setOnModal(true);
+        setFlag(true);
+      } catch (err: any) {
+        console.log(err.response.status);
+        if (err.response.status === 409) {
+          setOnInfo('중복된 닉네임입니다.');
+          setOnModal(true);
+        } else if (err.response.status === 500) {
+          setOnInfo('관리자에게 문의하십시오.');
+          setOnModal(true);
+        }
       }
     }
   };
