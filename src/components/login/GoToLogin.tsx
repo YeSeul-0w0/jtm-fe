@@ -9,7 +9,9 @@ interface PropsType {
 }
 const GoToLogin = (props: PropsType) => {
   const REST_API_KEY = props.api;
-  const REDIRECT_URI = EnvConfig.KAKAO_REDIRECT_URI;
+  // local 이용 : REDIRECT_URI_LOCAL
+  // 도메인 이용 : KAKAO_REDIRECT_URI
+  const REDIRECT_URI = EnvConfig.REDIRECT_URI_LOCAL;
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
   return (

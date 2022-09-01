@@ -9,7 +9,6 @@ const Reaction = ({ messageId, user, myReaction, setChange, white }: any) => {
   const yourReaction = myReaction.filter(
     (item: any) => item.userName === user.userName
   );
-  // const [re, setRe] = useState<any>(yourReaction);
 
   // myReaction 해당 메세지의 리액션들
   // yourReaction 해당 메세지의 리액션 중 내가 한 리액션
@@ -31,14 +30,14 @@ const Reaction = ({ messageId, user, myReaction, setChange, white }: any) => {
       onClick={async () => {
         if (click) {
           await reactionMinus(
-            user.email,
+            user.userId,
             messageId,
             yourReaction[0].reactionId
           );
           setReactionAm((prev: number) => prev - 1);
           setClick(false);
         } else {
-          await reactionAdd(user.email, messageId);
+          await reactionAdd(user.userId, messageId);
           setClick(true);
           setReactionAm((prev: number) => prev + 1);
         }

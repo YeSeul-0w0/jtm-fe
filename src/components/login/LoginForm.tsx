@@ -38,7 +38,7 @@ const LoginForm = ({
       <TextInput
         isPassword
         htmlFor="password"
-        autocomplete="off"
+        autocomplete="current-password"
         value={password}
         title="비밀번호"
         name="password"

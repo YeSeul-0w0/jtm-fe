@@ -17,9 +17,8 @@ const MessageFixed = () => {
   const [message, setMessage] = useState<string>(prev!);
   const [textLength, setTextLength] = useState<number>(0);
   const [color, setColor] = useState<string>('#' + prevColor!);
-  const { user, token } = useAuthState();
-  const email = user?.email;
-  const [state, dispatch] = useReducer(messageReducer, messageInitialState);
+  const { user, kakaoToken } = useAuthState();
+  const userId = user?.userId;
 
   const writeData = Object.values(themeMessageColor[Number(paperSkin) - 1]);
 
@@ -70,14 +69,9 @@ const MessageFixed = () => {
       </div>
       <BottomFix>
         <BottomBtn
-          link={`/paper/${paperId}`}
-          onclick={() => {
-            if (message!.length > 0) {
-              messageFix(email!, message, messageId!, color!);
-            } else alert('메세지 내용을 입력해주세요');
-            // messageRe(email!, paperId, dispatch);
-          }}
+          onclick={() => messageFix(userId!, message, messageId!, color!)}
           text="수정 완료"
+          link={`/paper/${paperId}`}
         />
       </BottomFix>
     </MessageLoadingComponent>

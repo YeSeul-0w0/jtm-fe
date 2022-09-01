@@ -3,7 +3,7 @@ import axios from 'axios';
 import { message, paper, reaction, sticker } from './messageStore';
 
 export const paperDetail = async (
-  email: string,
+  userId: string,
   paperId: string,
   dispatch: any,
   me: any,
@@ -12,17 +12,17 @@ export const paperDetail = async (
   re: any
 ) => {
   try {
-    if (email) {
+    if (userId) {
       const a = await axios({
         method: 'post',
         url: `${EnvConfig.LANTO_SERVER}paper/${paperId}`,
         data: {
           user: {
-            email: email,
+            userId: userId,
           },
         },
       });
-      // console.log(a.data);
+      console.log(a.data);
       if (
         a.data.messages.toString() !== me.toString() ||
         a.data.stickers.toString() !== st.toString() ||
@@ -63,7 +63,7 @@ export const messageRe = async (email: string, paperId: any, dispatch: any) => {
       url: `${EnvConfig.LANTO_SERVER}message`,
       // url: `${EnvConfig.LANTO_SERVER}paper/${paperId}`,
       headers: {
-        ['User-Email']: email,
+        ['User-Id']: email,
       },
     });
     dispatch(message(a.data.messages));
@@ -74,12 +74,11 @@ export const messageRe = async (email: string, paperId: any, dispatch: any) => {
 };
 
 export const messagePost = async (
-  email: string,
+  userId: string,
   content: any,
   font: any,
   color: any,
-  paperId: string,
-  dispatch: any
+  paperId: string
 ) => {
   try {
     if (color) {
@@ -88,7 +87,7 @@ export const messagePost = async (
         url: `${EnvConfig.LANTO_SERVER}message`,
         data: {
           user: {
-            email: email,
+            userId: userId,
           },
           paper: {
             paperId: paperId,
@@ -101,7 +100,7 @@ export const messagePost = async (
         },
       });
       if (a) {
-        alert('메세지가 작성됐습니다');
+        alert('메세지가 작성되었습니다');
         location.reload();
       }
     } else {
@@ -113,19 +112,19 @@ export const messagePost = async (
   }
 };
 
-export const messageDelete = async (email: string, messageId: any) => {
+export const messageDelete = async (userId: string, messageId: string) => {
   try {
     const a = await axios({
       url: `${EnvConfig.LANTO_SERVER}message/${messageId}`,
       method: 'delete',
       data: {
         user: {
-          email: email,
+          userId: userId,
         },
       },
     });
     if (a) {
-      alert('메세지가 삭제됐습니다');
+      alert('메세지가 삭제되었습니다');
       location.reload();
     }
   } catch (e) {
@@ -135,7 +134,7 @@ export const messageDelete = async (email: string, messageId: any) => {
 };
 
 export const messageFix = async (
-  email: string,
+  userId: string,
   text: string,
   messageId: string,
   fixColor: string
@@ -146,7 +145,7 @@ export const messageFix = async (
       url: `${EnvConfig.LANTO_SERVER}message/${messageId}`,
       data: {
         user: {
-          email: email,
+          userId: userId,
         },
         message: {
           content: text,
@@ -156,7 +155,7 @@ export const messageFix = async (
       },
     });
     if (a) {
-      alert('메세지가 수정됐습니다');
+      alert('메세지가 수정되었습니다');
       location.reload();
     }
   } catch (e) {
@@ -166,7 +165,7 @@ export const messageFix = async (
 };
 
 export const stickerPost = async (
-  email: string,
+  userId: string,
   x: number,
   y: number,
   paperId: string,
@@ -178,7 +177,7 @@ export const stickerPost = async (
       url: `${EnvConfig.LANTO_SERVER}sticker`,
       data: {
         user: {
-          email: email,
+          userId: userId,
         },
         paper: {
           paperId: paperId,
@@ -191,7 +190,7 @@ export const stickerPost = async (
       },
     });
     if (q) {
-      alert('스티커 작성이 완료됐습니다');
+      alert('스티커 작성이 완료되었습니다');
       location.reload();
     }
   } catch (e) {
@@ -202,7 +201,7 @@ export const stickerPost = async (
 
 export const stickerDelete = async (
   stickerId: any,
-  email: any,
+  userId: any,
   paperId: any
 ) => {
   try {
@@ -211,7 +210,7 @@ export const stickerDelete = async (
       url: `${EnvConfig.LANTO_SERVER}sticker/${stickerId}`,
       data: {
         user: {
-          email: email,
+          userId: userId,
         },
         paper: {
           paperId: paperId,
@@ -219,7 +218,7 @@ export const stickerDelete = async (
       },
     });
     if (q) {
-      alert('스티커 삭제가 완료됐습니다');
+      alert('스티커 삭제가 완료되었습니다');
       location.reload();
     }
   } catch (e) {
@@ -241,7 +240,7 @@ export const reactionAmount = async (messageId: number) => {
   }
 };
 
-export const reactionAdd = async (email: string, messageId: number) => {
+export const reactionAdd = async (userId: string, messageId: number) => {
   try {
     const reactionTouch = await axios({
       url: `${EnvConfig.LANTO_SERVER}reaction`,
@@ -251,7 +250,7 @@ export const reactionAdd = async (email: string, messageId: number) => {
           messageId: messageId,
         },
         user: {
-          email: email,
+          userId: userId,
         },
         reaction: {
           emoji: '❤',
@@ -265,7 +264,7 @@ export const reactionAdd = async (email: string, messageId: number) => {
 };
 
 export const reactionMinus = async (
-  email: string,
+  userId: string,
   messageId: number,
   reactionId: any
 ) => {
@@ -278,7 +277,7 @@ export const reactionMinus = async (
           messageId: messageId,
         },
         user: {
-          email: email,
+          userId: userId,
         },
       },
     });

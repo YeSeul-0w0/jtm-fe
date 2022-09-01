@@ -7,11 +7,9 @@ import Header from '../layout/Header';
 export const NamePaper = () => {
   const [title, setTitle] = useState<string>('');
   const navigate = useNavigate();
-  console.log(title, title.length);
-
   return (
     <>
-      <Header pageNm="롤링페이퍼 만들기" to="/createPaper" />
+      <Header pageNm="롤링페이퍼 만들기" to="/main" />
       <main>
         <TextInput
           title="롤링페이퍼의 제목을 정해주세요."

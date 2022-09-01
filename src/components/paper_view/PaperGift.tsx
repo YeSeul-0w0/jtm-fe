@@ -9,8 +9,8 @@ import { useAuthState } from '../../../src/context';
 import Modal from '../common/Modal';
 
 function PaperGift() {
-  const { user, token } = useAuthState();
-  const userEmail = user?.email;
+  const { user, kakaoToken } = useAuthState();
+  const userId = user?.userId;
 
   const [selectPaperId, setSelectPaperId] = useState<number>(0);
   const [paperList, setPaperList] = useState<any>([]);
@@ -18,13 +18,14 @@ function PaperGift() {
   const [giftEmail, setGiftEmail] = useState<string>();
   const [onModal, setOnModal] = useState<boolean>(false);
   const [info, setInfo] = useState<string>('');
+  const [flag, setFlag] = useState<boolean>(false);
 
   const loadPaperList = async () => {
     try {
       const getResponse = await axios({
         method: 'get',
         headers: {
-          'User-Email': `${userEmail}`,
+          'User-Id': `${userId}`,
         },
         url: `${EnvConfig.CREATE_PAPER}`,
       });
@@ -38,7 +39,7 @@ function PaperGift() {
     setSelectPaperId(e.target.value);
   };
 
-  const checkEmail = async () => {
+  const checkValues = async () => {
     if (selectPaperId !== 0) {
       if (giftEmail === emailVerify) {
         try {
@@ -47,7 +48,7 @@ function PaperGift() {
             url: `${EnvConfig.CREATE_PAPER}/gift/${selectPaperId}`,
             data: {
               user: {
-                email: `${userEmail}`,
+                userId: `${userId}`,
               },
               recipient: {
                 email: `${giftEmail}`,
@@ -55,35 +56,41 @@ function PaperGift() {
             },
           });
           setOnModal(true);
+          setFlag(true);
           setInfo('페이퍼가 선물 되었습니다!');
         } catch (e) {
           setOnModal(true);
-          setInfo('이메일이 동일하지 않습니다.');
+          setInfo(
+            '페이퍼 선물에 실패했습니다. \n 이메일 혹은 페이퍼를 확인하세요.'
+          );
         }
-      } else {
-        setOnModal(true);
-        setInfo('존재하지 않는 이메일 입니다.');
       }
-    } else {
-      setOnModal(true);
-      setInfo('페이퍼를 선택해주십시오.');
     }
   };
 
   useEffect(() => {
     loadPaperList();
+    // setSelectPaperId(paperList[0].paperId);
   }, []);
+
+  const onClick = () => {
+    if (flag) {
+      window.location.href = '/main';
+    } else {
+      setOnModal(false);
+    }
+  };
 
   return (
     <>
-      <Header pageNm="롤링페이퍼 만들기" to="/createPaper" />
+      <Header pageNm="롤링페이퍼 만들기" to="/main" />
       {onModal ? (
         <Modal
           info={info}
           confirm={false}
           onModal={onModal}
           setOnModal={setOnModal}
-          onButtonHref={'/createPaper'}
+          onClick={onClick}
         />
       ) : null}
       <main>
@@ -119,7 +126,7 @@ function PaperGift() {
           onChange={(e: any) => setEmailVerify(e.target.value)}
         />
       </main>
-      <BottomBtn text="다음" onclick={checkEmail} />
+      <BottomBtn text="다음" onclick={checkValues} />
     </>
   );
 }

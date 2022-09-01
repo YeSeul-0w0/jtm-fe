@@ -14,8 +14,8 @@ function ModifyNickName() {
   const [onModal, setOnModal] = useState<boolean>(false);
   const [onInfo, setOnInfo] = useState<string>('');
   const navigate = useNavigate();
-  const { user, token } = useAuthState();
-  const userEmail = user?.email;
+  const { user, kakaoToken } = useAuthState();
+  const userId = user?.userId;
 
   const [selectPaperId, setSelectPaperId] = useState<number>(0);
   const { paperId } = useParams();
@@ -32,7 +32,7 @@ function ModifyNickName() {
             skin: selectPaperId,
           },
           user: {
-            email: userEmail,
+            userId: userId,
           },
         },
       });
@@ -61,22 +61,22 @@ function ModifyNickName() {
 
   return (
     <>
-      <Header pageNm="페이퍼 변경" to="/createPaper" />
+      <Header pageNm="페이퍼 설정 변경" to="/main" />
       {onModal ? (
         <Modal
           info={onInfo}
           confirm={false}
           onModal={onModal}
           setOnModal={setOnModal}
-          onButtonHref={'/createPaper'}
+          onButtonHref={'/main'}
         />
       ) : null}
-      <Component>
+      <main>
         <MainText>
           {' '}
           변경할 제목을 <br /> 입력해주세요.{' '}
         </MainText>
-        <SubText> 10자 이하만 가능해요. </SubText>
+        <SubText> 2자 이상 10자 이하만 가능해요. </SubText>
         <TextInput
           title=""
           htmlFor="paperNm"
@@ -106,9 +106,9 @@ function ModifyNickName() {
         <BottomBtn
           onclick={sendChangeName}
           text="변경하기"
-          disabled={paperName.length <= 0 && selectPaperId > 0 ? true : false}
+          disabled={paperName.length < 2 && selectPaperId <= 0 ? true : false}
         />
-      </Component>
+      </main>
     </>
   );
 }

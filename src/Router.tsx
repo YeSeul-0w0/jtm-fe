@@ -10,7 +10,7 @@ import { NamePaper } from './components/create_paper/NamePaper';
 import Theme from './components/create_paper/Theme';
 import PaperMain from './components/create_paper/PaperMain';
 import LoginEmail from './components/login/LoginEmail';
-import { AuthProvider, useAuthState } from './context';
+import { AuthProvider } from './context';
 import MessageLoading from './components/message_loading/MessageLoading';
 import PaperGift from './components/paper_view/PaperGift';
 import MessageWrite from './components/message_loading/MessageWrite';
@@ -19,6 +19,7 @@ import MessageFixed from './components/message_loading/MessageFix';
 import { Credit } from './components/Credit';
 import ModifyPaperName from './components/setting/ModifyPaperName';
 import ModifyPassword from './components/setting/ModifyPassword';
+import { Ask } from './components/Ask';
 
 const Router = () => {
   const [KAKAO_API, set_KAKAO_API] = useState<string>('');
@@ -43,15 +44,13 @@ const Router = () => {
       });
   }, []);
 
-  // 제발 되게 해주세요 하나님맙소사울라라
-  // ㅁㄴ아머나멍ㅁ
-
   return (
     <AuthProvider>
       <BrowserRouter basename={process.env.PUBLIC_URL}>
         <Routes>
           <Route element={<AppLayout />}>
             <Route path="/" element={<GoToLogin api={KAKAO_API} />} />
+            <Route path="/ask" element={<Ask />} />
             <Route path="/credit" element={<Credit />} />
             <Route path="/login" element={<LoginEmail />} />
             <Route path="/login/signUp" element={<SignUp />} />
@@ -61,7 +60,7 @@ const Router = () => {
                 element={<KakaoLogin api={KAKAO_API} client={CLIENT_SECRET} />}
               />
             ) : null}
-            <Route path="/createPaper" element={<PaperMain />} />
+            <Route path="/main" element={<PaperMain />} />
             <Route path="/createPaper/decideName" element={<NamePaper />} />
             <Route
               path="/createPaper/selectTheme/:paperTitle"
@@ -79,7 +78,7 @@ const Router = () => {
               element={<MessageFixed />}
             />
             {/* <Route path="/message/sticker" element={<StickerWrite />} /> */}
-            <Route path="/user/nickname" element={<ModifyNickName />}></Route>
+            <Route path="/user/nickname" element={<ModifyNickName />} />
             <Route
               path="/changePaperName/:paperId"
               element={<ModifyPaperName />}

@@ -8,7 +8,7 @@ export type LoginAction =
       payload: any;
     }
   | { type: 'LOGOUT'; user: string }
-  | { type: 'LOGIN_ERROR'; loading: boolean; error: any };
+  | { type: 'LOGIN_ERROR'; loading: boolean; error: string };
 
 // 위 타입 전용 디스패치
 export type LoginDispatch = Dispatch<LoginAction>;
@@ -26,16 +26,16 @@ export const AuthReducer = (initialState: IState, action: LoginAction) => {
         ...initialState,
         user: {
           userName: action.payload.userName,
-          email: action.payload.email,
+          userId: action.payload.userId,
         },
-        token: action.payload.id,
+        // token: action.payload.id,
         loading: false,
       };
     case 'LOGOUT':
       return {
         ...initialState,
         user: null,
-        token: null,
+        kakaoToken: null,
       };
     case 'LOGIN_ERROR':
       return {

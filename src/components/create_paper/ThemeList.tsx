@@ -41,6 +41,7 @@ function ThemeList(props: PropsType) {
             left: '50%',
             transform: 'translate(-50%, -50%)',
           }}
+          onClick={choice}
           src={props.path}
           alt={props.name}
         />
@@ -70,7 +71,7 @@ const ItemStyle = styled.div`
     border: 1.5px solid lightgrey;
   }
   > .select-img {
-    border: 3px solid #00b860;
+    border: 3px solid #111111;
   }
 `;
 
@@ -85,7 +86,7 @@ const ImgComponent = styled.div`
     border: 3px solid lightgrey;
   }
   > .select-img {
-    border: 3px solid #00b860;
+    border: 3px solid #111111;
   }
 `;
 
@@ -98,7 +99,7 @@ const FontAwesomeStyle = styled.div`
     color: #cccccc;
   }
   > .select-img {
-    color: #00b860;
+    color: #111111;
   }
 `;
 

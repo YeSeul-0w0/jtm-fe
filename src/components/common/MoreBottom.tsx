@@ -2,7 +2,7 @@ import { useAuthState } from 'src/context';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { messageDelete, messageFix } from '../message_loading/messageFunction';
+import { messageDelete } from '../message_loading/messageFunction';
 import { More2 } from '../message_loading/messageInterface';
 import Modal from './Modal';
 
@@ -46,8 +46,8 @@ const MoreBottom = ({
   prevColor,
 }: More2) => {
   const nav = useNavigate();
-  const { user, token } = useAuthState();
-  const email = user?.email;
+  const { user, kakaoToken } = useAuthState();
+  const userId = user?.userId;
 
   const [open, setOpen] = useState<boolean>(false);
 
@@ -86,7 +86,7 @@ const MoreBottom = ({
           onModal={open}
           setOnModal={setOpen}
           onClick={() => {
-            messageDelete(email!, messageId);
+            messageDelete(userId!, messageId.toString());
             setOpen(false);
             setMore(false);
           }}

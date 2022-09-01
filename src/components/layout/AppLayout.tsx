@@ -13,7 +13,7 @@ const AppLayout = () => {
 const StyledContainer = styled.div`
   max-width: 375px;
   height: 100vh;
-  min-height: 100vh;
+  // min-height: 100vh;
   margin: auto;
   border: 1px solid lightgrey; // 경계 구분용
   display: flex;
@@ -21,7 +21,8 @@ const StyledContainer = styled.div`
   align-items: center;
   align-content: stretch;
   position: relative;
-  overflow-y: auto;
+  transform: translateX(-0%);
+  /* overflow-y: hidden; */
   overflow-x: hidden;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */

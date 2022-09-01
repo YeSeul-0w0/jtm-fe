@@ -8,47 +8,60 @@ import axios from 'axios';
 import EnvConfig from '../../config/EnvConfig';
 import { useAuthState } from '../../../src/context';
 import Modal from '../common/Modal';
+import { nickNameTest } from 'src/config/RegExp';
 
 function ModifyNickName() {
   const [nickName, setNickName] = useState<string>('');
   const [onModal, setOnModal] = useState<boolean>(false);
   const [onInfo, setOnInfo] = useState<string>('');
-  const [url, setUrl] = useState<string>('');
+  const [flag, setFlag] = useState<boolean>(false);
   const navigate = useNavigate();
-  const { user, token } = useAuthState();
-  const userEmail = user?.email;
+  const { user, kakaoToken } = useAuthState();
+  const userId = user?.userId;
 
   const sendChangeName = async () => {
-    try {
-      await axios({
-        method: 'put',
-        url: `${EnvConfig.LANTO_SERVER}user/name`,
-        data: {
-          email: userEmail,
-          userName: nickName,
-        },
-      });
-      const userData = JSON.parse(
-        localStorage.getItem('currentUser') as string
-      );
-      userData.userName = nickName;
-      localStorage.setItem('currentUser', JSON.stringify(userData));
-      setOnInfo('성공적으로 변경되었습니다.');
-      setOnModal(true);
-    } catch (err) {
-      console.log(err);
-      setOnInfo('닉네임 변경에 실패했습니다.');
-      setOnModal(true);
+    if (nickNameTest.test(nickName)) {
+      try {
+        await axios({
+          method: 'put',
+          url: `${EnvConfig.LANTO_SERVER}user/name`,
+          data: {
+            userId: userId,
+            userName: nickName,
+          },
+        });
+        const userData = JSON.parse(
+          localStorage.getItem('currentUser') as string
+        );
+        userData.userName = nickName;
+        localStorage.setItem('currentUser', JSON.stringify(userData));
+        setOnInfo('성공적으로 변경되었습니다.');
+        setOnModal(true);
+        setFlag(true);
+      } catch (err: any) {
+        console.log(err.response.status);
+        if (err.response.status === 409) {
+          setOnInfo('중복된 닉네임입니다.');
+          setOnModal(true);
+        } else if (err.response.status === 500) {
+          setOnInfo('관리자에게 문의하십시오.');
+          setOnModal(true);
+        }
+      }
     }
   };
 
   const onClick = () => {
-    window.location.href = '/createPaper';
+    if (flag) {
+      window.location.href = '/main';
+    } else {
+      setOnModal(false);
+    }
   };
 
   return (
     <>
-      <Header pageNm="닉네임 변경" to="/createPaper" />
+      <Header pageNm="닉네임 변경" to="/main" />
       {onModal ? (
         <Modal
           info={onInfo}
@@ -58,7 +71,7 @@ function ModifyNickName() {
           setOnModal={setOnModal}
         />
       ) : null}
-      <Component>
+      <main>
         <MainText>
           {' '}
           변경할 닉네임을 <br /> 입력해주세요.{' '}
@@ -71,13 +84,13 @@ function ModifyNickName() {
           border="1px solid black"
           onChange={(e: any) => setNickName(e.target.value)}
         />
-        <Temp />
-        <BottomBtn
-          onclick={sendChangeName}
-          text="다음"
-          disabled={nickName.length <= 0 ? true : false}
-        />
-      </Component>
+        {/* <Temp /> */}
+      </main>
+      <BottomBtn
+        onclick={sendChangeName}
+        text="완료"
+        disabled={nickName.length <= 0 ? true : false}
+      />
     </>
   );
 }

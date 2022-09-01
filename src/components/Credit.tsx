@@ -28,7 +28,7 @@ const StyledMain = styled.main`
 export const Credit = () => {
   return (
     <>
-      <Header pageNm="만든이 소개" to="/createPaper" />
+      <Header pageNm="만든이 소개" to="/main" />
       <StyledMain>
         <h1>백엔드</h1>
         <div>

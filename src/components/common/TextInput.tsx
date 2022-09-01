@@ -14,6 +14,8 @@ export interface ITextInput {
   autocomplete?: string;
   name?: string;
   des?: string;
+  blur?: any;
+  click?: boolean;
 }
 
 /*
@@ -26,16 +28,18 @@ const TextInput = (props: ITextInput) => {
     placeholder: props?.placeholder,
     ...props,
   };
-  const [change, setChange] = useState<string>('rgba(0, 0, 0, 0.5)');
+  // const [change, setChange] = useState<string>('rgba(0, 0, 0, 0.9)');
   return (
     <Wrapper>
-      <StyledLabel color={change} htmlFor={props.htmlFor}>
-        {props.title}
-      </StyledLabel>
+      <StyledLabel htmlFor={props.htmlFor}>{props.title}</StyledLabel>
       {props.des && <DescriptionLabel>{props.des}</DescriptionLabel>}
       <StyledTextInput
-        onFocus={() => setChange('#000')}
-        onBlur={() => setChange('rgba(0, 0, 0, 0.5)')}
+        onChange={props.onChange}
+        // onFocus={() => setChange('#000')}
+        onBlur={() => {
+          // setChange('rgba(0, 0, 0, 0.5)');
+          props.click && props.blur();
+        }}
         // id={props.htmlFor}
         // type={props?.isPassword ? 'password' : 'text'}
         // placeholder={props.placeholder ? props.placeholder : ''}

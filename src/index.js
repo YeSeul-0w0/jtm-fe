@@ -5,8 +5,4 @@ import App from './App';
 
 const rootNode = document.getElementById('root');
 
-ReactDOM.createRoot(rootNode).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+ReactDOM.createRoot(rootNode).render(<App />);

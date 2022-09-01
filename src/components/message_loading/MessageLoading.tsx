@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import styled from 'styled-components';
 import './messageLoading.scss';
 import Header from '../layout/Header';
@@ -42,20 +42,19 @@ const MessageLoading = () => {
   const { paperId } = useParams();
   const messageList = state.message;
 
-  const { user, token } = useAuthState();
-  const email = user?.email;
+  const { user, kakaoToken } = useAuthState();
+  const userId = user?.userId;
   const userName = user?.userName;
 
   const paperData = state.paper;
   const paperTheme = state.paper.skin;
   const paperName = state.paper.paperTitle;
   const reactionAll = state.reaction;
-  const stickerAll = state.sticker;
 
   useEffect(() => {
     if (change) {
       paperDetail(
-        email!,
+        userId!,
         paperId!,
         dispatch,
         messageList!,
@@ -65,10 +64,33 @@ const MessageLoading = () => {
       );
       setChange(false);
     }
-    // console.log();
-    console.log(stickerAll[0]);
     // console.log(userName);
   }, [change]);
+
+  const Message = styled.div<Loading>`
+    width: ${props => (props.width ? props.width : '327px')};
+    background-color: ${props =>
+      props.backColor ? props.backColor : '#ffbba6'};
+    font-family: ${props => (props.font ? props.font : 'sans-serif')};
+    border-radius: 12px;
+    padding: 16px 16px 20px 16px;
+    margin-top: 34px;
+    display: flex;
+    flex-direction: column;
+    align-self: ${props => props.left && props.width && props.left};
+    p {
+      font-size: 13px;
+      line-height: 24px;
+    }
+    p:first-child {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 7px;
+    }
+    p:nth-child(2) {
+      margin-bottom: 13px;
+    }
+  `;
 
   return (
     <MessageLoadingComponent
@@ -83,7 +105,7 @@ const MessageLoading = () => {
         move && setY(e.touches[0].clientY + e.currentTarget.scrollTop);
       }}
     >
-      {user?.email === null && (
+      {user?.userId === null && (
         <>
           <div className="dis"></div>
         </>
@@ -96,7 +118,6 @@ const MessageLoading = () => {
         <>
           {st && (
             <Sticker
-              email={email!}
               url={st}
               setMove={setMove}
               x={x}
@@ -109,7 +130,7 @@ const MessageLoading = () => {
               setSt={setSt}
             />
           )}
-          <Header to={email ? '/createPaper' : '/'} pageNm={paperName} />
+          <Header to="/main" pageNm={paperName} />
           <div className="message-wrap">
             {messageList[0] ? (
               messageList.map((item: Message, idx: number) => {
@@ -172,14 +193,13 @@ const MessageLoading = () => {
                 );
               })
             ) : (
-              <p>앗 아직 메세지가 없어요!</p>
+              <p>앗 아직 메시지가 없어요!</p>
             )}
             {stickerList[0] &&
               stickerList.map((item: any) => {
                 return (
                   <Sticker
-                    key={item.stickerId}
-                    email={email!}
+                    userId={userId}
                     url={item.stickerType}
                     x={item.positionX}
                     y={item.positionY}
@@ -193,7 +213,7 @@ const MessageLoading = () => {
           </div>
         </>
       )}
-      {user?.email !== null && !stickerPop && (
+      {user?.userId !== null && !stickerPop && (
         <div className="message-btns">
           {/* <div className="btn">/ */}
           <Btn
@@ -219,8 +239,8 @@ const MessageLoading = () => {
             center="center"
             onClick={() => {
               if (
-                stickerAll[0] === undefined ||
-                stickerAll[0].userName !== userName
+                stickerList[0] === undefined ||
+                stickerList[0].userName !== userName
               )
                 setStickerPop(true);
               else alert('이미 이 페이퍼에 스티커를 작성했습니다');
@@ -230,13 +250,13 @@ const MessageLoading = () => {
           {/* 임시로 만들어놓은 스티커 붙이기 버튼 */}
           {/* {st && (
             <BottomBtn
-              onclick={() => stickerPost(email!, postX, postY, paperId!, st)}
+              onclick={() => stickerPost(userId!, postX, postY, paperId!, st)}
               text="스티커 붙이기"
             />
           )} */}
         </div>
       )}
-      {email === null && (
+      {userId === null && (
         <Link to="/login">
           <div className="go-login">
             <BottomBtn text="로그인하러 가기" />
@@ -247,7 +267,7 @@ const MessageLoading = () => {
   );
 };
 
-export const MessageLoadingComponent = styled.div<MessageLoadingInt>`
+export const MessageLoadingComponent = styled.main<MessageLoadingInt>`
   width: 100%;
   position: relative;
   background-color: ${props => (props.theme ? props.theme : '#fff')};
