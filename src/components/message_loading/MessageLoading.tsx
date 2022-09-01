@@ -89,10 +89,6 @@ const MessageLoading = () => {
           move && setX(e.clientX);
           move && setY(e.clientY + e.currentTarget.scrollTop);
         }}
-        // onTou={e => {
-        //   move && setX(e.touches[0].clientX);
-        //   move && setY(e.touches[0].clientY + e.currentTarget.scrollTop);
-        // }}
       >
         {user?.userId === null && (
           <>
