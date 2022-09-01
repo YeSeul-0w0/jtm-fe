@@ -21,8 +21,6 @@ import { useAuthState } from 'src/context';
 import { MoveBtn } from '../common/MoveBtn';
 import { themeColor, themeTextColor } from './messageData';
 
-// 회원가입에서 인증번호 useState 말고 유저단에 안 보여줄 방법 찾아봐야
-
 const MessageLoading = () => {
   const [change, setChange] = useState<boolean>(true);
   const [fixPop, setFixPop] = useState<boolean>(false);
@@ -64,33 +62,7 @@ const MessageLoading = () => {
       );
       setChange(false);
     }
-    // console.log(userName);
   }, [change]);
-
-  const Message = styled.div<Loading>`
-    width: ${props => (props.width ? props.width : '327px')};
-    background-color: ${props =>
-      props.backColor ? props.backColor : '#ffbba6'};
-    font-family: ${props => (props.font ? props.font : 'sans-serif')};
-    border-radius: 12px;
-    padding: 16px 16px 20px 16px;
-    margin-top: 34px;
-    display: flex;
-    flex-direction: column;
-    align-self: ${props => props.left && props.width && props.left};
-    p {
-      font-size: 13px;
-      line-height: 24px;
-    }
-    p:first-child {
-      font-weight: 600;
-      font-size: 14px;
-      margin-bottom: 7px;
-    }
-    p:nth-child(2) {
-      margin-bottom: 13px;
-    }
-  `;
 
   return (
     <MessageLoadingComponent
@@ -125,6 +97,7 @@ const MessageLoading = () => {
               postX={postX}
               postY={postY}
               paperId={paperId!}
+              userId={userId!}
               setPostX={setPostX}
               setPostY={setPostY}
               setSt={setSt}
@@ -303,5 +276,29 @@ const MessageComponent = styled.div<Loading>`
     margin-bottom: 13px;
   }
 `;
+
+// const MessageCompo = styled.div<Loading>`
+//   width: ${props => (props.width ? props.width : '327px')};
+//   background-color: ${props => (props.backColor ? props.backColor : '#ffbba6')};
+//   font-family: ${props => (props.font ? props.font : 'sans-serif')};
+//   border-radius: 12px;
+//   padding: 16px 16px 20px 16px;
+//   margin-top: 34px;
+//   display: flex;
+//   flex-direction: column;
+//   align-self: ${props => props.left && props.width && props.left};
+//   p {
+//     font-size: 13px;
+//     line-height: 24px;
+//   }
+//   p:first-child {
+//     font-weight: 600;
+//     font-size: 14px;
+//     margin-bottom: 7px;
+//   }
+//   p:nth-child(2) {
+//     margin-bottom: 13px;
+//   }
+// `;
 
 export default MessageLoading;
