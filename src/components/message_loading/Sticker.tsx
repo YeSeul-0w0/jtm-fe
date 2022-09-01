@@ -29,6 +29,7 @@ const Sticker = ({
   useEffect(() => {
     setLeftLimit(wrapRef.current.parentElement.getBoundingClientRect().left);
     setTopLimit(wrapRef.current.parentElement.getBoundingClientRect().y);
+    console.log(userId);
   }, [window.innerWidth, window.innerHeight]);
 
   return (

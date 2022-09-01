@@ -13,11 +13,8 @@ const StyledNoMsgP = styled.p`
 `;
 
 const MessageItem = (msg: IMessage) => {
-  const randomInt = parseInt((Math.random() * 100).toString(), 10);
-  const randomColor = `hsl(${randomInt * 8}, 85%, 90%)`;
-
   return (
-    <StyledMessageli color={randomColor} onClick={msg.onClick}>
+    <StyledMessageli color={msg.color} onClick={msg.onClick}>
       <p style={{ fontWeight: 'bold', marginBottom: '0.5rem' }}>
         {msg.userName}님
       </p>

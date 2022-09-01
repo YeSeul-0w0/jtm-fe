@@ -171,6 +171,9 @@ export const stickerPost = async (
   paperId: string,
   stickerNum: number
 ) => {
+  console.log(userId);
+  console.log(paperId);
+  console.log(stickerNum);
   try {
     const q = await axios({
       method: 'post',
