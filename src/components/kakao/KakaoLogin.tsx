@@ -40,7 +40,7 @@ function KakaoLogin(props: PropsType): null {
     Kakao.init(KAKAO_API_KEY);
     Kakao.Auth.setAccessToken(kakaoTokenResp.data.access_token);
     const decode = Base64.decode(kakaoTokenResp.data.id_token);
-    const splitId = decode.split(',')[0].split(':')[1];
+    const splitId = decode.split(',')[3].split(':')[1];
     const id = splitId.substring(1, splitId.length - 1);
     try {
       const responseData = await kakaoLoginUser(dispatch, id);

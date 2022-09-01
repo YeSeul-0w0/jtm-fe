@@ -36,12 +36,12 @@ const GoToLogin = (props: PropsType) => {
         에 동의하게 됩니다.
       </TextComponent>
       <BtnComponent>
-        {/* <Btn
+        <Btn
           text="카카오로 시작하기"
           href={KAKAO_AUTH_URL}
           logo="kakao.png"
           background="#FAE54D"
-        /> */}
+        />
         <Btn
           text="이메일로 시작하기"
           link="/login"
