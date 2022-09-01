@@ -72,7 +72,7 @@ const MessageLoading = () => {
           setMove={setMove}
           x={x}
           y={y}
-          z={99}
+          z={62}
           postX={postX}
           postY={postY}
           paperId={paperId!}
