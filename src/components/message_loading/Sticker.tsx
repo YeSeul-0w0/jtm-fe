@@ -8,6 +8,7 @@ const Sticker = ({
   setMove,
   x,
   y,
+  z,
   url,
   postX,
   postY,
@@ -31,6 +32,15 @@ const Sticker = ({
     setTopLimit(wrapRef.current.parentElement.getBoundingClientRect().y);
     console.log(userId);
   }, [window.innerWidth, window.innerHeight]);
+
+  useEffect(() => {
+    if (currentFix) setMove?.(true);
+    else {
+      setPostX?.(x - leftLimit - 95 / 2);
+      setPostY?.(y - topLimit - 133 / 2);
+      setMove?.(false);
+    }
+  }, [currentFix]);
 
   return (
     <>
@@ -73,29 +83,33 @@ const Sticker = ({
           // 커서를 스티커 이미지의 정중앙으로 두기 위해 이미지의 절반만큼 빼줬습니다
           left: `${setPostX ? x - leftLimit - 95 / 2 : x}px`,
           top: `${setPostY ? y - topLimit - 133 / 2 : y}px`,
-          zIndex: 60,
+          zIndex: `${z ? z : '60'}`,
         }}
         onClick={() => {
           if (stickerUserName === currentUserName) {
             setCurrentFix(prev => !prev);
+            // if (currentFix) {
+            //   setPostX(x - leftLimit - 95 / 2);
+            //   setPostY(y - topLimit - 133 / 2);
+            // }
           }
         }}
-        onTouchStart={() => {
-          window.innerWidth < 1000 && currentFix && setPostY && setMove(true);
-          // console.log(123);
-        }}
-        onTouchEnd={() => {
-          window.innerWidth < 1000 && currentFix && setPostY && setMove(false);
-          setPostX(x - leftLimit - 95 / 2);
-          setPostY(y - topLimit - 133 / 2);
-          // console.log(456);
-        }}
-        onMouseDown={() => currentFix && setPostY && setMove(true)}
-        onMouseUp={() => {
-          currentFix && setPostY && setMove(false);
-          setPostX(x - leftLimit - 95 / 2);
-          setPostY(y - topLimit - 133 / 2);
-        }}
+        // onTouchStart={() => {
+        //   window.innerWidth < 1000 && currentFix && setPostY && setMove(true);
+        //   // console.log(123);
+        // }}
+        // onTouchEnd={() => {
+        //   window.innerWidth < 1000 && currentFix && setPostY && setMove(false);
+        //   setPostX(x - leftLimit - 95 / 2);
+        //   setPostY(y - topLimit - 133 / 2);
+        //   // console.log(456);
+        // }}
+        // onMouseDown={() => currentFix && setPostY && setMove(true)}
+        // onMouseUp={() => {
+        //   currentFix && setPostY && setMove(false);
+        //   setPostX(x - leftLimit - 95 / 2);
+        //   setPostY(y - topLimit - 133 / 2);
+        // }}
         ref={wrapRef}
       >
         {currentFix && (

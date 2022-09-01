@@ -38,11 +38,12 @@ const SignUp = () => {
   const paw = (suc: boolean) => {
     dispatch(password(suc));
   };
+
   return (
     <>
-      <main className="signWrap">
+      <main className="signWrap" ref={scrollRef}>
         <Header pageNm="회원가입" to="/login" />
-        <div className="bar" ref={scrollRef}></div>
+        <div className="bar"></div>
         <form id="signUp">
           <SignUpEmail
             emailCheck={emailCheck}

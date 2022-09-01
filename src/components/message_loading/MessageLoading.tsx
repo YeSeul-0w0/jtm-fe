@@ -65,178 +65,181 @@ const MessageLoading = () => {
   }, [change]);
 
   return (
-    <MessageLoadingComponent
-      theme={themeColor[paperTheme - 1]}
-      full={stickerPop ? true : false}
-      onMouseMove={e => {
-        move && setX(e.clientX);
-        move && setY(e.clientY + e.currentTarget.scrollTop);
-      }}
-      onTouchMove={e => {
-        move && setX(e.touches[0].clientX);
-        move && setY(e.touches[0].clientY + e.currentTarget.scrollTop);
-      }}
-    >
-      {user?.userId === null && (
-        <>
-          <div className="dis"></div>
-        </>
+    <>
+      {st && (
+        <Sticker
+          url={st}
+          setMove={setMove}
+          x={x}
+          y={y}
+          z={99}
+          postX={postX}
+          postY={postY}
+          paperId={paperId!}
+          userId={userId!}
+          setPostX={setPostX}
+          setPostY={setPostY}
+          setSt={setSt}
+        />
       )}
-      {stickerPop ? (
-        <>
-          <StickerWrite setStickerPop={setStickerPop} setSt={setSt} />
-        </>
-      ) : (
-        <>
-          {st && (
-            <Sticker
-              url={st}
-              setMove={setMove}
-              x={x}
-              y={y}
-              postX={postX}
-              postY={postY}
-              paperId={paperId!}
-              userId={userId!}
-              setPostX={setPostX}
-              setPostY={setPostY}
-              setSt={setSt}
-            />
-          )}
-          <Header to="/main" pageNm={paperName} />
-          <div className="message-wrap">
-            {messageList[0] ? (
-              messageList.map((item: Message, idx: number) => {
-                // console.log(item);
-                const myReaction = reactionAll.filter(
-                  (re: any) => re.messageId === item.messageId
-                );
-                return (
-                  <MessageComponent
-                    key={item.messageId}
-                    // backColor={'#fff'}
-                    backColor={item.color}
-                    color={
-                      isNaN(Number(item.color[1]))
-                        ? 'unset'
-                        : Number(item.color[1]) <= 7
-                        ? '#fff'
-                        : 'unset'
-                    }
-                    font={item.font}
-                    width={item.content.length <= 84 ? '234px' : ''}
-                    left={(idx + 1) % 2 !== 0 ? 'flex-start' : 'flex-end'}
-                  >
-                    {/* <p>{item.createDate}</p> */}
-                    <p>{item.userName}</p>
-                    <p>{item.content}</p>
-                    <div className="more-wrap">
-                      {item.userName === user?.userName && (
-                        <MoreBtn
-                          text={['수정하기', '삭제하기']}
-                          paperId={paperId!}
+      <MessageLoadingComponent
+        theme={themeColor[paperTheme - 1]}
+        full={stickerPop ? true : false}
+        onClick={e => {
+          move && setX(e.clientX);
+          move && setY(e.clientY + e.currentTarget.scrollTop);
+        }}
+        // onTou={e => {
+        //   move && setX(e.touches[0].clientX);
+        //   move && setY(e.touches[0].clientY + e.currentTarget.scrollTop);
+        // }}
+      >
+        {user?.userId === null && (
+          <>
+            <div className="dis"></div>
+          </>
+        )}
+        {stickerPop ? (
+          <>
+            <StickerWrite setStickerPop={setStickerPop} setSt={setSt} />
+          </>
+        ) : (
+          <>
+            <Header to="/main" pageNm={paperName} />
+            <div className="message-wrap">
+              {messageList[0] ? (
+                messageList.map((item: Message, idx: number) => {
+                  // console.log(item);
+                  const myReaction = reactionAll.filter(
+                    (re: any) => re.messageId === item.messageId
+                  );
+                  return (
+                    <MessageComponent
+                      key={item.messageId}
+                      // backColor={'#fff'}
+                      backColor={item.color}
+                      color={
+                        isNaN(Number(item.color[1]))
+                          ? 'unset'
+                          : Number(item.color[1]) <= 7
+                          ? '#fff'
+                          : 'unset'
+                      }
+                      font={item.font}
+                      width={item.content.length <= 84 ? '234px' : ''}
+                      left={(idx + 1) % 2 !== 0 ? 'flex-start' : 'flex-end'}
+                    >
+                      {/* <p>{item.createDate}</p> */}
+                      <p>{item.userName}</p>
+                      <p>{item.content}</p>
+                      <div className="more-wrap">
+                        {item.userName === user?.userName && (
+                          <MoreBtn
+                            text={['수정하기', '삭제하기']}
+                            paperId={paperId!}
+                            messageId={item.messageId}
+                            paperTheme={paperTheme}
+                            prev={item.content}
+                            prevColor={item.color}
+                            color={
+                              isNaN(Number(item.color[1]))
+                                ? false
+                                : Number(item.color[1]) < 7
+                                ? '#fff'
+                                : false
+                            }
+                          />
+                        )}
+                        <Reaction
                           messageId={item.messageId}
-                          paperTheme={paperTheme}
-                          prev={item.content}
-                          prevColor={item.color}
-                          color={
+                          user={user}
+                          myReaction={myReaction}
+                          setChange={setChange}
+                          white={
                             isNaN(Number(item.color[1]))
                               ? false
                               : Number(item.color[1]) < 7
-                              ? '#fff'
+                              ? true
                               : false
                           }
                         />
-                      )}
-                      <Reaction
-                        messageId={item.messageId}
-                        user={user}
-                        myReaction={myReaction}
-                        setChange={setChange}
-                        white={
-                          isNaN(Number(item.color[1]))
-                            ? false
-                            : Number(item.color[1]) < 7
-                            ? true
-                            : false
-                        }
-                      />
-                    </div>
-                  </MessageComponent>
-                );
-              })
-            ) : (
-              <p>앗 아직 메시지가 없어요!</p>
-            )}
-            {stickerList[0] &&
-              stickerList.map((item: any) => {
-                return (
-                  <Sticker
-                    userId={userId}
-                    url={item.stickerType}
-                    x={item.positionX}
-                    y={item.positionY}
-                    stickerId={item.stickerId}
-                    paperId={paperId!}
-                    stickerUserName={item.userName}
-                    currentUserName={userName!}
-                  />
-                );
-              })}
-          </div>
-        </>
-      )}
-      {user?.userId !== null && !stickerPop && (
-        <div className="message-btns">
-          {/* <div className="btn">/ */}
-          <Btn
-            link={`/paper/write/${paperTheme!}/${paperId!}`}
-            width="48px"
-            height="48px"
-            text=""
-            padding="0"
-            background="#111"
-            logo="message.svg"
-            imgSize="20px"
-            center="center"
-          />
-          <Btn
-            href="#"
-            width="48px"
-            height="48px"
-            text=""
-            padding="0"
-            background="#FED700"
-            logo="star.svg"
-            imgSize="20px"
-            center="center"
-            onClick={() => {
-              if (
-                stickerList[0] === undefined ||
-                stickerList[0].userName !== userName
-              )
-                setStickerPop(true);
-              else alert('이미 이 페이퍼에 스티커를 작성했습니다');
-            }}
-          />
-          {/* </div> */}
-          {/* 임시로 만들어놓은 스티커 붙이기 버튼 */}
-          {/* {st && (
+                      </div>
+                    </MessageComponent>
+                  );
+                })
+              ) : (
+                <p>앗 아직 메시지가 없어요!</p>
+              )}
+              {stickerList[0] &&
+                stickerList.map((item: any) => {
+                  return (
+                    <Sticker
+                      userId={userId}
+                      url={item.stickerType}
+                      x={item.positionX}
+                      y={item.positionY}
+                      stickerId={item.stickerId}
+                      paperId={paperId!}
+                      stickerUserName={item.userName}
+                      currentUserName={userName!}
+                    />
+                  );
+                })}
+            </div>
+          </>
+        )}
+        {user?.userId !== null && !stickerPop && (
+          <div className="message-btns">
+            {/* <div className="btn">/ */}
+            <Btn
+              link={`/paper/write/${paperTheme!}/${paperId!}`}
+              width="48px"
+              height="48px"
+              text=""
+              padding="0"
+              background="#111"
+              logo="message.svg"
+              imgSize="20px"
+              center="center"
+            />
+            <Btn
+              href="#"
+              width="48px"
+              height="48px"
+              text=""
+              padding="0"
+              background="#FED700"
+              logo="star.svg"
+              imgSize="20px"
+              center="center"
+              onClick={() => {
+                if (
+                  stickerList[0] === undefined ||
+                  stickerList[0].userName !== userName
+                )
+                  setStickerPop(true);
+                else alert('이미 이 페이퍼에 스티커를 작성했습니다');
+              }}
+            />
+            {/* </div> */}
+            {/* 임시로 만들어놓은 스티커 붙이기 버튼 */}
+            {/* {st && (
             <BottomBtn
               onclick={() => stickerPost(userId!, postX, postY, paperId!, st)}
               text="스티커 붙이기"
             />
           )} */}
-        </div>
-      )}
-      {userId === null && (
-        <Link to="/login">
-          <div className="go-login">
-            <BottomBtn text="로그인하러 가기" />
           </div>
-        </Link>
-      )}
-    </MessageLoadingComponent>
+        )}
+        {userId === null && (
+          <Link to="/login">
+            <div className="go-login">
+              <BottomBtn text="로그인하러 가기" />
+            </div>
+          </Link>
+        )}
+      </MessageLoadingComponent>
+    </>
   );
 };
 
