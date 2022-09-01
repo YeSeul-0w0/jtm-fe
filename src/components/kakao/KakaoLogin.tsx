@@ -17,7 +17,7 @@ function KakaoLogin(props: PropsType): null {
   const KAKAO_API_KEY: string = props.api;
   // local 이용 : REDIRECT_URI_LOCAL
   // 도메인 이용 : KAKAO_REDIRECT_URI
-  const REDIRECT_URI = EnvConfig.REDIRECT_URI_LOCAL;
+  const REDIRECT_URI = EnvConfig.KAKAO_REDIRECT_URI;
   const CLIENT_SECRET: string = props.client;
   const code: string =
     new URL(window.location.href).searchParams.get('code') || '';
