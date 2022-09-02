@@ -30,7 +30,7 @@ const LoginEmail = () => {
     if (isValidated) {
       try {
         const responseData = await loginUser(dispatch, inputs);
-        console.log(responseData);
+        // console.log(responseData);
         if (!responseData?.userId) {
           alert('아이디 또는 비밀번호가 존재하지 않거나 맞지 않습니다.');
           return;

@@ -45,7 +45,7 @@ const PaperMain = () => {
           );
         }
       });
-    console.log(user);
+    // console.log(user);
   }, []);
   // user의 userName 없으면 페이지 login으로 리디렉트
   return (
@@ -71,7 +71,7 @@ const ViewPapers = ({ user, paperCnt }: { user: IUser; paperCnt: number }) => {
   const [paperId, setPaperId] = useState<string>('0');
   const navigate = useNavigate();
   const modifyPaper = (pId: string) => {
-    console.log('modify', pId);
+    // console.log('modify', pId);
     navigate(`/changePaperName/${pId}`);
   };
 
@@ -115,7 +115,7 @@ const ViewPapers = ({ user, paperCnt }: { user: IUser; paperCnt: number }) => {
   useEffect(() => {
     function handleClickOutside(e: MouseEvent): void {
       if (!close?.current?.contains(e.target as Node)) {
-        console.log('click?');
+        // console.log('click?');
         setOnComponent(false);
       }
     }

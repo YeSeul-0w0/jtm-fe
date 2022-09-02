@@ -25,9 +25,6 @@ const PaperList = ({
 }) => {
   const [paperAndMsgs, setPaperAndMsgs] = useState<IPaper[]>();
 
-  // const [selectPaper, setSelectPaper] = useState<string>();
-  // const [onWindow, setOnWindow] = useState<boolean>(onSelect);
-
   useEffect(() => {
     async function fetchAndSetPapers() {
       const allData = await getPaperList(userId);
@@ -48,7 +45,7 @@ const PaperList = ({
   const onClick = (paperId: string) => {
     setSelect(!onSelect);
     setPaperId(paperId);
-    console.log('value', onSelect, 'id', paperId);
+    // console.log('value', onSelect, 'id', paperId);
   };
 
   const hoverEvent = (e: any) => {
