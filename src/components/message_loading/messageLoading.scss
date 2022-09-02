@@ -71,12 +71,17 @@
     .more-wrap{
         align-self: flex-end;
         display: flex;
+        align-items: center;
         cursor: pointer;
+        >p{
+            font-weight: unset;
+        }
         .reaction-wrap{
             width: 25px;
-            margin-left: 12px;
+            margin-left: 5px;
             display: flex;
             justify-content: space-around;
+            align-items: center;
         }
         .like {
             fill:#111111;
@@ -112,8 +117,8 @@ header {
 .go-login{
     position: fixed;
     bottom: 0;
-    z-index: 52;
     width: 305px;
+    z-index: 61;
     button{
         width: 100%;
     }

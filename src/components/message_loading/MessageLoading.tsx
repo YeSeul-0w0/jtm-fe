@@ -63,10 +63,6 @@ const MessageLoading = () => {
       setChange(false);
     }
   }, [change]);
-
-  // console.log(window.scrollY);
-  // console.log(window.scrollY);
-
   return (
     <>
       {st && (
@@ -91,14 +87,8 @@ const MessageLoading = () => {
         onClick={e => {
           move && setX(e.clientX);
           move && setY(e.clientY);
-          // console.dir(e.currentTarget.scrollTop);
         }}
       >
-        {user?.userId === null && (
-          <>
-            <div className="dis"></div>
-          </>
-        )}
         {stickerPop ? (
           <>
             <StickerWrite setStickerPop={setStickerPop} setSt={setSt} />
@@ -109,14 +99,12 @@ const MessageLoading = () => {
             <div className="message-wrap">
               {messageList[0] ? (
                 messageList.map((item: Message, idx: number) => {
-                  // console.log(item);
                   const myReaction = reactionAll.filter(
                     (re: any) => re.messageId === item.messageId
                   );
                   return (
                     <MessageComponent
                       key={item.messageId}
-                      // backColor={'#fff'}
                       backColor={item.color}
                       color={
                         isNaN(Number(item.color[1]))
@@ -129,8 +117,7 @@ const MessageLoading = () => {
                       width={item.content.length <= 84 ? '234px' : ''}
                       left={(idx + 1) % 2 !== 0 ? 'flex-start' : 'flex-end'}
                     >
-                      {/* <p>{item.createDate}</p> */}
-                      <p>{item.userName}</p>
+                      <p className="user-name">{item.userName}</p>
                       <p>{item.content}</p>
                       <div className="more-wrap">
                         {item.userName === user?.userName && (
@@ -150,6 +137,7 @@ const MessageLoading = () => {
                             }
                           />
                         )}
+                        <p>{item.createDate}</p>
                         <Reaction
                           key={item.userName}
                           messageId={item.messageId}
@@ -234,7 +222,7 @@ const MessageLoading = () => {
           </div>
         )}
         {userId === null && (
-          <Link to="/login">
+          <Link to="/">
             <div className="go-login">
               <BottomBtn text="로그인하러 가기" />
             </div>
@@ -272,7 +260,7 @@ const MessageComponent = styled.div<Loading>`
     font-size: 13px;
     line-height: 24px;
   }
-  p:first-child {
+  p.user-name {
     font-weight: 600;
     font-size: 14px;
     margin-bottom: 7px;
