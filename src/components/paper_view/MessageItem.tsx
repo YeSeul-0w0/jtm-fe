@@ -31,6 +31,7 @@ const StyledMessageli = styled.li`
   word-break: break-all;
   margin-right: 1.25rem;
   background: ${props => (props.color ? props.color : 'lightyellow')};
+  color: ${props => (props.color === '#000000' ? 'white' : 'initial')};
   span {
     display: -webkit-box;
     -webkit-box-orient: vertical;
