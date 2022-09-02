@@ -137,7 +137,7 @@ const MessageLoading = () => {
                             }
                           />
                         )}
-                        <p>{item.createDate}</p>
+                        {/* <p>{item.createDate}</p> */}
                         <Reaction
                           key={item.userName}
                           messageId={item.messageId}
