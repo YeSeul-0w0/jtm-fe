@@ -64,6 +64,9 @@ const MessageLoading = () => {
     }
   }, [change]);
 
+  // console.log(window.scrollY);
+  // console.log(window.scrollY);
+
   return (
     <>
       {st && (
@@ -87,7 +90,8 @@ const MessageLoading = () => {
         full={stickerPop ? true : false}
         onClick={e => {
           move && setX(e.clientX);
-          move && setY(e.clientY + e.currentTarget.scrollTop);
+          move && setY(e.clientY);
+          // console.dir(e.currentTarget.scrollTop);
         }}
       >
         {user?.userId === null && (
@@ -147,6 +151,7 @@ const MessageLoading = () => {
                           />
                         )}
                         <Reaction
+                          key={item.userName}
                           messageId={item.messageId}
                           user={user}
                           myReaction={myReaction}
@@ -170,6 +175,7 @@ const MessageLoading = () => {
                 stickerList.map((item: any) => {
                   return (
                     <Sticker
+                      key={item.stickerId}
                       userId={userId}
                       url={item.stickerType}
                       x={item.positionX}

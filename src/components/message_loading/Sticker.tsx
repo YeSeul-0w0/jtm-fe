@@ -34,11 +34,7 @@ const Sticker = ({
 
   useEffect(() => {
     if (currentFix) setMove?.(true);
-    else {
-      setPostX?.(x - leftLimit - 95 / 2);
-      setPostY?.(y - topLimit - 133 / 2);
-      setMove?.(false);
-    }
+    else setMove?.(false);
   }, [currentFix]);
 
   return (
@@ -67,7 +63,13 @@ const Sticker = ({
                     setOpen(false);
                   }
               : () => {
-                  stickerPost(userId, postX, postY, paperId!, url);
+                  stickerPost(
+                    userId,
+                    postX,
+                    postY + wrapRef.current.nextElementSibling.scrollTop,
+                    paperId!,
+                    url
+                  );
                   setOpen(false);
                   setCurrentFix(false);
                 }
@@ -97,6 +99,8 @@ const Sticker = ({
                 onClick={() => {
                   setOpen(true);
                   setCancel(false);
+                  setPostX?.(x - leftLimit - 95 / 2);
+                  setPostY?.(y - topLimit - 133 / 2);
                 }}
               >
                 <svg
