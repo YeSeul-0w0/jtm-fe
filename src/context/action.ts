@@ -21,7 +21,7 @@ export const loginUser = async (dispatch: any, loginPayload: LoginInfoType) => {
         password: loginPayload.password,
       },
     });
-    console.log(response);
+    // console.log(response);
     if (response.status === 200) {
       // 프론트측에서 저장할 user 정보
       const userData = {
@@ -51,7 +51,7 @@ export const kakaoLoginUser = async (dispatch: any, idToken: string) => {
       },
     });
 
-    console.log(response);
+    // console.log(response);
     if (response.status === 200) {
       // 프론트측에서 저장할 user 정보
       const userData = {
