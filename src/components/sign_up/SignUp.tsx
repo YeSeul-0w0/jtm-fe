@@ -79,20 +79,20 @@ const SignUp = () => {
               suc={paw}
             />
           </div>
+          <BottomBtn
+            text="회원가입 완료하기"
+            onclick={(e: any) => {
+              e.preventDefault();
+              if (
+                emailState &&
+                enterVerifyState &&
+                nicknameState &&
+                passwordState
+              )
+                passVerify({ emailSave, nicknameSave, PasswordSave, nav });
+            }}
+          />
         </form>
-        <BottomBtn
-          text="회원가입 완료하기"
-          onclick={(e: any) => {
-            e.preventDefault();
-            if (
-              emailState &&
-              enterVerifyState &&
-              nicknameState &&
-              passwordState
-            )
-              passVerify({ emailSave, nicknameSave, PasswordSave, nav });
-          }}
-        />
       </main>
     </>
   );
