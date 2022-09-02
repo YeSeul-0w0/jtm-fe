@@ -256,6 +256,7 @@ const MessageComponent = styled.div<Loading>`
   flex-direction: column;
   align-self: ${props => props.left && props.width && props.left};
   color: ${props => props.color && props.color};
+  box-sizing: border-box;
   p {
     font-size: 13px;
     line-height: 24px;
