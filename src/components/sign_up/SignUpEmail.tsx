@@ -35,6 +35,7 @@ const SignUpEmail = ({
           onclick={(e: any) => {
             if (!re) setRe(true);
             e.preventDefault();
+            alert('잠시만 기다려주세요');
             emailVerify(emailSave, dispatch, veriftNum);
           }}
         />

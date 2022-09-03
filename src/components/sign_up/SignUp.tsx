@@ -90,6 +90,7 @@ const SignUp = () => {
                 passwordState
               )
                 passVerify({ emailSave, nicknameSave, PasswordSave, nav });
+              else alert('입력 양식을 확인해주세요');
             }}
           />
         </form>
