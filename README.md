@@ -21,3 +21,10 @@
 - `styled-component`: CSS in JS, 재사용하기 편한 styled 컴포넌트를 만듦
 
 - `npm i -D typescript @babel/core @babel/preset-env @babel/preset-typescript @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint prettier eslint-plugin-prettier`: eslint를 사용할 때 install 해줘야 하는 목록들
+
+<br />
+
+## 변경 사항
+1. 페이퍼 설정 실패 시, 왜 생성에 실패했는지 modal에 뜨게 함 (ex, 페이퍼 제목은 10자 미만으로 가능합니다 등)
+2. 페이퍼 생성 시, 성공시에만 main으로 넘어가게 작업해둠. (페이퍼 이름 변경 시에도 성공 시에만 main으로 넘어가게 작업함)
+3. 페이퍼 수정 component와 닉네임 수정 component의 padding값 맞춰둠.
