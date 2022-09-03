@@ -72,6 +72,7 @@ const MessageWrite = () => {
         <BottomFix>
           <BottomBtn
             link={message.length > 0 ? `/paper/${paperId}` : undefined}
+            disabled={message.length > 0 ? false : true}
             onclick={() => {
               if (message.length > 0) {
                 messagePost(userId!, message, '굴림', color, paperId!);
