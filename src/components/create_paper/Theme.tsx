@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import Header from '../layout/Header';
 import BottomBtn from '../common/BottomBtn';
-import ThemeList from './ThemeList';
 import styled from 'styled-components';
 import monotone from '../../static/theme/monotone.jpg';
 import congratulations from '../../static/theme/congratulations.jpg';
 import love from '../../static/theme/love.jpg';
 import axios from 'axios';
 import EnvConfig from '../../config/EnvConfig';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useAuthState } from '../../../src/context';
 import Modal from '../common/Modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
