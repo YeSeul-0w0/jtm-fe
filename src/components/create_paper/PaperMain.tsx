@@ -168,6 +168,7 @@ const ViewPapers = ({ user, paperCnt }: { user: IUser; paperCnt: number }) => {
           </>
         )}
       </h1>
+      <ServiceDue />
       {onComponent ? (
         <Wrapper>
           <ButtonWrapper ref={close}>
@@ -265,6 +266,25 @@ const SettingButton = () => {
     </Link>
   );
 };
+
+const ServiceDue = () => {
+  return (
+    <DueContainer>
+      "별말, 씀"은 <br />
+      2022년 9월 23일까지 운영합니다.
+    </DueContainer>
+  );
+};
+
+const DueContainer = styled.section`
+  margin: 0.5rem 1.9rem 0;
+  padding: 0.5rem 1rem;
+  color: #bbbbbb;
+  border: 1px solid #bbbbbb;
+  border-radius: 5px;
+  line-height: 140%;
+  font-size: 14px;
+`;
 
 const ButtonWrapper = styled.div`
   width: 100%;

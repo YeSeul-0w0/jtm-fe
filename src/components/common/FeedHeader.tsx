@@ -150,7 +150,7 @@ const AsideWrapper = styled.div`
 `;
 
 const HeaderComponent = styled.header`
-  padding: 1.5rem 0;
+  padding: 1rem 0;
   text-align: center;
   font-weight: bold;
   display: flex;
