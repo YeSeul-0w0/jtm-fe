@@ -11,21 +11,22 @@ import EnvConfig from '../../config/EnvConfig';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuthState } from '../../../src/context';
 import Modal from '../common/Modal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleDot } from '@fortawesome/free-solid-svg-icons';
 
 function Theme() {
   const [selectTheme, setSelectTheme] = useState<number>(0);
   const [onModal, setOnModal] = useState<boolean>(false);
-  const [onButton, setOnButton] = useState<boolean>(false);
-  const [onInfo, setOnInfo] = useState<string>('확인 중...');
-  const [onUrl, setOnUrl] = useState<string>('/');
+  const [onInfo, setOnInfo] = useState<string>('');
   const [flag, setFlag] = useState<boolean>(false);
   const { paperTitle } = useParams();
+  // selecting Theme
+  const [checkMonotone, setCheckMonotone] = useState<boolean>(false);
+  const [checkLove, setCheckLove] = useState<boolean>(false);
+  const [checkCongratulation, setCheckongratulation] = useState<boolean>(false);
+
   const { user, kakaoToken } = useAuthState();
   const userId = user?.userId;
-
-  const inputSelectTheme = (x: number) => {
-    setSelectTheme(x);
-  };
 
   const sendInfo = async () => {
     try {
@@ -64,29 +65,29 @@ function Theme() {
     }
   };
 
-  const theme = [
-    {
-      id: 1,
-      path: monotone,
-      name: '기본',
-      eng: 'Monotone',
-      isChecked: false,
-    },
-    {
-      id: 2,
-      path: congratulations,
-      name: '축하',
-      eng: 'Congratulations',
-      isChecked: false,
-    },
-    {
-      id: 3,
-      path: love,
-      name: '사랑,우정',
-      eng: 'Love, Friendship',
-      isChecked: false,
-    },
-  ];
+  const choice = (name: string) => {
+    console.log('tt', name);
+    switch (name) {
+      case '기본':
+        setCheckMonotone(true);
+        setCheckongratulation(false);
+        setCheckLove(false);
+        setSelectTheme(1);
+        break;
+      case '축하':
+        setCheckongratulation(true);
+        setCheckLove(false);
+        setCheckMonotone(false);
+        setSelectTheme(2);
+        break;
+      case '사랑':
+        setCheckLove(true);
+        setCheckongratulation(false);
+        setCheckMonotone(false);
+        setSelectTheme(3);
+        break;
+    }
+  };
 
   const onClick = () => {
     if (flag) {
@@ -111,15 +112,98 @@ function Theme() {
       <WholeStyle>
         <TextStyle>테마를 선택해주세요.</TextStyle>
         <ComponentStyle>
-          {theme.map(value => (
-            <ThemeList
-              set={inputSelectTheme}
-              path={value.path}
-              name={value.name}
-              eng={value.eng}
-              key={value.id}
-            />
-          ))}
+          <ItemStyle>
+            <ImgComponent
+              className={checkMonotone ? `select-img` : `not-select-img`}
+            >
+              <img
+                style={{
+                  position: 'absolute',
+                  width: '100%',
+                  height: '100%',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                }}
+                onClick={() => choice('기본')}
+                src={monotone}
+                alt="기본"
+              />
+              <FontAwesomeStyle>
+                <FontAwesomeIcon
+                  className={checkMonotone ? `select-img` : `not-select-img`}
+                  onClick={() => choice('기본')}
+                  icon={faCircleDot}
+                />
+              </FontAwesomeStyle>
+            </ImgComponent>
+            <TextStyle>
+              <MainName>기본</MainName>
+              <SubName>Monotone</SubName>
+            </TextStyle>
+          </ItemStyle>
+          <ItemStyle>
+            <ImgComponent
+              className={checkCongratulation ? `select-img` : `not-select-img`}
+            >
+              <img
+                style={{
+                  position: 'absolute',
+                  width: '100%',
+                  height: '100%',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                }}
+                onClick={() => choice('축하')}
+                src={congratulations}
+                alt="축하"
+              />
+              <FontAwesomeStyle>
+                <FontAwesomeIcon
+                  className={
+                    checkCongratulation ? `select-img` : `not-select-img`
+                  }
+                  onClick={() => choice('축하')}
+                  icon={faCircleDot}
+                />
+              </FontAwesomeStyle>
+            </ImgComponent>
+            <TextStyle>
+              <MainName>축하</MainName>
+              <SubName>Congratulations</SubName>
+            </TextStyle>
+          </ItemStyle>
+          <ItemStyle>
+            <ImgComponent
+              className={checkLove ? `select-img` : `not-select-img`}
+            >
+              <img
+                style={{
+                  position: 'absolute',
+                  width: '100%',
+                  height: '100%',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                }}
+                onClick={() => choice('사랑')}
+                src={love}
+                alt="축하"
+              />
+              <FontAwesomeStyle>
+                <FontAwesomeIcon
+                  className={checkLove ? `select-img` : `not-select-img`}
+                  onClick={() => choice('사랑')}
+                  icon={faCircleDot}
+                />
+              </FontAwesomeStyle>
+            </ImgComponent>
+            <TextStyle>
+              <MainName>사랑, 우정</MainName>
+              <SubName>Love, Friendship</SubName>
+            </TextStyle>
+          </ItemStyle>
         </ComponentStyle>
       </WholeStyle>
       <BottomBtn
@@ -140,6 +224,7 @@ const TextStyle = styled.label`
   font-size: 1rem;
   font-weight: bold;
   display: inline-block;
+  text-align: center;
   margin: 20px 0;
 `;
 
@@ -149,6 +234,58 @@ const ComponentStyle = styled.div`
   flex-wrap: wrap;
   height: auto;
   gap: 0.5rem;
+`;
+
+const ItemStyle = styled.div`
+  border-radius: 1rem;
+  margin-bottom: 0.2rem;
+  word-break: break-all;
+  width: auto;
+  height: 220px;
+  > .not-select-img {
+    border: 1.5px solid lightgrey;
+  }
+  > .select-img {
+    border: 3px solid #111111;
+  }
+`;
+
+const ImgComponent = styled.div`
+  position: relative;
+  overflow: hidden;
+  border-radius: 1rem;
+  margin-bottom: 0.5rem;
+  width: 144px;
+  height: 144px;
+  > .not-select-img {
+    border: 3px solid lightgrey;
+  }
+  > .select-img {
+    border: 3px solid #111111;
+  }
+`;
+
+const FontAwesomeStyle = styled.div`
+  position: absolute;
+  margin: 0.7rem 0.7rem 0;
+  top: 0;
+  right: 0;
+  > .not-select-img {
+    color: #cccccc;
+  }
+  > .select-img {
+    color: #111111;
+  }
+`;
+
+const MainName = styled.div`
+  font-weight: bold;
+  color: #333333;
+`;
+
+const SubName = styled.div`
+  margin-top: 0.5rem;
+  color: #999999;
 `;
 
 export default Theme;
