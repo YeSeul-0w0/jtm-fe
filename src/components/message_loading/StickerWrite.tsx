@@ -12,9 +12,10 @@ import { messageInitialState, messageReducer } from './messageStore';
 import Sticker from './Sticker';
 
 import one from '../../static/sticker/1.png';
+import BottomBtn from '../common/BottomBtn';
 
 const StickerWrite = ({ setStickerPop, setSt }: any) => {
-  const [state, dispatch] = useReducer(messageReducer, messageInitialState);
+  // const [state, dispatch] = useReducer(messageReducer, messageInitialState);
   return (
     <>
       {/* 스티커 클릭시 각 스티커 값이 setSt에 담기고 팝업을 닫습니다 */}
@@ -82,6 +83,12 @@ const StickerWrite = ({ setStickerPop, setSt }: any) => {
             src={`${process.env.PUBLIC_URL}/img/8.png`}
           />
           {/* setStickerPop(false); */}
+        </div>
+        <div className="sicker-cancel">
+          <BottomBtn
+            text="스티커 붙이기 취소하기"
+            onclick={() => setStickerPop(false)}
+          />
         </div>
       </div>
     </>

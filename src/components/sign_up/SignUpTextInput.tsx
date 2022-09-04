@@ -56,7 +56,14 @@ const SignUpTextInput = ({
           <Icon src={success ? '/icons/success.svg' : '/icons/fail.svg'} />
         )}
       </Contain>
-      {on && show && !success && <Error>입력정보를 확인해주세요</Error>}
+      {on && show && !success && (
+        <Error>
+          {title === '이메일' && '이미 가입한 메일이거나 틀린 양식이에요'}
+          {title === '닉네임' && '이미 있는 닉네임이거나 틀린 양식이에요'}
+          {title === '비밀번호' && '양식이 틀렸어요'}
+          {title === '비밀번호 확인' && '비밀번호가 일치하지 않아요'}
+        </Error>
+      )}
     </>
   );
 };

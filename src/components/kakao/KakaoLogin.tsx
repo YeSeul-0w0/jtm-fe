@@ -17,7 +17,7 @@ function KakaoLogin(props: PropsType): null {
   const KAKAO_API_KEY: string = props.api;
   // local 이용 : REDIRECT_URI_LOCAL
   // 도메인 이용 : KAKAO_REDIRECT_URI
-  const REDIRECT_URI = EnvConfig.REDIRECT_URI_LOCAL;
+  const REDIRECT_URI = EnvConfig.KAKAO_REDIRECT_URI;
   const CLIENT_SECRET: string = props.client;
   const code: string =
     new URL(window.location.href).searchParams.get('code') || '';
@@ -40,7 +40,7 @@ function KakaoLogin(props: PropsType): null {
     Kakao.init(KAKAO_API_KEY);
     Kakao.Auth.setAccessToken(kakaoTokenResp.data.access_token);
     const decode = Base64.decode(kakaoTokenResp.data.id_token);
-    const splitId = decode.split(',')[0].split(':')[1];
+    const splitId = decode.split(',')[3].split(':')[1];
     const id = splitId.substring(1, splitId.length - 1);
     try {
       const responseData = await kakaoLoginUser(dispatch, id);

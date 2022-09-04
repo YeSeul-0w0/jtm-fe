@@ -15,6 +15,7 @@ function ModifyNickName() {
   const [onInfo, setOnInfo] = useState<string>('');
   const navigate = useNavigate();
   const { user, kakaoToken } = useAuthState();
+  const [flag, setFlag] = useState<boolean>(false);
   const userId = user?.userId;
 
   const [selectPaperId, setSelectPaperId] = useState<number>(0);
@@ -37,11 +38,24 @@ function ModifyNickName() {
         },
       });
       setOnInfo('성공적으로 변경되었습니다.');
+      setFlag(true);
       setOnModal(true);
-    } catch (err) {
-      console.log(err);
-      setOnInfo('이미 사용중인 페이퍼 이름입니다.');
-      setOnModal(true);
+    } catch (err: any) {
+      if (err.response.status === 400) {
+        setOnInfo('페이퍼 제목은 10자 미만으로 가능합니다.');
+        setOnModal(true);
+      } else if (err.response.status === 409) {
+        setOnInfo('페이퍼 제목이 중복되었습니다.');
+        setOnModal(true);
+      }
+    }
+  };
+
+  const onClick = () => {
+    if (flag) {
+      window.location.href = '/main';
+    } else {
+      setOnModal(false);
     }
   };
 
@@ -68,7 +82,7 @@ function ModifyNickName() {
           confirm={false}
           onModal={onModal}
           setOnModal={setOnModal}
-          onButtonHref={'/main'}
+          onClick={onClick}
         />
       ) : null}
       <main>

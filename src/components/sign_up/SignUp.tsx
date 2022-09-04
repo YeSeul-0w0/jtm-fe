@@ -38,11 +38,12 @@ const SignUp = () => {
   const paw = (suc: boolean) => {
     dispatch(password(suc));
   };
+
   return (
     <>
-      <main className="signWrap">
+      <main className="signWrap" ref={scrollRef}>
         <Header pageNm="회원가입" to="/login" />
-        <div className="bar" ref={scrollRef}></div>
+        <div className="bar"></div>
         <form id="signUp">
           <SignUpEmail
             emailCheck={emailCheck}
@@ -78,16 +79,21 @@ const SignUp = () => {
               suc={paw}
             />
           </div>
-        </form>
-        {emailState && enterVerifyState && nicknameState && passwordState && (
           <BottomBtn
             text="회원가입 완료하기"
             onclick={(e: any) => {
               e.preventDefault();
-              passVerify({ emailSave, nicknameSave, PasswordSave, nav });
+              if (
+                emailState &&
+                enterVerifyState &&
+                nicknameState &&
+                passwordState
+              )
+                passVerify({ emailSave, nicknameSave, PasswordSave, nav });
+              else alert('입력 양식을 확인해주세요');
             }}
           />
-        )}
+        </form>
       </main>
     </>
   );

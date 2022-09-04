@@ -11,7 +11,7 @@ const GoToLogin = (props: PropsType) => {
   const REST_API_KEY = props.api;
   // local 이용 : REDIRECT_URI_LOCAL
   // 도메인 이용 : KAKAO_REDIRECT_URI
-  const REDIRECT_URI = EnvConfig.REDIRECT_URI_LOCAL;
+  const REDIRECT_URI = EnvConfig.KAKAO_REDIRECT_URI;
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
   return (
@@ -36,12 +36,12 @@ const GoToLogin = (props: PropsType) => {
         에 동의하게 됩니다.
       </TextComponent>
       <BtnComponent>
-        {/* <Btn
+        <Btn
           text="카카오로 시작하기"
           href={KAKAO_AUTH_URL}
           logo="kakao.png"
           background="#FAE54D"
-        /> */}
+        />
         <Btn
           text="이메일로 시작하기"
           link="/login"

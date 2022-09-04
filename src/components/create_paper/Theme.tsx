@@ -48,7 +48,7 @@ function Theme() {
     } catch (err: any) {
       if (err.response.status === 400) {
         setOnInfo(
-          '페이퍼 제목은 \n 50자 미만으로 가능하며 \n 페이퍼는 하루에 \n 1회만 개설 가능합니다.'
+          '페이퍼 제목은 \n 10자 미만으로 가능하며 \n 페이퍼는 하루에 \n 1회만 개설 가능합니다.'
         );
         setOnModal(true);
         setFlag(true);

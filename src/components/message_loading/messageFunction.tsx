@@ -22,7 +22,6 @@ export const paperDetail = async (
           },
         },
       });
-      // console.log(a.data);
       if (
         a.data.messages.toString() !== me.toString() ||
         a.data.stickers.toString() !== st.toString() ||
@@ -67,7 +66,6 @@ export const messageRe = async (email: string, paperId: any, dispatch: any) => {
       },
     });
     dispatch(message(a.data.messages));
-    // a.data.filter((item: any) => console.log(item.paperId));
   } catch (e) {
     throw new Error('메세지 로딩에 실패했습니다');
   }
