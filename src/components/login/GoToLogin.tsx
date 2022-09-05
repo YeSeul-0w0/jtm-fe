@@ -17,23 +17,28 @@ const GoToLogin = (props: PropsType) => {
   return (
     <Container>
       <TextComponent>
-        시작하실 경우,&nbsp;
-        <a
-          href="https://docs.google.com/document/d/1Pju15M5Cm4m2WPDvxLs5gwo4lOXBZfr20D7rCFRKi0M/edit?usp=sharing"
-          target="_blank"
-          style={{ textDecoration: 'underline' }}
-        >
-          서비스 이용약관
-        </a>
-        과 <br />
-        <a
-          href="https://docs.google.com/document/d/11sXimrdfeWhsTN1f6D0oqjpyZmVOuXBDqYUUvkibvag/edit?usp=sharing"
-          target="_blank"
-          style={{ textDecoration: 'underline' }}
-        >
-          개인정보 처리방침
-        </a>
-        에 동의하게 됩니다.
+        <li style={{ marginBottom: '0.3rem' }}>
+          "별말, 씀"은 <strong>2022년 9월 23일</strong> 까지 운영합니다.
+        </li>
+        <li>
+          시작하실 경우,&nbsp;
+          <a
+            href="https://docs.google.com/document/d/1Pju15M5Cm4m2WPDvxLs5gwo4lOXBZfr20D7rCFRKi0M/edit?usp=sharing"
+            target="_blank"
+            style={{ textDecoration: 'underline' }}
+          >
+            서비스 이용약관
+          </a>
+          과
+          <a
+            href="https://docs.google.com/document/d/11sXimrdfeWhsTN1f6D0oqjpyZmVOuXBDqYUUvkibvag/edit?usp=sharing"
+            target="_blank"
+            style={{ textDecoration: 'underline' }}
+          >
+            개인정보 처리방침
+          </a>
+          <br /> 에 동의하게 됩니다.
+        </li>
       </TextComponent>
       <BtnComponent>
         <Btn
@@ -64,8 +69,9 @@ const Container = styled.div`
 
 const TextComponent = styled.div`
   line-height: normal;
-  text-align: center;
+  text-align: left;
   margin-top: 2rem;
+  margin-left: 10%;
   font-size: 0.9rem;
   color: #333333;
 `;
