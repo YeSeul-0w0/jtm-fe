@@ -31,6 +31,7 @@ const SignUpEmail = ({
           saveData={setEmailSave}
         />
         <BottomBtn
+          tabIndex={-1}
           text={re ? '다시 전송하기' : '인증번호 받기'}
           onclick={(e: any) => {
             if (!re) setRe(true);
@@ -47,6 +48,7 @@ const SignUpEmail = ({
           onChange={(e: any) => setVerifySave(e.target.value)}
         />
         <BottomBtn
+          tabIndex={-1}
           text={enterVerifyState ? '인증되었습니다' : '확인'}
           disabled={enterVerifyState ? true : false}
           onclick={async (e: any) => {

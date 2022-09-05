@@ -13,12 +13,23 @@ import Sticker from './Sticker';
 
 import one from '../../static/sticker/1.png';
 import BottomBtn from '../common/BottomBtn';
+import Header from '../layout/Header';
+
+const StickerHeader = ({ setStickerPop }: any) => {
+  // React.Dispatch<React.SetStateAction<boolean>>
+  const headerS = document.querySelector('header');
+  const button = headerS?.children[0];
+  button?.addEventListener('click', (e: Event) => {
+    e.preventDefault();
+    setStickerPop(false);
+  });
+  return <Header pageNm="" to="#" />;
+};
 
 const StickerWrite = ({ setStickerPop, setSt }: any) => {
-  // const [state, dispatch] = useReducer(messageReducer, messageInitialState);
   return (
     <>
-      {/* 스티커 클릭시 각 스티커 값이 setSt에 담기고 팝업을 닫습니다 */}
+      <StickerHeader setStickerPop={setStickerPop} />
       <p className="title">
         스티커를 골라주세요! <br />{' '}
         <span>스티커는 딱 하나만 붙일 수 있어요 :)</span>
@@ -30,7 +41,6 @@ const StickerWrite = ({ setStickerPop, setSt }: any) => {
               setStickerPop(false);
               setSt(1);
             }}
-            // src={`${process.env.PUBLIC_URL}/img/1.png`}
             src={one}
           />
           <img
@@ -81,13 +91,6 @@ const StickerWrite = ({ setStickerPop, setSt }: any) => {
               setSt(8);
             }}
             src={`${process.env.PUBLIC_URL}/img/8.png`}
-          />
-          {/* setStickerPop(false); */}
-        </div>
-        <div className="sicker-cancel">
-          <BottomBtn
-            text="스티커 붙이기 취소하기"
-            onclick={() => setStickerPop(false)}
           />
         </div>
       </div>

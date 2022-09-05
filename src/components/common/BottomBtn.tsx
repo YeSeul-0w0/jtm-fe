@@ -8,6 +8,7 @@ interface IBottomBtn {
   onclick?: any; // state로도 사용 가능하고 navigate 목적도 가능
   fixed?: string;
   link?: string;
+  tabIndex?: number;
 }
 
 interface IBtnStyle {
@@ -15,7 +16,14 @@ interface IBtnStyle {
   disabled?: boolean;
 }
 
-const BottomBtn = ({ text, onclick, disabled, fixed, link }: IBottomBtn) => {
+const BottomBtn = ({
+  text,
+  onclick,
+  disabled,
+  fixed,
+  link,
+  tabIndex,
+}: IBottomBtn) => {
   return (
     <>
       {link ? (
@@ -25,7 +33,12 @@ const BottomBtn = ({ text, onclick, disabled, fixed, link }: IBottomBtn) => {
           </StyledBtn>
         </Link>
       ) : (
-        <StyledBtn onClick={onclick} disabled={disabled} fixed={fixed}>
+        <StyledBtn
+          onClick={onclick}
+          disabled={disabled}
+          fixed={fixed}
+          tabIndex={tabIndex && tabIndex}
+        >
           {text}
         </StyledBtn>
       )}

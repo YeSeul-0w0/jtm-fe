@@ -20,11 +20,12 @@ const MoreBtn = ({
   paperTheme,
   paperId,
   prevColor,
+  st,
 }: More1) => {
   const [more, setMore] = useState<boolean>(false);
   return (
     <>
-      <More onClick={() => setMore(prev => !prev)}>
+      <More onClick={() => st === false && setMore(prev => !prev)}>
         <FontAwesomeIcon icon={faEllipsis} />
       </More>
       {more && (

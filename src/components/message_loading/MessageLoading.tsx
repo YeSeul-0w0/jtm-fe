@@ -3,31 +3,24 @@ import styled from 'styled-components';
 import './messageLoading.scss';
 import Header from '../layout/Header';
 import { Btn } from '../common/Btn';
-import { message, messageInitialState, messageReducer } from './messageStore';
-import MoreBtn from '../common/MoreBtn';
-import { Loading, Message, MessageLoadingInt } from './messageInterface';
-import {
-  messageRe,
-  paperDetail,
-  reactionAmount,
-  stickerPost,
-} from './messageFunction';
+import { messageInitialState, messageReducer } from './messageStore';
+import { Message, MessageLoadingInt } from './messageInterface';
+import { paperDetail } from './messageFunction';
 import { Link, useParams } from 'react-router-dom';
 import StickerWrite from './StickerWrite';
 import Sticker from './Sticker';
 import BottomBtn from '../common/BottomBtn';
-import Reaction from './Reaction';
 import { useAuthState } from 'src/context';
-import { MoveBtn } from '../common/MoveBtn';
-import { themeColor, themeTextColor } from './messageData';
+import { themeColor } from './messageData';
+import MessageCompo from './MessageCompo';
 
 const MessageLoading = () => {
   const [change, setChange] = useState<boolean>(true);
-  const [fixPop, setFixPop] = useState<boolean>(false);
   const [state, dispatch] = useReducer(messageReducer, messageInitialState);
 
   const [stickerPop, setStickerPop] = useState<boolean>(false);
-  const [st, setSt] = useState<number>();
+  const [stickerFirst, setStickerFirst] = useState<boolean>(false);
+  const [st, setSt] = useState<number | boolean>(false);
   const [x, setX] = useState<number>(window.innerWidth / 2);
   const [postX, setPostX] = useState<number>(0);
   const [y, setY] = useState<number>(window.innerHeight / 2);
@@ -35,19 +28,32 @@ const MessageLoading = () => {
 
   const [move, setMove] = useState<boolean>(false);
 
+  const { user } = useAuthState();
+  const userId = user?.userId;
+  const userName = user?.userName;
+
+  const today = new Date().toLocaleDateString().split('.').slice(0, 3);
+  const newToday = today.map(item => item.replace(' ', '0'));
+
   const stickerList = state.sticker;
 
   const { paperId } = useParams();
   const messageList = state.message;
 
-  const { user, kakaoToken } = useAuthState();
-  const userId = user?.userId;
-  const userName = user?.userName;
-
   const paperData = state.paper;
   const paperTheme = state.paper.skin;
   const paperName = state.paper.paperTitle;
   const reactionAll = state.reaction;
+
+  useEffect(() => {
+    if (stickerList?.length) {
+      setStickerFirst(
+        stickerList.filter((item: any) => item.userName === userName)
+          ? true
+          : false
+      );
+    }
+  }, [stickerList]);
 
   useEffect(() => {
     if (change) {
@@ -98,64 +104,20 @@ const MessageLoading = () => {
             <Header to="/main" pageNm={paperName} />
             <div className="message-wrap">
               {messageList[0] ? (
-                messageList.map((item: Message, idx: number) => {
-                  const myReaction = reactionAll.filter(
-                    (re: any) => re.messageId === item.messageId
-                  );
-                  return (
-                    <MessageComponent
-                      key={item.messageId}
-                      backColor={item.color}
-                      color={
-                        isNaN(Number(item.color[1]))
-                          ? 'unset'
-                          : Number(item.color[1]) <= 7
-                          ? '#fff'
-                          : 'unset'
-                      }
-                      font={item.font}
-                      width={item.content.length <= 84 ? '234px' : ''}
-                      left={(idx + 1) % 2 !== 0 ? 'flex-start' : 'flex-end'}
-                    >
-                      <p className="user-name">{item.userName}</p>
-                      <p>{item.content}</p>
-                      <div className="more-wrap">
-                        {item.userName === user?.userName && (
-                          <MoreBtn
-                            text={['수정하기', '삭제하기']}
-                            paperId={paperId!}
-                            messageId={item.messageId}
-                            paperTheme={paperTheme}
-                            prev={item.content}
-                            prevColor={item.color}
-                            color={
-                              isNaN(Number(item.color[1]))
-                                ? false
-                                : Number(item.color[1]) < 7
-                                ? '#fff'
-                                : false
-                            }
-                          />
-                        )}
-                        {/* <p>{item.createDate}</p> */}
-                        <Reaction
-                          key={item.userName}
-                          messageId={item.messageId}
-                          user={user}
-                          myReaction={myReaction}
-                          setChange={setChange}
-                          white={
-                            isNaN(Number(item.color[1]))
-                              ? false
-                              : Number(item.color[1]) < 7
-                              ? true
-                              : false
-                          }
-                        />
-                      </div>
-                    </MessageComponent>
-                  );
-                })
+                messageList.map((item: Message, idx: number) => (
+                  <MessageCompo
+                    key={item.messageId}
+                    item={item}
+                    idx={idx}
+                    reactionAll={reactionAll}
+                    user={user!}
+                    paperId={paperId!}
+                    paperTheme={paperTheme}
+                    newToday={newToday}
+                    setChange={setChange}
+                    st={st}
+                  />
+                ))
               ) : (
                 <p>앗 아직 메시지가 없어요!</p>
               )}
@@ -191,6 +153,7 @@ const MessageLoading = () => {
               logo="message.svg"
               imgSize="20px"
               center="center"
+              onClick={() => setSt(false)}
             />
             <Btn
               href="#"
@@ -203,22 +166,12 @@ const MessageLoading = () => {
               imgSize="20px"
               center="center"
               onClick={() => {
-                if (
-                  stickerList[0] === undefined ||
-                  stickerList[0].userName !== userName
-                )
+                if (stickerList[0] === undefined || !stickerFirst) {
                   setStickerPop(true);
-                else alert('이미 이 페이퍼에 스티커를 작성했습니다');
+                  setSt(false);
+                } else alert('이미 이 페이퍼에 스티커를 작성했습니다');
               }}
             />
-            {/* </div> */}
-            {/* 임시로 만들어놓은 스티커 붙이기 버튼 */}
-            {/* {st && (
-            <BottomBtn
-              onclick={() => stickerPost(userId!, postX, postY, paperId!, st)}
-              text="스티커 붙이기"
-            />
-          )} */}
           </div>
         )}
         {userId === null && (
@@ -244,55 +197,5 @@ export const MessageLoadingComponent = styled.main<MessageLoadingInt>`
   overflow-x: hidden;
   height: ${props => (props.full ? '100vh' : 'unset')};
 `;
-
-const MessageComponent = styled.div<Loading>`
-  width: ${props => (props.width ? props.width : '327px')};
-  background-color: ${props => (props.backColor ? props.backColor : '#ffbba6')};
-  font-family: ${props => (props.font ? props.font : 'sans-serif')};
-  border-radius: 12px;
-  padding: 16px 16px 20px 16px;
-  margin-top: 34px;
-  display: flex;
-  flex-direction: column;
-  align-self: ${props => props.left && props.width && props.left};
-  color: ${props => props.color && props.color};
-  box-sizing: border-box;
-  p {
-    font-size: 13px;
-    line-height: 24px;
-  }
-  p.user-name {
-    font-weight: 600;
-    font-size: 14px;
-    margin-bottom: 7px;
-  }
-  p:nth-child(2) {
-    margin-bottom: 13px;
-  }
-`;
-
-// const MessageCompo = styled.div<Loading>`
-//   width: ${props => (props.width ? props.width : '327px')};
-//   background-color: ${props => (props.backColor ? props.backColor : '#ffbba6')};
-//   font-family: ${props => (props.font ? props.font : 'sans-serif')};
-//   border-radius: 12px;
-//   padding: 16px 16px 20px 16px;
-//   margin-top: 34px;
-//   display: flex;
-//   flex-direction: column;
-//   align-self: ${props => props.left && props.width && props.left};
-//   p {
-//     font-size: 13px;
-//     line-height: 24px;
-//   }
-//   p:first-child {
-//     font-weight: 600;
-//     font-size: 14px;
-//     margin-bottom: 7px;
-//   }
-//   p:nth-child(2) {
-//     margin-bottom: 13px;
-//   }
-// `;
 
 export default MessageLoading;
