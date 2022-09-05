@@ -23,7 +23,6 @@ const Reaction = ({
   useEffect(() => {
     if (yourReaction.length > 0) setClick(true);
     else setClick(false);
-    // console.log(myReaction.length);
   }, []);
 
   useEffect(() => {
@@ -34,19 +33,21 @@ const Reaction = ({
     <div
       className="reaction-wrap"
       onClick={async () => {
-        if (st === false) {
-          if (click) {
-            await reactionMinus(
-              user.userId,
-              messageId,
-              yourReaction[0].reactionId
-            );
-            setReactionAm((prev: number) => prev - 1);
-            setClick(false);
-          } else {
-            await reactionAdd(user.userId, messageId);
-            setClick(true);
-            setReactionAm((prev: number) => prev + 1);
+        if (user.userId !== null) {
+          if (st === false) {
+            if (click) {
+              await reactionMinus(
+                user.userId,
+                messageId,
+                yourReaction[0].reactionId
+              );
+              setReactionAm((prev: number) => prev - 1);
+              setClick(false);
+            } else {
+              await reactionAdd(user.userId, messageId);
+              setClick(true);
+              setReactionAm((prev: number) => prev + 1);
+            }
           }
         }
       }}

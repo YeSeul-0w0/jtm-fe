@@ -48,9 +48,10 @@ const MessageLoading = () => {
   useEffect(() => {
     if (stickerList?.length) {
       setStickerFirst(
-        stickerList.filter((item: any) => item.userName === userName)
-          ? true
-          : false
+        stickerList.filter((item: any) => item.userName === userName)?.length >
+          0
+          ? false
+          : true
       );
     }
   }, [stickerList]);
@@ -166,7 +167,7 @@ const MessageLoading = () => {
               imgSize="20px"
               center="center"
               onClick={() => {
-                if (stickerList[0] === undefined || !stickerFirst) {
+                if (stickerList[0] === undefined || stickerFirst === true) {
                   setStickerPop(true);
                   setSt(false);
                 } else alert('이미 이 페이퍼에 스티커를 작성했습니다');
