@@ -124,11 +124,6 @@ const MessageLoading = () => {
                             ? '내가 작성한 메시지'
                             : item.userName}
                         </p>
-                        <p className="create-data">
-                          {dayData.split('-').toString() === newToday.toString()
-                            ? hourData
-                            : dayData}
-                        </p>
                       </div>
                       <p>{item.content}</p>
                       <div className="more-wrap">
@@ -149,6 +144,11 @@ const MessageLoading = () => {
                             }
                           />
                         )}
+                        <span className="create-data">
+                          {dayData.split('-').toString() === newToday.toString()
+                            ? hourData
+                            : dayData}
+                        </span>
                         <Reaction
                           key={item.userName}
                           messageId={item.messageId}
@@ -272,10 +272,12 @@ const MessageComponent = styled.div<Loading>`
       font-size: 14px;
       margin-bottom: 7px;
     }
-    p.create-data {
-      opacity: 0.5;
-      font-size: 12px;
-    }
+  }
+  span.create-data {
+    opacity: 0.5;
+    font-size: 12px;
+    font-weight: bold;
+    margin-left: 7px;
   }
   p:nth-child(2) {
     margin-bottom: 13px;

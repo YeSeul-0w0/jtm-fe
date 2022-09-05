@@ -36,7 +36,7 @@ const SignUpTextInput = ({
 
   return (
     <>
-      <Contain onClick={() => setOn(true)} ref={current}>
+      <Contain onFocus={() => setOn(true)} ref={current}>
         <TextInput
           autocomplete={
             title.indexOf('비밀번호') === 0 ? 'current-password' : ''

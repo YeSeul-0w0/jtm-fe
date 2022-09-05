@@ -29,7 +29,7 @@ const GoToLogin = (props: PropsType) => {
           >
             서비스 이용약관
           </a>
-          과
+          과 &nbsp;
           <a
             href="https://docs.google.com/document/d/11sXimrdfeWhsTN1f6D0oqjpyZmVOuXBDqYUUvkibvag/edit?usp=sharing"
             target="_blank"
@@ -37,7 +37,7 @@ const GoToLogin = (props: PropsType) => {
           >
             개인정보 처리방침
           </a>
-          <br /> 에 동의하게 됩니다.
+          에 동의하게 됩니다.
         </li>
       </TextComponent>
       <BtnComponent>
@@ -72,7 +72,9 @@ const TextComponent = styled.div`
   text-align: left;
   margin-top: 2rem;
   margin-left: 10%;
-  font-size: 0.9rem;
+  padding-right: 10%;
+  box-sizing: border-box;
+  font-size: 0.8rem;
   color: #333333;
 `;
 
