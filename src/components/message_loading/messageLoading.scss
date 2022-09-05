@@ -164,3 +164,10 @@ header {
     border: 1.5px dashed;
     border-radius: 5px;
 }
+
+.moving{
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 61;
+}

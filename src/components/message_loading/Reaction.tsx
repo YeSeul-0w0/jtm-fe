@@ -2,10 +2,16 @@ import React, { useEffect, useReducer, useState } from 'react';
 import { reactionAdd, reactionAmount, reactionMinus } from './messageFunction';
 import { messageInitialState, messageReducer, reaction } from './messageStore';
 
-const Reaction = ({ messageId, user, myReaction, setChange, white }: any) => {
+const Reaction = ({
+  messageId,
+  user,
+  myReaction,
+  setChange,
+  white,
+  st,
+}: any) => {
   const [reactionAm, setReactionAm] = useState<any>(myReaction.length);
   const [click, setClick] = useState<boolean>(false);
-  const [state, dispatch] = useReducer(messageReducer, messageInitialState);
   const yourReaction = myReaction.filter(
     (item: any) => item.userName === user.userName
   );
@@ -28,18 +34,20 @@ const Reaction = ({ messageId, user, myReaction, setChange, white }: any) => {
     <div
       className="reaction-wrap"
       onClick={async () => {
-        if (click) {
-          await reactionMinus(
-            user.userId,
-            messageId,
-            yourReaction[0].reactionId
-          );
-          setReactionAm((prev: number) => prev - 1);
-          setClick(false);
-        } else {
-          await reactionAdd(user.userId, messageId);
-          setClick(true);
-          setReactionAm((prev: number) => prev + 1);
+        if (st === false) {
+          if (click) {
+            await reactionMinus(
+              user.userId,
+              messageId,
+              yourReaction[0].reactionId
+            );
+            setReactionAm((prev: number) => prev - 1);
+            setClick(false);
+          } else {
+            await reactionAdd(user.userId, messageId);
+            setClick(true);
+            setReactionAm((prev: number) => prev + 1);
+          }
         }
       }}
     >

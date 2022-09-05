@@ -30,6 +30,7 @@ export interface More1 {
   paperId?: string;
   prevColor?: string;
   color?: any;
+  st?: number | boolean;
 }
 
 export interface More2 extends More1 {
@@ -55,4 +56,5 @@ export interface MessageCompoInter {
   paperTheme: string;
   newToday: string[];
   setChange: React.Dispatch<SetStateAction<boolean>>;
+  st: number | boolean;
 }

@@ -19,13 +19,18 @@ const MessageLoading = () => {
   const [state, dispatch] = useReducer(messageReducer, messageInitialState);
 
   const [stickerPop, setStickerPop] = useState<boolean>(false);
-  const [st, setSt] = useState<number>();
+  const [stickerFirst, setStickerFirst] = useState<boolean>(false);
+  const [st, setSt] = useState<number | boolean>(false);
   const [x, setX] = useState<number>(window.innerWidth / 2);
   const [postX, setPostX] = useState<number>(0);
   const [y, setY] = useState<number>(window.innerHeight / 2);
   const [postY, setPostY] = useState<number>(0);
 
   const [move, setMove] = useState<boolean>(false);
+
+  const { user } = useAuthState();
+  const userId = user?.userId;
+  const userName = user?.userName;
 
   const today = new Date().toLocaleDateString().split('.').slice(0, 3);
   const newToday = today.map(item => item.replace(' ', '0'));
@@ -35,14 +40,20 @@ const MessageLoading = () => {
   const { paperId } = useParams();
   const messageList = state.message;
 
-  const { user } = useAuthState();
-  const userId = user?.userId;
-  const userName = user?.userName;
-
   const paperData = state.paper;
   const paperTheme = state.paper.skin;
   const paperName = state.paper.paperTitle;
   const reactionAll = state.reaction;
+
+  useEffect(() => {
+    if (stickerList?.length) {
+      setStickerFirst(
+        stickerList.filter((item: any) => item.userName === userName)
+          ? true
+          : false
+      );
+    }
+  }, [stickerList]);
 
   useEffect(() => {
     if (change) {
@@ -104,6 +115,7 @@ const MessageLoading = () => {
                     paperTheme={paperTheme}
                     newToday={newToday}
                     setChange={setChange}
+                    st={st}
                   />
                 ))
               ) : (
@@ -141,6 +153,7 @@ const MessageLoading = () => {
               logo="message.svg"
               imgSize="20px"
               center="center"
+              onClick={() => setSt(false)}
             />
             <Btn
               href="#"
@@ -153,12 +166,10 @@ const MessageLoading = () => {
               imgSize="20px"
               center="center"
               onClick={() => {
-                if (
-                  stickerList[0] === undefined ||
-                  stickerList[0].userName !== userName
-                )
+                if (stickerList[0] === undefined || !stickerFirst) {
                   setStickerPop(true);
-                else alert('이미 이 페이퍼에 스티커를 작성했습니다');
+                  setSt(false);
+                } else alert('이미 이 페이퍼에 스티커를 작성했습니다');
               }}
             />
           </div>

@@ -16,6 +16,7 @@ const MessageCompo = (props: MessageCompoInter) => {
     paperTheme,
     newToday,
     setChange,
+    st,
   } = props;
 
   const hourData = item.createDate.slice(11, -3);
@@ -25,69 +26,74 @@ const MessageCompo = (props: MessageCompoInter) => {
   );
 
   return (
-    <MessageComponent
-      onClick={() => setMessageFloating(prev => !prev)}
-      z={messageFloating ? true : false}
-      key={item.messageId}
-      backColor={item.color}
-      color={
-        isNaN(Number(item.color[1]))
-          ? 'unset'
-          : Number(item.color[1]) <= 7
-          ? '#fff'
-          : 'unset'
-      }
-      font={item.font}
-      width={item.content.length <= 84 ? '234px' : ''}
-      left={(idx + 1) % 2 !== 0 ? 'flex-start' : 'flex-end'}
-    >
-      <div className="message-top">
-        <p className="user-name">
-          {item.userName === user?.userName
-            ? '내가 작성한 메시지'
-            : item.userName}
-        </p>
-      </div>
-      <p>{item.content}</p>
-      <div className="more-wrap">
-        {item.userName === user?.userName && (
-          <MoreBtn
-            text={['수정하기', '삭제하기']}
-            paperId={paperId!}
+    <>
+      <MessageComponent
+        z={messageFloating ? true : false}
+        key={item.messageId}
+        backColor={item.color}
+        color={
+          isNaN(Number(item.color[1]))
+            ? 'unset'
+            : Number(item.color[1]) <= 7
+            ? '#fff'
+            : 'unset'
+        }
+        font={item.font}
+        width={item.content.length <= 84 ? '234px' : ''}
+        left={(idx + 1) % 2 !== 0 ? 'flex-start' : 'flex-end'}
+      >
+        <div onClick={() => st || setMessageFloating(prev => !prev)}>
+          <div className="message-top">
+            <p className="user-name">
+              {item.userName === user?.userName
+                ? '내가 작성한 메시지'
+                : item.userName}
+            </p>
+          </div>
+          <p>{item.content}</p>
+        </div>
+        <div className="more-wrap">
+          {item.userName === user?.userName && (
+            <MoreBtn
+              text={['수정하기', '삭제하기']}
+              paperId={paperId!}
+              messageId={item.messageId}
+              paperTheme={paperTheme}
+              prev={item.content}
+              prevColor={item.color}
+              st={st}
+              color={
+                isNaN(Number(item.color[1]))
+                  ? false
+                  : Number(item.color[1]) < 7
+                  ? '#fff'
+                  : false
+              }
+            />
+          )}
+          <span className="create-data">
+            {dayData.split('-').toString() === newToday.toString()
+              ? hourData
+              : dayData}
+          </span>
+          <Reaction
+            key={item.userName}
             messageId={item.messageId}
-            paperTheme={paperTheme}
-            prev={item.content}
-            prevColor={item.color}
-            color={
+            user={user}
+            myReaction={myReaction}
+            setChange={setChange}
+            st={st}
+            white={
               isNaN(Number(item.color[1]))
                 ? false
                 : Number(item.color[1]) < 7
-                ? '#fff'
+                ? true
                 : false
             }
           />
-        )}
-        <span className="create-data">
-          {dayData.split('-').toString() === newToday.toString()
-            ? hourData
-            : dayData}
-        </span>
-        <Reaction
-          key={item.userName}
-          messageId={item.messageId}
-          user={user}
-          myReaction={myReaction}
-          setChange={setChange}
-          white={
-            isNaN(Number(item.color[1]))
-              ? false
-              : Number(item.color[1]) < 7
-              ? true
-              : false
-          }
-        />
-      </div>
-    </MessageComponent>
+        </div>
+      </MessageComponent>
+    </>
   );
 };
 
