@@ -3,22 +3,16 @@ import styled from 'styled-components';
 import './messageLoading.scss';
 import Header from '../layout/Header';
 import { Btn } from '../common/Btn';
-import { message, messageInitialState, messageReducer } from './messageStore';
+import { messageInitialState, messageReducer } from './messageStore';
 import MoreBtn from '../common/MoreBtn';
 import { Loading, Message, MessageLoadingInt } from './messageInterface';
-import {
-  messageRe,
-  paperDetail,
-  reactionAmount,
-  stickerPost,
-} from './messageFunction';
+import { paperDetail } from './messageFunction';
 import { Link, useParams } from 'react-router-dom';
 import StickerWrite from './StickerWrite';
 import Sticker from './Sticker';
 import BottomBtn from '../common/BottomBtn';
 import Reaction from './Reaction';
 import { useAuthState } from 'src/context';
-import { MoveBtn } from '../common/MoveBtn';
 import { themeColor, themeTextColor } from './messageData';
 
 const MessageLoading = () => {
@@ -34,6 +28,11 @@ const MessageLoading = () => {
   const [postY, setPostY] = useState<number>(0);
 
   const [move, setMove] = useState<boolean>(false);
+
+  const today = new Date().toLocaleDateString().split('.').slice(0, 3);
+  const newToday = today.map(item => item.replace(' ', '0'));
+  // console.log(today[1].replace(' ', '0'));/
+  // console.log();
 
   const stickerList = state.sticker;
 
@@ -99,6 +98,8 @@ const MessageLoading = () => {
             <div className="message-wrap">
               {messageList[0] ? (
                 messageList.map((item: Message, idx: number) => {
+                  const hourData = item.createDate.slice(11, -3);
+                  const dayData = item.createDate.slice(0, 10);
                   const myReaction = reactionAll.filter(
                     (re: any) => re.messageId === item.messageId
                   );
@@ -117,7 +118,18 @@ const MessageLoading = () => {
                       width={item.content.length <= 84 ? '234px' : ''}
                       left={(idx + 1) % 2 !== 0 ? 'flex-start' : 'flex-end'}
                     >
-                      <p className="user-name">{item.userName}</p>
+                      <div className="message-top">
+                        <p className="user-name">
+                          {item.userName === userName
+                            ? '내가 작성한 메시지'
+                            : item.userName}
+                        </p>
+                        <p className="create-data">
+                          {dayData.split('-').toString() === newToday.toString()
+                            ? hourData
+                            : dayData}
+                        </p>
+                      </div>
                       <p>{item.content}</p>
                       <div className="more-wrap">
                         {item.userName === user?.userName && (
@@ -137,7 +149,6 @@ const MessageLoading = () => {
                             }
                           />
                         )}
-                        {/* <p>{item.createDate}</p> */}
                         <Reaction
                           key={item.userName}
                           messageId={item.messageId}
@@ -211,14 +222,6 @@ const MessageLoading = () => {
                 else alert('이미 이 페이퍼에 스티커를 작성했습니다');
               }}
             />
-            {/* </div> */}
-            {/* 임시로 만들어놓은 스티커 붙이기 버튼 */}
-            {/* {st && (
-            <BottomBtn
-              onclick={() => stickerPost(userId!, postX, postY, paperId!, st)}
-              text="스티커 붙이기"
-            />
-          )} */}
           </div>
         )}
         {userId === null && (
@@ -261,38 +264,22 @@ const MessageComponent = styled.div<Loading>`
     font-size: 13px;
     line-height: 24px;
   }
-  p.user-name {
-    font-weight: 600;
-    font-size: 14px;
-    margin-bottom: 7px;
+  .message-top {
+    display: flex;
+    justify-content: space-between;
+    p.user-name {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 7px;
+    }
+    p.create-data {
+      opacity: 0.5;
+      font-size: 12px;
+    }
   }
   p:nth-child(2) {
     margin-bottom: 13px;
   }
 `;
-
-// const MessageCompo = styled.div<Loading>`
-//   width: ${props => (props.width ? props.width : '327px')};
-//   background-color: ${props => (props.backColor ? props.backColor : '#ffbba6')};
-//   font-family: ${props => (props.font ? props.font : 'sans-serif')};
-//   border-radius: 12px;
-//   padding: 16px 16px 20px 16px;
-//   margin-top: 34px;
-//   display: flex;
-//   flex-direction: column;
-//   align-self: ${props => props.left && props.width && props.left};
-//   p {
-//     font-size: 13px;
-//     line-height: 24px;
-//   }
-//   p:first-child {
-//     font-weight: 600;
-//     font-size: 14px;
-//     margin-bottom: 7px;
-//   }
-//   p:nth-child(2) {
-//     margin-bottom: 13px;
-//   }
-// `;
 
 export default MessageLoading;
