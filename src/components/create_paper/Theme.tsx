@@ -65,7 +65,6 @@ function Theme() {
   };
 
   const choice = (name: string) => {
-    console.log('tt', name);
     switch (name) {
       case '기본':
         setCheckMonotone(true);
