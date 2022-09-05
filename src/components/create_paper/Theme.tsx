@@ -109,7 +109,7 @@ function Theme() {
         />
       ) : null}
       <WholeStyle>
-        <TextStyle>테마를 선택해주세요.</TextStyle>
+        <InfoStyle>테마를 선택해주세요.</InfoStyle>
         <ComponentStyle>
           <ItemStyle>
             <ImgComponent
@@ -219,11 +219,10 @@ const WholeStyle = styled.main`
   margin: 5rem 1rem;
 `;
 
-const TextStyle = styled.label`
+const InfoStyle = styled.label`
   font-size: 1rem;
   font-weight: bold;
   display: inline-block;
-  text-align: center;
   margin: 20px 0;
 `;
 
@@ -275,6 +274,11 @@ const FontAwesomeStyle = styled.div`
   > .select-img {
     color: #111111;
   }
+`;
+
+const TextStyle = styled.div`
+  text-align: center;
+  margin-top: 0.8rem;
 `;
 
 const MainName = styled.div`
