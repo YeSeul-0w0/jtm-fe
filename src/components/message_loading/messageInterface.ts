@@ -1,9 +1,13 @@
+import { IUser } from '@src/interfaces/ILogin';
+import { SetStateAction } from 'react';
+
 export interface Loading {
   backColor: string;
   font: string;
   width: string;
   left: string;
   color: string;
+  z: boolean;
 }
 
 export interface Message {
@@ -40,4 +44,15 @@ export interface Color {
 export interface MessageLoadingInt {
   full: boolean;
   theme: string;
+}
+
+export interface MessageCompoInter {
+  item: Message;
+  idx: number;
+  reactionAll: any;
+  user: IUser;
+  paperId: string;
+  paperTheme: string;
+  newToday: string[];
+  setChange: React.Dispatch<SetStateAction<boolean>>;
 }

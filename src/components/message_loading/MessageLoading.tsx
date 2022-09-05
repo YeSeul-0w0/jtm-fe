@@ -4,20 +4,18 @@ import './messageLoading.scss';
 import Header from '../layout/Header';
 import { Btn } from '../common/Btn';
 import { messageInitialState, messageReducer } from './messageStore';
-import MoreBtn from '../common/MoreBtn';
-import { Loading, Message, MessageLoadingInt } from './messageInterface';
+import { Message, MessageLoadingInt } from './messageInterface';
 import { paperDetail } from './messageFunction';
 import { Link, useParams } from 'react-router-dom';
 import StickerWrite from './StickerWrite';
 import Sticker from './Sticker';
 import BottomBtn from '../common/BottomBtn';
-import Reaction from './Reaction';
 import { useAuthState } from 'src/context';
-import { themeColor, themeTextColor } from './messageData';
+import { themeColor } from './messageData';
+import MessageCompo from './MessageCompo';
 
 const MessageLoading = () => {
   const [change, setChange] = useState<boolean>(true);
-  const [fixPop, setFixPop] = useState<boolean>(false);
   const [state, dispatch] = useReducer(messageReducer, messageInitialState);
 
   const [stickerPop, setStickerPop] = useState<boolean>(false);
@@ -31,15 +29,13 @@ const MessageLoading = () => {
 
   const today = new Date().toLocaleDateString().split('.').slice(0, 3);
   const newToday = today.map(item => item.replace(' ', '0'));
-  // console.log(today[1].replace(' ', '0'));/
-  // console.log();
 
   const stickerList = state.sticker;
 
   const { paperId } = useParams();
   const messageList = state.message;
 
-  const { user, kakaoToken } = useAuthState();
+  const { user } = useAuthState();
   const userId = user?.userId;
   const userName = user?.userName;
 
@@ -97,76 +93,19 @@ const MessageLoading = () => {
             <Header to="/main" pageNm={paperName} />
             <div className="message-wrap">
               {messageList[0] ? (
-                messageList.map((item: Message, idx: number) => {
-                  const hourData = item.createDate.slice(11, -3);
-                  const dayData = item.createDate.slice(0, 10);
-                  const myReaction = reactionAll.filter(
-                    (re: any) => re.messageId === item.messageId
-                  );
-                  return (
-                    <MessageComponent
-                      key={item.messageId}
-                      backColor={item.color}
-                      color={
-                        isNaN(Number(item.color[1]))
-                          ? 'unset'
-                          : Number(item.color[1]) <= 7
-                          ? '#fff'
-                          : 'unset'
-                      }
-                      font={item.font}
-                      width={item.content.length <= 84 ? '234px' : ''}
-                      left={(idx + 1) % 2 !== 0 ? 'flex-start' : 'flex-end'}
-                    >
-                      <div className="message-top">
-                        <p className="user-name">
-                          {item.userName === userName
-                            ? '내가 작성한 메시지'
-                            : item.userName}
-                        </p>
-                      </div>
-                      <p>{item.content}</p>
-                      <div className="more-wrap">
-                        {item.userName === user?.userName && (
-                          <MoreBtn
-                            text={['수정하기', '삭제하기']}
-                            paperId={paperId!}
-                            messageId={item.messageId}
-                            paperTheme={paperTheme}
-                            prev={item.content}
-                            prevColor={item.color}
-                            color={
-                              isNaN(Number(item.color[1]))
-                                ? false
-                                : Number(item.color[1]) < 7
-                                ? '#fff'
-                                : false
-                            }
-                          />
-                        )}
-                        <span className="create-data">
-                          {dayData.split('-').toString() === newToday.toString()
-                            ? hourData
-                            : dayData}
-                        </span>
-                        <Reaction
-                          key={item.userName}
-                          messageId={item.messageId}
-                          user={user}
-                          myReaction={myReaction}
-                          setChange={setChange}
-                          white={
-                            isNaN(Number(item.color[1]))
-                              ? false
-                              : Number(item.color[1]) < 7
-                              ? true
-                              : false
-                          }
-                        />
-                      </div>
-                    </MessageComponent>
-                  );
-                })
+                messageList.map((item: Message, idx: number) => (
+                  <MessageCompo
+                    key={item.messageId}
+                    item={item}
+                    idx={idx}
+                    reactionAll={reactionAll}
+                    user={user!}
+                    paperId={paperId!}
+                    paperTheme={paperTheme}
+                    newToday={newToday}
+                    setChange={setChange}
+                  />
+                ))
               ) : (
                 <p>앗 아직 메시지가 없어요!</p>
               )}
@@ -246,42 +185,6 @@ export const MessageLoadingComponent = styled.main<MessageLoadingInt>`
   overflow-y: ${props => (props.full ? 'unset' : 'scroll')};
   overflow-x: hidden;
   height: ${props => (props.full ? '100vh' : 'unset')};
-`;
-
-const MessageComponent = styled.div<Loading>`
-  width: ${props => (props.width ? props.width : '327px')};
-  background-color: ${props => (props.backColor ? props.backColor : '#ffbba6')};
-  font-family: ${props => (props.font ? props.font : 'sans-serif')};
-  border-radius: 12px;
-  padding: 16px 16px 20px 16px;
-  margin-top: 34px;
-  display: flex;
-  flex-direction: column;
-  align-self: ${props => props.left && props.width && props.left};
-  color: ${props => props.color && props.color};
-  box-sizing: border-box;
-  p {
-    font-size: 13px;
-    line-height: 24px;
-  }
-  .message-top {
-    display: flex;
-    justify-content: space-between;
-    p.user-name {
-      font-weight: 600;
-      font-size: 14px;
-      margin-bottom: 7px;
-    }
-  }
-  span.create-data {
-    opacity: 0.5;
-    font-size: 12px;
-    font-weight: bold;
-    margin-left: 7px;
-  }
-  p:nth-child(2) {
-    margin-bottom: 13px;
-  }
 `;
 
 export default MessageLoading;

@@ -39,12 +39,22 @@ const SignUp = () => {
     dispatch(password(suc));
   };
 
+  document.addEventListener(
+    'keydown',
+    function (event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+      }
+    },
+    true
+  );
+
   return (
     <>
       <main className="signWrap" ref={scrollRef}>
         <Header pageNm="회원가입" to="/login" />
         <div className="bar"></div>
-        <form id="signUp">
+        <form id="signUp" onSubmit={e => preventDetault(e)}>
           <SignUpEmail
             emailCheck={emailCheck}
             emailState={emailState}
@@ -80,6 +90,7 @@ const SignUp = () => {
             />
           </div>
           <BottomBtn
+            tabIndex={-1}
             text="회원가입 완료하기"
             onclick={(e: any) => {
               e.preventDefault();
@@ -100,3 +111,6 @@ const SignUp = () => {
 };
 
 export default SignUp;
+function preventDetault(e: React.FormEvent<HTMLFormElement>): void {
+  throw new Error('Function not implemented.');
+}
