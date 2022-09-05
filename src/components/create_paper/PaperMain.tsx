@@ -132,7 +132,9 @@ const ViewPapers = ({ user, paperCnt }: { user: IUser; paperCnt: number }) => {
   const copy = (e: string) => {
     navigator.clipboard.writeText(`https://www.byeolmal.today/paper/${e}`);
     setOnModal(true);
-    setOnInfo('성공적으로 페이퍼 링크가 \n 복사 되었습니다.');
+    setOnInfo(
+      '페이퍼 링크가 복사되었습니다. \n  링크를 공유하여 메시지를 받아보세요!'
+    );
   };
 
   return (
