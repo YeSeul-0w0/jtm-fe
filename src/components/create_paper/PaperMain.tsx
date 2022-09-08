@@ -69,6 +69,7 @@ const ViewPapers = ({ user, paperCnt }: { user: IUser; paperCnt: number }) => {
   // 또한 이중스크롤 방지를 위해 overflow : scroll 옵션을 제거했습니다.
   const [onComponent, setOnComponent] = useState<boolean>(false);
   const [paperId, setPaperId] = useState<string>('0');
+  const [checkDelete, setCheckDelete] = useState<boolean>(false);
   const navigate = useNavigate();
   const modifyPaper = (pId: string) => {
     // console.log('modify', pId);
@@ -77,6 +78,15 @@ const ViewPapers = ({ user, paperCnt }: { user: IUser; paperCnt: number }) => {
 
   const [onModal, setOnModal] = useState<boolean>(false);
   const [onInfo, setOnInfo] = useState<string>('');
+
+  const onClickDelete = () => {
+    console.log('check', checkDelete);
+    if (checkDelete) {
+      window.location.href = '/main';
+    } else {
+      setOnModal(false);
+    }
+  };
 
   const deletePaper = async (pId: string) => {
     try {
@@ -89,11 +99,9 @@ const ViewPapers = ({ user, paperCnt }: { user: IUser; paperCnt: number }) => {
           },
         },
       });
-      setOnModal(true);
+      setCheckDelete(true);
       setOnInfo('성공적으로 제거 되었습니다.');
     } catch (err) {
-      console.log(err);
-      setOnModal(true);
       setOnInfo('페이퍼 삭제에 실패했습니다.');
     }
   };
@@ -107,10 +115,6 @@ const ViewPapers = ({ user, paperCnt }: { user: IUser; paperCnt: number }) => {
   };
 
   const close = useRef<any>(null);
-
-  const closeModal = () => {
-    setOnModal(!onModal);
-  };
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent): void {
@@ -154,7 +158,7 @@ const ViewPapers = ({ user, paperCnt }: { user: IUser; paperCnt: number }) => {
             confirm={false}
             onModal={onModal}
             setOnModal={setOnModal}
-            onClick={closeModal}
+            onClick={onClickDelete}
           ></Modal>
         ) : null}
         {user && (
@@ -304,7 +308,7 @@ const ModifyDelete = styled.div`
   width: 100%;
   position: fixed;
   height: 20%;
-  bottom: 20px;
+  //bottom: 20px;
   border-top-left-radius: 1.5rem;
   border-top-right-radius: 1.5rem;
 `;
