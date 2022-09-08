@@ -83,7 +83,7 @@ function PaperGift() {
 
   return (
     <>
-      <Header pageNm="롤링페이퍼 만들기" to="/main" />
+      <Header pageNm="롤링페이퍼 선물하기" to="/main" />
       {onModal ? (
         <Modal
           info={info}
