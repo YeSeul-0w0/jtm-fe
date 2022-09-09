@@ -1,5 +1,6 @@
 import { IMessage } from '@src/interfaces/IPaper';
 import React from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const NoMessageItem = () => {
@@ -12,9 +13,14 @@ const StyledNoMsgP = styled.p`
   border-radius: 12px;
 `;
 
-const MessageItem = (msg: IMessage) => {
+const MessageItem = ({ msg, pId }: { msg: IMessage; pId: string }) => {
+  const navigate = useNavigate();
+
   return (
-    <StyledMessageli color={msg.color} onClick={msg.onClick}>
+    <StyledMessageli
+      color={msg.color}
+      onClick={() => navigate(`/paper/${pId}`)}
+    >
       <p style={{ fontWeight: 'bold', marginBottom: '0.5rem' }}>
         {msg.userName}님
       </p>
@@ -24,6 +30,7 @@ const MessageItem = (msg: IMessage) => {
 };
 const StyledMessageli = styled.li`
   border-radius: 12px;
+  cursor: pointer;
 
   min-width: 30%;
   min-height: 8vh;

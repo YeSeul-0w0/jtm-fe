@@ -74,7 +74,9 @@ const PaperList = ({
           </TitleDiv>
           <ul>
             {p.messageCount > 0 ? (
-              p.messages.map((msg, idx) => <MessageItem key={idx} {...msg} />)
+              p.messages.map((msg, idx) => (
+                <MessageItem key={idx} pId={p.paperId} msg={msg} />
+              ))
             ) : (
               <NoMessageItem />
             )}
@@ -92,7 +94,7 @@ const TitleDiv = styled.div`
 `;
 
 const StyledPaperList = styled.section`
-  margin: 2rem 0 0 2rem;
+  margin: 1rem 0 0 2rem;
   overflow: scroll;
   max-height: 65vh;
 `;

@@ -20,6 +20,7 @@ function ModifyNickName() {
   const userId = user?.userId;
 
   const sendChangeName = async () => {
+    console.log(nickName);
     if (nickNameTest.test(nickName)) {
       try {
         await axios({
@@ -48,6 +49,9 @@ function ModifyNickName() {
           setOnModal(true);
         }
       }
+    } else {
+      setOnInfo('닉네임 양식이 틀렸습니다ㅣ. \n 양식을 확인해주세요.');
+      setOnModal(true);
     }
   };
 
