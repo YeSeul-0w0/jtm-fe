@@ -155,6 +155,10 @@ const HeaderComponent = styled.header`
   display: flex;
   justify-content: space-between;
   width: 100%;
+
+  // 스크롤 불가하게
+  position: sticky;
+  top: 0;
 `;
 
 const Feed = styled.span`

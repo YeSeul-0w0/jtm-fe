@@ -142,7 +142,7 @@ const ViewPapers = ({ user, paperCnt }: { user: IUser; paperCnt: number }) => {
   };
 
   return (
-    <main style={{ width: '100%' }}>
+    <main style={{ width: '100%', overflowY: 'hidden' }}>
       <FloatingButton />
       <h1
         style={{
