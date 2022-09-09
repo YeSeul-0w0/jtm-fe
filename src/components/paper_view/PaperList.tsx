@@ -74,7 +74,9 @@ const PaperList = ({
           </TitleDiv>
           <ul>
             {p.messageCount > 0 ? (
-              p.messages.map((msg, idx) => <MessageItem key={idx} pId={p.paperId} msg={msg} />)
+              p.messages.map((msg, idx) => (
+                <MessageItem key={idx} pId={p.paperId} msg={msg} />
+              ))
             ) : (
               <NoMessageItem />
             )}

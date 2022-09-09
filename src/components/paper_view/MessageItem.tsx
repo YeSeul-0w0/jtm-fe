@@ -13,11 +13,14 @@ const StyledNoMsgP = styled.p`
   border-radius: 12px;
 `;
 
-const MessageItem = ({msg, pId}: {msg: IMessage, pId: string}) => {
+const MessageItem = ({ msg, pId }: { msg: IMessage; pId: string }) => {
   const navigate = useNavigate();
-  
+
   return (
-    <StyledMessageli color={msg.color} onClick={()=>navigate(`/paper/${pId}`)}>
+    <StyledMessageli
+      color={msg.color}
+      onClick={() => navigate(`/paper/${pId}`)}
+    >
       <p style={{ fontWeight: 'bold', marginBottom: '0.5rem' }}>
         {msg.userName}님
       </p>
