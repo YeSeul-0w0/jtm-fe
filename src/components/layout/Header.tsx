@@ -10,15 +10,27 @@ interface IHeader {
   background?: string;
   color?: string;
   to: string; // router link
+  anotherIcon?: string;
+  onClick?: () => void;
 }
 
 const Header = ({ ...props }: IHeader) => {
   return (
-    <StyledHeader background={props.background} color={props.color}>
+    <StyledHeader
+      background={props.background}
+      color={props.color}
+      anotherIcon={props.anotherIcon && 'true'}
+    >
       <Link to={props.to}>
         <FontAwesomeIcon icon={faChevronLeft} />
       </Link>
       <p>{props.pageNm}</p>
+      {props.anotherIcon && (
+        <img
+          src={`${process.env.PUBLIC_URL}/icons/${props.anotherIcon}`}
+          onClick={props.onClick && props.onClick}
+        />
+      )}
     </StyledHeader>
   );
 };
@@ -33,7 +45,11 @@ const StyledHeader = styled.header<IBtnStyle>`
   font-size: 1.25rem;
   display: grid;
   width: 100%;
-  grid-template-columns: 10% 80%;
+  grid-template-columns: ${props =>
+    props.anotherIcon ? '10% 80% 10%' : '10% 80%'};
+  img {
+    cursor: pointer;
+  }
 `;
 
 // react router dom link

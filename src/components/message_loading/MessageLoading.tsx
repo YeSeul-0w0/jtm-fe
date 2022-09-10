@@ -13,6 +13,7 @@ import BottomBtn from '../common/BottomBtn';
 import { useAuthState } from 'src/context';
 import { themeColor } from './messageData';
 import MessageCompo from './MessageCompo';
+import Modal from '../common/Modal';
 
 const MessageLoading = () => {
   const [change, setChange] = useState<boolean>(true);
@@ -25,6 +26,7 @@ const MessageLoading = () => {
   const [postX, setPostX] = useState<number>(0);
   const [y, setY] = useState<number>(window.innerHeight / 2);
   const [postY, setPostY] = useState<number>(0);
+  const [onModal, setOnModal] = useState<boolean>(false);
 
   const [move, setMove] = useState<boolean>(false);
 
@@ -88,6 +90,29 @@ const MessageLoading = () => {
           setSt={setSt}
         />
       )}
+      {onModal && (
+        <Modal
+          setOnModal={setOnModal}
+          onModal={onModal}
+          confirm={false}
+          info={
+            '페이퍼 링크가 복사되었습니다. \n  링크를 공유하여 메시지를 받아보세요!'
+          }
+          onClick={() => setOnModal(false)}
+        />
+      )}
+      <Header
+        background={themeColor[paperTheme - 1]}
+        to="/main"
+        pageNm={paperName}
+        anotherIcon="share.svg"
+        onClick={() => {
+          navigator.clipboard.writeText(
+            `https://www.byeolmal.today/paper/${paperId!}`
+          );
+          setOnModal(true);
+        }}
+      />
       <MessageLoadingComponent
         theme={themeColor[paperTheme - 1]}
         full={stickerPop ? true : false}
@@ -102,7 +127,6 @@ const MessageLoading = () => {
           </>
         ) : (
           <>
-            <Header to="/main" pageNm={paperName} />
             <div className="message-wrap">
               {messageList[0] ? (
                 messageList.map((item: Message, idx: number) => (
@@ -191,7 +215,7 @@ export const MessageLoadingComponent = styled.main<MessageLoadingInt>`
   width: 100%;
   position: relative;
   background-color: ${props => (props.theme ? props.theme : '#fff')};
-  padding: 0 24px;
+  padding: 0 24px 22px 24px;
   box-sizing: border-box;
   min-height: 100%;
   overflow-y: ${props => (props.full ? 'unset' : 'scroll')};
