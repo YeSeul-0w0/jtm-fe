@@ -6,4 +6,5 @@ export interface IBtnStyle {
   padding?: string;
   imgSize?: string;
   center?: string;
+  anotherIcon?: string;
 }

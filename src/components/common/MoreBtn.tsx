@@ -10,7 +10,7 @@ const More = styled.div`
   //height: 8px;
   display: flex;
   justify-content: space-between;
-  align-self: flex-end;
+  align-self: flex-start;
   cursor: pointer;
 `;
 const MoreBtn = ({
