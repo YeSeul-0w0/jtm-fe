@@ -99,9 +99,11 @@ const ViewPapers = ({ user, paperCnt }: { user: IUser; paperCnt: number }) => {
           },
         },
       });
+      setOnModal(true);
       setCheckDelete(true);
       setOnInfo('성공적으로 제거 되었습니다.');
     } catch (err) {
+      setOnModal(true);
       setOnInfo('페이퍼 삭제에 실패했습니다.');
     }
   };
