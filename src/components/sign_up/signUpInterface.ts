@@ -6,4 +6,5 @@ export interface SignUpTextInputInter {
   suc?: any;
   saveData?: any;
   compare?: string;
+  setEmailPass?: any;
 }

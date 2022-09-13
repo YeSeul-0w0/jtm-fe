@@ -39,12 +39,6 @@ export const whoWrong = async (title: string, data: string, data2?: string) => {
       return emailTest.test(data) && (await emailCheck(data));
     case '닉네임':
       return nickNameTest.test(data) && (await nickCheck(data));
-    case '인증번호':
-      if (data === data2) return data === data2;
-      else {
-        alert('인증번호가 틀렸습니다');
-        return data === data2;
-      }
     case '비밀번호':
       return passwordTest.test(data);
     case '비밀번호 확인':
@@ -81,11 +75,7 @@ export const passVerify = async ({
   }
 };
 
-export const emailVerify = async (
-  emailState: string,
-  dispatch: React.Dispatch<any>,
-  veriftNum: any
-): Promise<void> => {
+export const emailVerify = async (emailState: string): Promise<void> => {
   try {
     const codeSend = await axios({
       method: 'get',
@@ -94,9 +84,26 @@ export const emailVerify = async (
         email: emailState,
       },
     });
-    dispatch(veriftNum(codeSend.data));
     alert('인증번호가 발송됐습니다');
   } catch (e) {
     alert('인증번호 발송을 실패했습니다');
+  }
+};
+
+export const emailVerifyCheck = async (email: string, code: string) => {
+  try {
+    const codeSend = await axios({
+      method: 'POST',
+      url: `${EnvConfig.LANTO_SERVER}checkCode`,
+      data: {
+        email: email,
+        code: code,
+      },
+    });
+    alert('인증됐습니다');
+    return true;
+  } catch (e) {
+    alert('인증에 실패했습니다');
+    return false;
   }
 };

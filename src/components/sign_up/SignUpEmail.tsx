@@ -2,7 +2,7 @@ import { SignUpEmailInter } from '@src/interfaces/ISignUp';
 import React, { useState } from 'react';
 import BottomBtn from '../common/BottomBtn';
 import { TextInput } from '../common/TextInput';
-import { emailVerify, whoWrong } from './SignUpFunction';
+import { emailVerify, emailVerifyCheck, whoWrong } from './SignUpFunction';
 import { enterVerifyNum, veriftNum } from './signUpStore';
 import SignUpTextInput from './SignUpTextInput';
 
@@ -11,15 +11,16 @@ const SignUpEmail = ({
   emailCheck,
   emailSave,
   setEmailSave,
-  verifyState,
   enterVerifyState,
 }: SignUpEmailInter) => {
   const [re, setRe] = useState<boolean>(false);
+  const [emailPass, setEmailPass] = useState<boolean>(false);
   const [verifySave, setVerifySave] = useState<string>();
   const addF = () => {
-    dispatch(veriftNum('새 메일을 받아주세요'));
     dispatch(enterVerifyNum(false));
+    setEmailPass(false);
   };
+
   return (
     <>
       <div className="emailWrap">
@@ -29,15 +30,18 @@ const SignUpEmail = ({
           addFunction={addF}
           suc={emailCheck}
           saveData={setEmailSave}
+          setEmailPass={setEmailPass}
         />
         <BottomBtn
           tabIndex={-1}
           text={re ? '다시 전송하기' : '인증번호 받기'}
           onclick={(e: any) => {
-            if (!re) setRe(true);
             e.preventDefault();
-            alert('잠시만 기다려주세요');
-            emailVerify(emailSave, dispatch, veriftNum);
+            if (!re) setRe(true);
+            if (emailPass) {
+              alert('잠시만 기다려주세요');
+              emailVerify(emailSave);
+            } else alert('중복된 이메일입니다');
           }}
         />
       </div>
@@ -54,9 +58,7 @@ const SignUpEmail = ({
           onclick={async (e: any) => {
             e.preventDefault();
             dispatch(
-              enterVerifyNum(
-                await whoWrong('인증번호', verifyState, verifySave)
-              )
+              enterVerifyNum(await emailVerifyCheck(emailSave, verifySave!))
             );
           }}
         />

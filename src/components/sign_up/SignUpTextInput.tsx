@@ -12,6 +12,7 @@ const SignUpTextInput = ({
   suc,
   saveData,
   compare,
+  setEmailPass,
 }: SignUpTextInputInter) => {
   const [on, setOn] = useState<boolean>(false);
   const [show, setShow] = useState<boolean>(false);
@@ -27,7 +28,11 @@ const SignUpTextInput = ({
   useEffect(() => {
     if (success) {
       suc?.(true);
-    } else suc?.(false);
+      setEmailPass?.(true);
+    } else {
+      suc?.(false);
+      setEmailPass?.(false);
+    }
   }, [success]);
 
   useEffect(() => {
