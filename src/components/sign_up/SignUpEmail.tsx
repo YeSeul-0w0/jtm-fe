@@ -2,8 +2,8 @@ import { SignUpEmailInter } from '@src/interfaces/ISignUp';
 import React, { useState } from 'react';
 import BottomBtn from '../common/BottomBtn';
 import { TextInput } from '../common/TextInput';
-import { emailVerify, emailVerifyCheck, whoWrong } from './SignUpFunction';
-import { enterVerifyNum, veriftNum } from './signUpStore';
+import { emailVerify, emailVerifyCheck } from './SignUpFunction';
+import { enterVerifyNum } from './signUpStore';
 import SignUpTextInput from './SignUpTextInput';
 
 const SignUpEmail = ({

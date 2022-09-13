@@ -19,7 +19,6 @@ export interface ISignUpState {
   nicknameState: boolean;
   passwordState: boolean;
   enterVerifyState: boolean;
-  verifyState: string;
 }
 
 export interface FirstVerify {
@@ -31,7 +30,6 @@ export interface FirstVerify {
   emailTest: RegExp;
   emailState: string;
   enterVerifyState: string;
-  verifyState: string;
   doubleState: boolean;
 }
 export interface SecondVerify {
@@ -46,6 +44,5 @@ export type SignUpEmailInter = Pick<ISignUpState, 'emailState'> & {
   emailCheck: any;
   setEmailSave: any;
   emailSave: string;
-  verifyState: string;
   enterVerifyState: string;
 };

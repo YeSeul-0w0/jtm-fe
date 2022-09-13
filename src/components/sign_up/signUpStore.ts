@@ -1,7 +1,6 @@
 import { ISignUpState } from '@src/interfaces/ISignUp';
 
 const EMAIL = 'signUpStore/EMAIL';
-const VERIFYSTATE = 'signUpStore/VERIFYSTATE';
 const ENTERVERIFYSTATE = 'signUpStore/ENTERVERIFYSTATE';
 const NICKNAME = 'signUpStore/NICKNAME';
 const PASSWORD = 'signUpStore/PASSWORD';
@@ -9,10 +8,6 @@ const PASSWORD = 'signUpStore/PASSWORD';
 // const NICKNAMEPASS = 'signUpStore/NICKNAMEPASS';
 
 export const email = (email: boolean) => ({ type: EMAIL, email });
-export const veriftNum = (veriftState: string) => ({
-  type: VERIFYSTATE,
-  veriftState,
-});
 export const enterVerifyNum = (enterVerifyState: boolean) => ({
   type: ENTERVERIFYSTATE,
   enterVerifyState,
@@ -30,7 +25,6 @@ export const password = (passwordState: boolean) => ({
 
 export const initialState = {
   emailState: false,
-  verifyState: '새 메일을 받아주세요',
   enterVerifyState: false,
   nicknameState: false,
   passwordState: false,
@@ -44,11 +38,6 @@ export const reducer = (state: ISignUpState = initialState, action: any) => {
       return {
         ...state,
         emailState: action.email,
-      };
-    case VERIFYSTATE:
-      return {
-        ...state,
-        verifyState: action.veriftState,
       };
     case ENTERVERIFYSTATE:
       return {

@@ -27,7 +27,6 @@ const SignUp = () => {
   const nicknameState = state.nicknameState;
   const passwordState = state.passwordState;
   const enterVerifyState = state.enterVerifyState;
-  const verifyState = state.verifyState;
 
   const emailCheck = (suc: boolean) => {
     dispatch(email(suc));
@@ -61,7 +60,6 @@ const SignUp = () => {
             dispatch={dispatch}
             emailSave={emailSave}
             setEmailSave={setEmailSave}
-            verifyState={verifyState}
             enterVerifyState={enterVerifyState}
           />
           <div className="nickNameWrap">
