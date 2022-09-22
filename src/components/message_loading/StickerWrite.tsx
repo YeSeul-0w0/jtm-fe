@@ -17,13 +17,19 @@ import Header from '../layout/Header';
 
 const StickerWrite = ({ setStickerPop, setSt }: any) => {
   useEffect(() => {
+    const main = document.querySelector('#root > div') as HTMLDivElement;
     const aBtn = document.querySelector('header a') as HTMLLinkElement;
+    main.style.paddingBottom = 'unset';
     aBtn.style.marginRight = 'unset';
     aBtn.style.marginLeft = '-7px';
     aBtn?.addEventListener('click', e => {
       e.preventDefault();
       setStickerPop(false);
     });
+
+    return () => {
+      main.style.paddingBottom = '70px';
+    };
   });
 
   return (

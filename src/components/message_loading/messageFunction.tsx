@@ -76,7 +76,8 @@ export const messagePost = async (
   content: any,
   font: any,
   color: any,
-  paperId: string
+  paperId: string,
+  token: string
 ) => {
   try {
     if (color) {
@@ -95,6 +96,9 @@ export const messagePost = async (
             font: font,
             color: color,
           },
+        },
+        headers: {
+          token: token,
         },
       });
       if (a) {
