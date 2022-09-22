@@ -37,6 +37,7 @@ export const loginUser = async (dispatch: any, loginPayload: LoginInfoType) => {
     }
     return;
   } catch (e) {
+    console.log(e);
     dispatch({ type: 'LOGIN_ERROR', error: e });
   }
 };

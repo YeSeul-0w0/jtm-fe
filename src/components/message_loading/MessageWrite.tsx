@@ -29,11 +29,15 @@ const MessageWrite = () => {
 
   return (
     <>
+      <Header
+        to={`/paper/${paperId}`}
+        background={themeColor[Number(paperSkin) - 1]}
+        pageNm="메시지 남기기"
+      />
       <MessageLoadingComponent
         full={true}
         theme={themeColor[Number(paperSkin) - 1]}
       >
-        <Header to={`/paper/${paperId}`} pageNm="메시지 남기기" />
         <div className="message-wrap">
           <div className="write-box">
             <InputBox
