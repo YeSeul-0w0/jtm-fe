@@ -28,6 +28,7 @@ export const loginUser = async (dispatch: any, loginPayload: LoginInfoType) => {
         // id: response.data.idToken,
         userName: response.data.userName || '',
         userId: response.data.userId,
+        userToken: response.data.token,
       };
       dispatch({ type: 'LOGIN_SUCCESS', payload: userData });
       localStorage.setItem('currentUser', JSON.stringify(userData));

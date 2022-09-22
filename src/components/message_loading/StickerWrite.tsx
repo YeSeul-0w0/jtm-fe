@@ -1,23 +1,34 @@
 import axios from 'axios';
-import React from 'react';
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useReducer,
+  useRef,
+  useState,
+} from 'react';
+import { Btn } from '../common/Btn';
+import { messageInitialState, messageReducer } from './messageStore';
+import Sticker from './Sticker';
 
 import one from '../../static/sticker/1.png';
+import BottomBtn from '../common/BottomBtn';
 import Header from '../layout/Header';
 
-const StickerHeader = ({ setStickerPop }: any) => {
-  // React.Dispatch<React.SetStateAction<boolean>>
-  const headerS = document.querySelector('header');
-  const button = headerS?.children[0];
-  button?.addEventListener('click', (e: Event) => {
-    e.preventDefault();
-    setStickerPop(false);
-  });
-  return <Header pageNm="" to="#" />;
-};
-
 const StickerWrite = ({ setStickerPop, setSt }: any) => {
+  useEffect(() => {
+    const aBtn = document.querySelector('header a') as HTMLLinkElement;
+    aBtn.style.marginRight = 'unset';
+    aBtn.style.marginLeft = '-7px';
+    aBtn?.addEventListener('click', e => {
+      e.preventDefault();
+      setStickerPop(false);
+    });
+  });
+
   return (
     <>
+      <Header pageNm="" to="#" />
       <p className="title">
         스티커를 골라주세요! <br />{' '}
         <span>스티커는 딱 하나만 붙일 수 있어요 :)</span>

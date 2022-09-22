@@ -24,6 +24,15 @@ const MessageFixed = () => {
 
   const textC = color.slice(1);
 
+  useEffect(() => {
+    const mainCom = document.querySelector('main') as HTMLElement;
+    mainCom.style.minHeight = '90%';
+
+    return () => {
+      mainCom.style.minHeight = '100%';
+    };
+  }, []);
+
   return (
     <>
       <Header

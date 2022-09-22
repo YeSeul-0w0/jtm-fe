@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import BottomBtn from '../common/BottomBtn';
 import { messagePost, messageRe } from './messageFunction';
 import { themeColor, themeInput, themeMessageColor } from './messageData';
@@ -26,6 +26,15 @@ const MessageWrite = () => {
   const textC = color.slice(1);
 
   // console.log();
+
+  useEffect(() => {
+    const mainCom = document.querySelector('main') as HTMLElement;
+    mainCom.style.minHeight = '90%';
+
+    return () => {
+      mainCom.style.minHeight = '100%';
+    };
+  }, []);
 
   return (
     <>

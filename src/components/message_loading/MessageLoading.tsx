@@ -114,18 +114,20 @@ const MessageLoading = () => {
           onClick={() => setOnModal(false)}
         />
       )}
-      <Header
-        background={themeColor[paperTheme - 1]}
-        to="/main"
-        pageNm={paperName}
-        anotherIcon="share.svg"
-        onClick={() => {
-          navigator.clipboard.writeText(
-            `https://www.byeolmal.today/paper/${paperId!}`
-          );
-          setOnModal(true);
-        }}
-      />
+      {stickerPop || (
+        <Header
+          background={themeColor[paperTheme - 1]}
+          to="/main"
+          pageNm={paperName}
+          anotherIcon="share.svg"
+          onClick={() => {
+            navigator.clipboard.writeText(
+              `https://www.byeolmal.today/paper/${paperId!}`
+            );
+            setOnModal(true);
+          }}
+        />
+      )}
       <MessageLoadingComponent
         theme={themeColor[paperTheme - 1]}
         full={stickerPop ? true : false}
