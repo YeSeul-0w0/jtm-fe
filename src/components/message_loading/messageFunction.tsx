@@ -77,7 +77,7 @@ export const messagePost = async (
   font: any,
   color: any,
   paperId: string,
-  token: string
+ // token: string
 ) => {
   try {
     if (color) {
@@ -97,9 +97,9 @@ export const messagePost = async (
             color: color,
           },
         },
-        headers: {
-          token: token,
-        },
+       // headers: {
+       //   token: token,
+      //  },
       });
       if (a) {
         alert('메세지가 작성되었습니다');
