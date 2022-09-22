@@ -22,7 +22,6 @@ export const paperDetail = async (
           },
         },
       });
-      console.log(a.data);
       if (
         a.data.messages.toString() !== me.toString() ||
         a.data.stickers.toString() !== st.toString() ||

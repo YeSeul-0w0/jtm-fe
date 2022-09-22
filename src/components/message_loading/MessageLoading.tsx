@@ -48,6 +48,19 @@ const MessageLoading = () => {
   const reactionAll = state.reaction;
 
   useEffect(() => {
+    const lay = document.querySelector('#root > div') as HTMLDivElement;
+    lay.style.overflowY = 'hidden';
+    lay.style.paddingBottom = '70px';
+    lay.style.boxSizing = 'border-box';
+
+    return () => {
+      lay.style.overflowY = 'unset';
+      lay.style.paddingBottom = 'unset';
+      lay.style.boxSizing = 'unset';
+    };
+  }, []);
+
+  useEffect(() => {
     if (stickerList?.length) {
       setStickerFirst(
         stickerList.filter((item: any) => item.userName === userName)?.length >
