@@ -14,6 +14,13 @@ const BottomWrap = styled.div`
   left: 0;
   background-color: rgba(17, 17, 17, 0.6);
   z-index: 61;
+  .modal div {
+    border-radius: 24px;
+  }
+  span {
+    line-height: 24px;
+    display: block;
+  }
 `;
 
 const BottomTap = styled.div`
@@ -30,7 +37,7 @@ const BottomTap = styled.div`
 
 const Tap = styled.p`
   width: 100%;
-  margin-bottom: 32px;
+  margin-bottom: 27px;
   font-weight: bold;
   font-size: 14px !important;
   color: #000;
@@ -80,17 +87,19 @@ const MoreBottom = ({
           ))}
       </BottomTap>
       {open && (
-        <Modal
-          info="정말 삭제하시겠습니까?"
-          confirm={true}
-          onModal={open}
-          setOnModal={setOpen}
-          onClick={() => {
-            messageDelete(userId!, messageId.toString());
-            setOpen(false);
-            setMore(false);
-          }}
-        />
+        <div className="modal">
+          <Modal
+            info="내가 작성한 메시지를 \n 삭제하시겠어요?"
+            confirm={true}
+            onModal={open}
+            setOnModal={setOpen}
+            onClick={() => {
+              messageDelete(userId!, messageId.toString());
+              setOpen(false);
+              setMore(false);
+            }}
+          />
+        </div>
       )}
     </BottomWrap>
   );

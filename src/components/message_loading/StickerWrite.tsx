@@ -1,18 +1,7 @@
 import axios from 'axios';
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useReducer,
-  useRef,
-  useState,
-} from 'react';
-import { Btn } from '../common/Btn';
-import { messageInitialState, messageReducer } from './messageStore';
-import Sticker from './Sticker';
+import React from 'react';
 
 import one from '../../static/sticker/1.png';
-import BottomBtn from '../common/BottomBtn';
 import Header from '../layout/Header';
 
 const StickerHeader = ({ setStickerPop }: any) => {
@@ -29,7 +18,6 @@ const StickerHeader = ({ setStickerPop }: any) => {
 const StickerWrite = ({ setStickerPop, setSt }: any) => {
   return (
     <>
-      <StickerHeader setStickerPop={setStickerPop} />
       <p className="title">
         스티커를 골라주세요! <br />{' '}
         <span>스티커는 딱 하나만 붙일 수 있어요 :)</span>

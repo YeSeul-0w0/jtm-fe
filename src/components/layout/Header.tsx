@@ -50,6 +50,10 @@ const StyledHeader = styled.header<IBtnStyle>`
   img {
     cursor: pointer;
   }
+  a {
+    width: 100%;
+    margin-left: 15px;
+  }
 `;
 
 // react router dom link
