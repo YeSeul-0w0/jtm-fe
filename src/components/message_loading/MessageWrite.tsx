@@ -16,8 +16,9 @@ const MessageWrite = () => {
   const [message, setMessage] = useState<string>('');
   const [textLength, setTextLength] = useState<number>(0);
   const [color, setColor] = useState<string>(themeInput[Number(paperSkin) - 1]);
-  const { user, kakaoToken } = useAuthState();
+  const { user } = useAuthState();
   const userId = user?.userId;
+  const token = user?.userToken;
   const [state, dispatch] = useReducer(messageReducer, messageInitialState);
   // const [select, setSelect] = useState<boolean>(false);
 
@@ -25,7 +26,7 @@ const MessageWrite = () => {
 
   const textC = color.slice(1);
 
-  // console.log();
+  console.log(user);
 
   useEffect(() => {
     const mainCom = document.querySelector('main') as HTMLElement;
@@ -88,6 +89,7 @@ const MessageWrite = () => {
             disabled={message.length > 0 ? false : true}
             onclick={() => {
               if (message.length > 0) {
+                // messagePost(userId!, message, '굴림', color, paperId!, token!);
                 messagePost(userId!, message, '굴림', color, paperId!);
               } else {
                 alert('메세지 내용을 입력해주세요');
