@@ -11,6 +11,7 @@ import { getPaperList } from '../../api/paper';
 import axios from 'axios';
 import EnvConfig from '../../config/EnvConfig';
 import Modal from '../common/Modal';
+import Tutorial from '../tutorial/Tutorial';
 
 const Option = styled.div`
   width: 48px;
@@ -206,31 +207,38 @@ const ViewPapers = ({ user, paperCnt }: { user: IUser; paperCnt: number }) => {
 
 // 유저의 페이퍼가 없는 경우
 const SuggestCreation = ({ userName }: { userName: string }) => {
+  const [tutorial, setTutorial] = useState<boolean>(true);
   const navigate = useNavigate();
 
   return (
     <>
-      <StyledSuggestCreation>
-        <p style={{ color: '#CCCCCC' }}>
-          {userName}님,
-          <br />
-          안녕하세요!
-        </p>
-        <p style={{ color: '#999999' }}>
-          아직 롤링페이퍼가
-          <br />
-          없으시군요,
-        </p>
-        <p style={{ color: 'gray' }}>
-          한 번 새롭게
-          <br />
-          만들어보시겠어요?
-        </p>
-      </StyledSuggestCreation>
-      <BottomBtn
-        text={'새 롤링페이퍼 만들기'}
-        onclick={() => navigate('/createPaper/decideName')}
-      />
+      {tutorial ? (
+        <Tutorial setTutorial={setTutorial} />
+      ) : (
+        <>
+          <StyledSuggestCreation>
+            <p style={{ color: '#CCCCCC' }}>
+              {userName}님,
+              <br />
+              안녕하세요!
+            </p>
+            <p style={{ color: '#999999' }}>
+              아직 롤링페이퍼가
+              <br />
+              없으시군요,
+            </p>
+            <p style={{ color: 'gray' }}>
+              한 번 새롭게
+              <br />
+              만들어보시겠어요?
+            </p>
+          </StyledSuggestCreation>
+          <BottomBtn
+            text={'새 롤링페이퍼 만들기'}
+            onclick={() => navigate('/createPaper/decideName')}
+          />
+        </>
+      )}
     </>
   );
 };
