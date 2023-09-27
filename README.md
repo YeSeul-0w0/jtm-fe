@@ -2,7 +2,34 @@
 
 ## Introduce
 
-준비중
+> 소중한 사람들에게 짧지만, 특별한 진심을 전해보는 건 어떨까요?
+
+- 처음이신가요? 처음인 유저분들을 위한 짧은 튜토리얼이 제공됩니다. 
+<br>
+
+![toturial](./img/tutorial.png)
+
+- 다양하게 주어지는 기본 테마들 중에서 마음에 드는 테마를 선택해서 페이지를 만들 수 있어요.
+<br>
+
+![make_paper](./img/make_paper2.png)
+
+- 회원가입을 통해 여러분의 진심들을 저장해주세요.
+<br>
+
+![signup](./img/signUp.png)
+
+> 카카오 로그인 및 회원가입도 지원됩니다.
+
+- 궁금한 점은 언제든지 문의하기 페이지를 이용해서 문의해주세요.
+<br>
+
+![ask](./img/ask.png)
+
+- 마지막으로 프로젝트를 위해 열심히 달려준 저희 팀원들을 소개합니다.
+<br>
+
+![introduce](./img/introduce.png)
 
 ## how to run project
 
